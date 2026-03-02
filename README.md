@@ -2,6 +2,8 @@
 
 ShadCn.Blazor is a Blazor component library inspired by shadcn/ui. It provides accessible, customizable, open source UI components for Blazor WebAssembly and Blazor Server, with a default theme driven by CSS variables. Components are pure Blazor and require no JavaScript/JS interop at runtime.
 
+?? **[Live Documentation](https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io/)**
+
 ## Highlights
 
 - Built for .NET 8+ and both Blazor WebAssembly and Blazor Server.
