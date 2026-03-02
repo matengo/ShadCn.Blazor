@@ -272,6 +272,21 @@
   }
 }
 
+/* Sonner toast animations */
+@keyframes sonner-enter-from-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sonner-enter-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }

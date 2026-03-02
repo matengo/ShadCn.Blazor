@@ -4,7 +4,7 @@
 
 <PageTitle>Sonner - ShadCn.Blazor</PageTitle>
 
-<Sonner Position="@_position" />
+<Sonner Position="@_position" MaxVisible="@_maxVisible" />
 
 <div class="space-y-8">
     <div class="space-y-4">
@@ -54,15 +54,34 @@
                 </Preview>
             </ComponentExample>
         </ExampleSection>
+        <ExampleSection Title="Max Visible" Description="Configure how many toasts are fully visible before stacking. Default is 3.">
+            <ComponentExample Code="@MaxVisibleCode">
+                <Preview>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            @for (var n = 1; n <= 5; n++)
+                            {
+                                var val = n;
+                                <Button Variant="@(_maxVisible == val ? ButtonVariant.Default : ButtonVariant.Outline)"
+                                        OnClick="(MouseEventArgs _) => SetMaxVisible(val)"
+                                        class="h-9 w-9 p-0 text-xs">@val</Button>
+                            }
+                        </div>
+                        <Button OnClick="ShowDefault">Show toast</Button>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
     </div>
 </div>
 
 @code {
     private SonnerPosition _position = SonnerPosition.BottomRight;
+    private int _maxVisible = 3;
 
     private void ShowDefault(MouseEventArgs _)
     {
-        SonnerService.Show("Scheduled", "Friday, February 10 at 5:57 PM.");
+        SonnerService.Show("Scheduled", $"Friday, {DateTime.UtcNow}");
     }
 
     private void ShowDestructive(MouseEventArgs _)
@@ -79,6 +98,11 @@
     {
         SonnerService.DismissAll();
         _position = position;
+    }
+
+    private void SetMaxVisible(int count)
+    {
+        _maxVisible = count;
     }
 
     private ButtonVariant GetVariant(SonnerPosition position)
@@ -120,7 +144,12 @@
 @* SonnerPosition.TopLeft *@
 @* SonnerPosition.TopCenter *@
 @* SonnerPosition.TopRight *@
-@* SonnerPosition.BottomLeft (default) *@
+@* SonnerPosition.BottomLeft *@
 @* SonnerPosition.BottomCenter *@
-@* SonnerPosition.BottomRight *@";
+@* SonnerPosition.BottomRight (default) *@";
+
+    private const string MaxVisibleCode = @"<Sonner MaxVisible=""5"" />
+
+@* Show up to 5 toasts fully before stacking begins. *@
+@* Default is 3. Minimum 1. *@";
 }

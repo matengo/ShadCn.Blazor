@@ -9,19 +9,15 @@
         @{
             var allToasts = SonnerService.Toasts;
             var count = allToasts.Count;
+            var visible = System.Math.Min(count, MaxVisible + 2);
         }
-        @for (var idx = 0; idx < count; idx++)
+        @for (var i = 0; i < visible; i++)
         {
-            var toast = allToasts[idx];
-            var fromEnd = count - 1 - idx;
-            var isFront = fromEnd < MaxVisible;
+            var toast = allToasts[count - 1 - i];
+            var index = i;
+            var isFront = index < MaxVisible;
 
-            if (fromEnd >= MaxVisible + 2)
-            {
-                continue;
-            }
-
-            <div class="@GetToastClass(toast)" style="@GetItemStyle(fromEnd)" role="status">
+            <div @key="toast.Id" class="@GetToastClass(toast)" style="@GetItemStyle(index)" role="status">
                 @if (ToastTemplate != null)
                 {
                     @ToastTemplate(toast)
@@ -53,10 +49,16 @@
 }
 
 @code {
+    /// <summary>How many toasts are fully visible before stacking begins.</summary>
     [Parameter] public int MaxVisible { get; set; } = 3;
     [Parameter] public SonnerPosition Position { get; set; } = SonnerPosition.BottomRight;
     [Parameter] public string? Class { get; set; }
     [Parameter] public RenderFragment<SonnerToast>? ToastTemplate { get; set; }
+
+    // Estimated toast height (rem). Real Sonner measures via JS; we use a fixed estimate.
+    private const double ToastHeightRem = 4.75;
+    // Gap between visible toasts (rem).
+    private const double GapRem = 0.5;
 
     protected override void OnInitialized()
     {
@@ -75,53 +77,60 @@
 
     private void Dismiss(Guid id) => SonnerService.Dismiss(id);
 
-    private string GetItemStyle(int fromEnd)
-    {
-        if (fromEnd < MaxVisible)
-        {
-            return $"z-index: {100 - fromEnd};";
-        }
-
-        var behind = fromEnd - MaxVisible;
-        var scale = 1.0 - (behind + 1) * 0.05;
-        var opacity = 0.8 - behind * 0.3;
-        if (opacity < 0) opacity = 0;
-
-        var origin = IsTopPosition ? "transform-origin: top center;" : "transform-origin: bottom center;";
-        var margin = IsTopPosition
-            ? $"margin-top: -{(behind + 1) * 36}px;"
-            : $"margin-bottom: -{(behind + 1) * 36}px;";
-
-        return $"z-index: {100 - fromEnd}; transform: scale({scale.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)}); " +
-               $"opacity: {opacity.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)}; {origin} {margin} " +
-               "pointer-events: none; transition: all 200ms ease;";
-    }
-
     private bool IsTopPosition => Position is SonnerPosition.TopLeft or SonnerPosition.TopCenter or SonnerPosition.TopRight;
 
-    private string ContainerClass
+    /// <summary>
+    /// Each toast is absolutely positioned at the edge and offset via translateY.
+    /// index 0 = newest (closest to edge), index N = older (further from edge).
+    /// Behind toasts (index >= MaxVisible) also scale down and fade.
+    /// </summary>
+    private string GetItemStyle(int index)
     {
-        get
+        var inv = System.Globalization.CultureInfo.InvariantCulture;
+        var offset = GapRem + index * (ToastHeightRem + GapRem);
+        // Bottom: translate up (negative Y). Top: translate down (positive Y).
+        var ty = IsTopPosition ? offset : -offset;
+        var edge = IsTopPosition ? "top: 0;" : "bottom: 0;";
+        var animName = IsTopPosition ? "sonner-enter-from-top" : "sonner-enter-from-bottom";
+        var anim = $"animation: {animName} 300ms ease-out;";
+
+        if (index < MaxVisible)
         {
-            var direction = IsTopPosition ? "flex-col-reverse" : "flex-col";
-            return new ClassBuilder(
-                $"fixed z-50 flex w-full max-w-sm {direction} gap-2 p-4 pointer-events-none")
-                .Add(GetPositionClasses())
-                .Add(Class)
-                .Build();
+            return $"position: absolute; {edge} left: 0; right: 0; " +
+                   $"z-index: {100 - index}; " +
+                   $"transform: translateY({ty.ToString("F2", inv)}rem); " +
+                   $"transition: transform 300ms ease, opacity 300ms ease; {anim}";
         }
+
+        // Behind toast — scaled down, faded, non-interactive
+        var behind = index - MaxVisible; // 0 or 1
+        var scale = 1.0 - (behind + 1) * 0.05; // 0.95, 0.90
+        var opacity = System.Math.Max(0.0, 0.6 - behind * 0.6); // 0.6, 0.0
+
+        return $"position: absolute; {edge} left: 0; right: 0; " +
+               $"z-index: {100 - index}; " +
+               $"transform: translateY({ty.ToString("F2", inv)}rem) scale({scale.ToString("F2", inv)}); " +
+               $"opacity: {opacity.ToString("F2", inv)}; " +
+               $"pointer-events: none; " +
+               $"transition: transform 300ms ease, opacity 300ms ease; {anim}";
     }
+
+    private string ContainerClass => new ClassBuilder(
+            "fixed z-50 w-full max-w-sm p-4 pointer-events-none")
+        .Add(GetPositionClasses())
+        .Add(Class)
+        .Build();
 
     private string GetPositionClasses()
         => Position switch
         {
-            SonnerPosition.TopLeft => "top-0 left-0 items-start",
-            SonnerPosition.TopCenter => "top-0 left-1/2 -translate-x-1/2 items-center",
-            SonnerPosition.TopRight => "top-0 right-0 items-end",
-            SonnerPosition.BottomLeft => "bottom-0 left-0 items-start",
-            SonnerPosition.BottomCenter => "bottom-0 left-1/2 -translate-x-1/2 items-center",
-            SonnerPosition.BottomRight => "bottom-0 right-0 items-end",
-            _ => "bottom-0 right-0 items-end"
+            SonnerPosition.TopLeft => "top-2 left-2",
+            SonnerPosition.TopCenter => "top-2 left-1/2 -translate-x-1/2",
+            SonnerPosition.TopRight => "top-2 right-2",
+            SonnerPosition.BottomLeft => "bottom-2 left-2",
+            SonnerPosition.BottomCenter => "bottom-2 left-1/2 -translate-x-1/2",
+            SonnerPosition.BottomRight => "bottom-2 right-2",
+            _ => "bottom-2 right-2"
         };
 
     private string GetToastClass(SonnerToast toast)
