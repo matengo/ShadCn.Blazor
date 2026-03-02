@@ -3,6 +3,10 @@
     <File Path="Discussion.md" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/nuget-pack.yml" />
+    <File Path=".github/workflows/shadcnblazordocs.yml" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/ShadCn.Blazor.Components/ShadCn.Blazor.Components.csproj" />
     <Project Path="src/ShadCn.Blazor.Docs/ShadCn.Blazor.Docs.csproj" />

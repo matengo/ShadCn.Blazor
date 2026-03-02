@@ -2,7 +2,7 @@ name: Build and deploy .NET application to container app shadcnblazordocs
 on:
   push:
     branches:
-    - main
+    - master
 permissions:
   id-token: write
   contents: read
