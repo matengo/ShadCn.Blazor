@@ -1,0 +1,48 @@
+@namespace ShadCn.Blazor.Components.Link
+@using ShadCn.Blazor.Components.Button
+
+<a @attributes="AdditionalAttributes"
+   href="@Href"
+   class="@ComputedClass">
+    @ChildContent
+</a>
+
+@code {
+    /// <summary>
+    /// The navigation URL.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string Href { get; set; } = "#";
+
+    /// <summary>
+    /// The visual variant (same as Button).
+    /// </summary>
+    [Parameter]
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Default;
+
+    /// <summary>
+    /// The size (same as Button).
+    /// </summary>
+    [Parameter]
+    public ButtonSize Size { get; set; } = ButtonSize.Default;
+
+    /// <summary>
+    /// Additional CSS classes.
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    /// <summary>
+    /// The link content.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Captures unmatched attributes.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => ButtonVariants.GetClasses(Variant, Size, "no-underline " + Class);
+}
