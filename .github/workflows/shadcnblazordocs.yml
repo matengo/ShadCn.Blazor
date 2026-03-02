@@ -25,6 +25,8 @@ jobs:
       with:
         dotnet-quality: preview
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Install wasm-tools workload
+      run: dotnet workload install wasm-tools
     - name: Log in to container registry
       uses: azure/docker-login@v2
       with:
