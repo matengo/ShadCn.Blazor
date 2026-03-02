@@ -1,0 +1,18 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="@Value" @attributes="AdditionalAttributes">
+    <div class="@IndicatorClass" style="transform: translateX(-@(100 - Math.Clamp(Value, 0, 100))%)"></div>
+</div>
+
+@code {
+    [Parameter] public int Value { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder("relative h-4 w-full overflow-hidden rounded-full bg-secondary")
+        .Add(Class)
+        .Build();
+
+    private const string IndicatorClass = "h-full w-full flex-1 bg-primary transition-all";
+}

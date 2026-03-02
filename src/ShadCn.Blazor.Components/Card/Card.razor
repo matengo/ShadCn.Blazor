@@ -1,0 +1,23 @@
+@namespace ShadCn.Blazor.Components.Card
+
+<div @attributes="AdditionalAttributes" class="@ComputedClass">
+    @ChildContent
+</div>
+
+@code {
+    private static readonly string BaseClasses = 
+        "rounded-lg border bg-card text-card-foreground shadow-sm";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => string.IsNullOrEmpty(Class) 
+        ? BaseClasses 
+        : $"{BaseClasses} {Class}";
+}

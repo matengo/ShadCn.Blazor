@@ -1,0 +1,74 @@
+@page "/components/input"
+
+<PageTitle>Input - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Input</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays a form input field or similar.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Default -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Default</h2>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <Input Placeholder="Email" Type="email" />
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Types -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Input Types</h2>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <Input Type="text" Placeholder="Text input" />
+                        <Input Type="email" Placeholder="Email input" />
+                        <Input Type="password" Placeholder="Password input" />
+                        <Input Type="number" Placeholder="Number input" />
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Disabled -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Disabled</h2>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <Input Placeholder="Disabled input" Disabled="true" />
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- With binding -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Two-way Binding</h2>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <Input Placeholder="Type something..." @bind-Value="inputValue" />
+                        <p class="text-sm text-muted-foreground">
+                            Value: <strong>@inputValue</strong>
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+    </div>
+</div>
+
+@code {
+    private string inputValue = "";
+}

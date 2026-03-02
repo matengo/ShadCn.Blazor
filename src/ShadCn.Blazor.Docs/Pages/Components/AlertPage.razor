@@ -1,0 +1,57 @@
+@page "/components/alert"
+
+<PageTitle>Alert - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Alert</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays a callout for user attention.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Default -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Default</h2>
+            <Alert>
+                <AlertTitle>Heads up!</AlertTitle>
+                <AlertDescription>
+                    You can add components to your app using the CLI.
+                </AlertDescription>
+            </Alert>
+        </section>
+
+        <!-- Destructive -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Destructive</h2>
+            <Alert Variant="AlertVariant.Destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>
+                    Your session has expired. Please log in again.
+                </AlertDescription>
+            </Alert>
+        </section>
+
+        <!-- Examples -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">More Examples</h2>
+            <div class="space-y-4">
+                <Alert>
+                    <AlertTitle>Success!</AlertTitle>
+                    <AlertDescription>
+                        Your payment was processed successfully.
+                    </AlertDescription>
+                </Alert>
+                <Alert>
+                    <AlertTitle>Tip</AlertTitle>
+                    <AlertDescription>
+                        Press <kbd class="px-1 py-0.5 rounded bg-muted text-xs">Ctrl + K</kbd> to open the command menu.
+                    </AlertDescription>
+                </Alert>
+            </div>
+        </section>
+    </div>
+</div>

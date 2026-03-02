@@ -1,0 +1,20 @@
+@namespace ShadCn.Blazor.Components
+
+<div class="relative inline-flex">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int DelayDuration { get; set; } = 700;
+    
+    internal bool IsOpen { get; set; }
+    
+    internal void SetOpen(bool open)
+    {
+        IsOpen = open;
+        StateHasChanged();
+    }
+}

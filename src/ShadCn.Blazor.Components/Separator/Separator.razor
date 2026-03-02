@@ -1,0 +1,36 @@
+@namespace ShadCn.Blazor.Components.Separator
+
+<div @attributes="AdditionalAttributes"
+     role="@(Decorative ? "none" : "separator")"
+     aria-orientation="@(Orientation == SeparatorOrientation.Horizontal ? "horizontal" : "vertical")"
+     class="@ComputedClass">
+</div>
+
+@code {
+    [Parameter]
+    public SeparatorOrientation Orientation { get; set; } = SeparatorOrientation.Horizontal;
+
+    [Parameter]
+    public bool Decorative { get; set; } = true;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass
+    {
+        get
+        {
+            var baseClasses = "shrink-0 bg-border";
+            var orientationClasses = Orientation == SeparatorOrientation.Horizontal
+                ? "h-[1px] w-full"
+                : "h-full w-[1px]";
+            
+            return string.IsNullOrEmpty(Class)
+                ? $"{baseClasses} {orientationClasses}"
+                : $"{baseClasses} {orientationClasses} {Class}";
+        }
+    }
+}

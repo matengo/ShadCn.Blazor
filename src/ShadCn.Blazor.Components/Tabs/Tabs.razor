@@ -1,0 +1,37 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string? _selectedValue;
+
+    public string? SelectedValue => Value ?? _selectedValue ?? DefaultValue;
+
+    protected override void OnInitialized()
+    {
+        _selectedValue = DefaultValue;
+    }
+
+    public async Task SelectTab(string value)
+    {
+        _selectedValue = value;
+        await ValueChanged.InvokeAsync(value);
+        StateHasChanged();
+    }
+
+    private string ComputedClass => new ClassBuilder()
+        .Add(Class)
+        .Build();
+}

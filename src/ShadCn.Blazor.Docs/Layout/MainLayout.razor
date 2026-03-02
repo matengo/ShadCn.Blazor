@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-border bg-background p-6">
+        <div class="mb-8">
+            <h1 class="text-xl font-bold">ShadCn.Blazor</h1>
+            <p class="text-sm text-muted-foreground">Component Library</p>
+        </div>
+        <NavMenu />
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8">
+        <div class="mx-auto max-w-4xl">
+            @Body
+        </div>
+    </main>
+</div>

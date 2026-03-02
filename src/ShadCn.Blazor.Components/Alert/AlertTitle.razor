@@ -1,0 +1,22 @@
+@namespace ShadCn.Blazor.Components.Alert
+
+<h5 @attributes="AdditionalAttributes" class="@ComputedClass">
+    @ChildContent
+</h5>
+
+@code {
+    private static readonly string BaseClasses = "mb-1 font-medium leading-none tracking-tight";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => string.IsNullOrEmpty(Class) 
+        ? BaseClasses 
+        : $"{BaseClasses} {Class}";
+}

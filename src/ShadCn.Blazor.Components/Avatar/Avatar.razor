@@ -1,0 +1,43 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<span class="@ComputedClass" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Src))
+    {
+        <img class="aspect-square h-full w-full" src="@Src" alt="@Alt" @onerror="OnImageError" />
+    }
+    else if (!string.IsNullOrEmpty(Fallback))
+    {
+        <span class="@FallbackClass">@Fallback</span>
+    }
+    else
+    {
+        @ChildContent
+    }
+</span>
+
+@code {
+    [Parameter] public string? Src { get; set; }
+    [Parameter] public string? Alt { get; set; }
+    [Parameter] public string? Fallback { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool _imageError;
+
+    private string ComputedClass => new ClassBuilder(
+        "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full")
+        .Add(Class)
+        .Build();
+
+    private const string FallbackClass = 
+        "flex h-full w-full items-center justify-center rounded-full bg-muted text-muted-foreground text-sm font-medium";
+
+    private void OnImageError()
+    {
+        _imageError = true;
+        Src = null;
+        StateHasChanged();
+    }
+}

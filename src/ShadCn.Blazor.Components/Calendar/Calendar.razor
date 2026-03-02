@@ -1,0 +1,171 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+@using System.Globalization
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    @* Header with month navigation *@
+    <div class="flex items-center justify-between">
+        <button type="button" 
+                class="inline-flex items-center justify-center rounded-md h-7 w-7 bg-transparent hover:bg-accent hover:text-accent-foreground"
+                @onclick="PreviousMonth">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+            </svg>
+        </button>
+        <div class="text-sm font-medium">
+            @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DisplayMonth.ToString("MMMM yyyy"))
+        </div>
+        <button type="button" 
+                class="inline-flex items-center justify-center rounded-md h-7 w-7 bg-transparent hover:bg-accent hover:text-accent-foreground"
+                @onclick="NextMonth">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+            </svg>
+        </button>
+    </div>
+
+    @* Day headers *@
+    <div class="grid grid-cols-7 mt-4">
+        @foreach (var day in GetDayNames())
+        {
+            <div class="text-center text-xs text-muted-foreground font-normal w-9 h-9 flex items-center justify-center">
+                @day
+            </div>
+        }
+    </div>
+
+    @* Calendar days *@
+    <div class="grid grid-cols-7">
+        @foreach (var day in CalendarDays)
+        {
+            <button type="button"
+                    class="@GetDayClass(day)"
+                    disabled="@(!day.IsCurrentMonth)"
+                    @onclick="() => SelectDate(day.Date)">
+                @day.Date.Day
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public DateTime? SelectedDate { get; set; }
+    [Parameter] public EventCallback<DateTime?> SelectedDateChanged { get; set; }
+    [Parameter] public DateTime? MinDate { get; set; }
+    [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private DateTime DisplayMonth { get; set; } = DateTime.Today;
+
+    private string ComputedClass => new ClassBuilder("p-3 w-auto")
+        .Add(Class)
+        .Build();
+
+    private string[] GetDayNames()
+    {
+        var allDays = new[] { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" };
+        var startIndex = (int)FirstDayOfWeek;
+        var result = new string[7];
+        for (int i = 0; i < 7; i++)
+        {
+            result[i] = allDays[(startIndex + i) % 7];
+        }
+        return result;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (SelectedDate.HasValue)
+        {
+            DisplayMonth = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, 1);
+        }
+    }
+
+    private List<CalendarDay> CalendarDays
+    {
+        get
+        {
+            var days = new List<CalendarDay>();
+            var firstOfMonth = new DateTime(DisplayMonth.Year, DisplayMonth.Month, 1);
+            var daysInMonth = DateTime.DaysInMonth(DisplayMonth.Year, DisplayMonth.Month);
+            
+            // Calculate offset based on FirstDayOfWeek
+            var dayOfWeek = (int)firstOfMonth.DayOfWeek;
+            var firstDayIndex = (int)FirstDayOfWeek;
+            var startDayOfWeek = (dayOfWeek - firstDayIndex + 7) % 7;
+            
+            // Previous month days
+            var prevMonth = firstOfMonth.AddMonths(-1);
+            var daysInPrevMonth = DateTime.DaysInMonth(prevMonth.Year, prevMonth.Month);
+            for (int i = startDayOfWeek - 1; i >= 0; i--)
+            {
+                days.Add(new CalendarDay(new DateTime(prevMonth.Year, prevMonth.Month, daysInPrevMonth - i), false));
+            }
+            
+            // Current month days
+            for (int i = 1; i <= daysInMonth; i++)
+            {
+                days.Add(new CalendarDay(new DateTime(DisplayMonth.Year, DisplayMonth.Month, i), true));
+            }
+            
+            // Next month days (fill to complete weeks)
+            var nextMonth = firstOfMonth.AddMonths(1);
+            var totalDays = days.Count <= 35 ? 35 : 42;
+            var remaining = totalDays - days.Count;
+            for (int i = 1; i <= remaining; i++)
+            {
+                days.Add(new CalendarDay(new DateTime(nextMonth.Year, nextMonth.Month, i), false));
+            }
+            
+            return days;
+        }
+    }
+
+    private string GetDayClass(CalendarDay day)
+    {
+        var builder = new ClassBuilder(
+            "inline-flex items-center justify-center rounded-md text-sm font-normal h-9 w-9 p-0 aria-selected:opacity-100");
+        
+        if (!day.IsCurrentMonth)
+        {
+            builder.Add("text-muted-foreground opacity-50");
+        }
+        else if (SelectedDate.HasValue && day.Date.Date == SelectedDate.Value.Date)
+        {
+            builder.Add("bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground");
+        }
+        else if (day.Date.Date == DateTime.Today)
+        {
+            builder.Add("bg-accent text-accent-foreground");
+        }
+        else
+        {
+            builder.Add("hover:bg-accent hover:text-accent-foreground");
+        }
+        
+        return builder.Build();
+    }
+
+    private void PreviousMonth()
+    {
+        DisplayMonth = DisplayMonth.AddMonths(-1);
+    }
+
+    private void NextMonth()
+    {
+        DisplayMonth = DisplayMonth.AddMonths(1);
+    }
+
+    private async Task SelectDate(DateTime date)
+    {
+        if (MinDate.HasValue && date < MinDate.Value) return;
+        if (MaxDate.HasValue && date > MaxDate.Value) return;
+        
+        SelectedDate = date;
+        await SelectedDateChanged.InvokeAsync(SelectedDate);
+    }
+
+    private record CalendarDay(DateTime Date, bool IsCurrentMonth);
+}

@@ -1,0 +1,68 @@
+@page "/components/progress"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Progress - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Progress</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays an indicator showing the completion progress of a task.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A basic progress bar.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <div class="w-full max-w-md space-y-4">
+                        <Progress Value="33" />
+                        <Progress Value="66" />
+                        <Progress Value="100" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Animated" Description="Progress bar with animated value.">
+            <ComponentExample Code="@AnimatedCode">
+                <Preview>
+                    <div class="w-full max-w-md space-y-4">
+                        <Progress Value="@progressValue" />
+                        <div class="flex gap-2">
+                            <Button Size="ButtonSize.Sm" OnClick="IncrementProgress">Increase</Button>
+                            <Button Size="ButtonSize.Sm" Variant="ButtonVariant.Outline" OnClick="ResetProgress">Reset</Button>
+                        </div>
+                        <p class="text-sm text-muted-foreground">Value: @progressValue%</p>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private int progressValue = 25;
+
+    private void IncrementProgress()
+    {
+        progressValue = Math.Min(100, progressValue + 10);
+    }
+
+    private void ResetProgress()
+    {
+        progressValue = 0;
+    }
+
+    private const string BasicCode = @"<Progress Value=""33"" />
+<Progress Value=""66"" />
+<Progress Value=""100"" />";
+
+    private const string AnimatedCode = @"<Progress Value=""@progressValue"" />
+
+@code {
+    private int progressValue = 25;
+}";
+}

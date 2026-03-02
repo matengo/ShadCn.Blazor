@@ -1,0 +1,42 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<button type="button"
+        role="checkbox"
+        aria-checked="@Checked.ToString().ToLower()"
+        data-state="@(Checked ? "checked" : "unchecked")"
+        disabled="@Disabled"
+        class="@ComputedClass"
+        @onclick="Toggle"
+        @attributes="AdditionalAttributes">
+    @if (Checked)
+    {
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+    }
+</button>
+
+@code {
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background " +
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+        "disabled:cursor-not-allowed disabled:opacity-50 " +
+        "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground " +
+        "inline-flex items-center justify-center")
+        .Add(Class)
+        .Build();
+
+    private async Task Toggle()
+    {
+        if (Disabled) return;
+        Checked = !Checked;
+        await CheckedChanged.InvokeAsync(Checked);
+    }
+}

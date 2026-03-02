@@ -1,0 +1,18 @@
+@namespace ShadCn.Blazor.Components
+
+<span @onclick="HandleClick" style="cursor: pointer;">
+    @ChildContent
+</span>
+
+@code {
+    [CascadingParameter] public Dialog? Dialog { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task HandleClick()
+    {
+        if (Dialog != null)
+        {
+            await Dialog.SetOpen(true);
+        }
+    }
+}

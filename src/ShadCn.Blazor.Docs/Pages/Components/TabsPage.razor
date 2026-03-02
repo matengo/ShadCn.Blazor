@@ -1,0 +1,136 @@
+@page "/components/tabs"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Tabs - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Tabs</h1>
+        <p class="text-lg text-muted-foreground">
+            A set of layered sections of content—known as tab panels—that are displayed one at a time.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A basic tabs component with multiple panels.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Tabs DefaultValue="account" Class="w-full max-w-md">
+                        <TabsList>
+                            <TabsTrigger Value="account">Account</TabsTrigger>
+                            <TabsTrigger Value="password">Password</TabsTrigger>
+                        </TabsList>
+                        <TabsContent Value="account">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Account</CardTitle>
+                                    <CardDescription>
+                                        Make changes to your account here. Click save when you're done.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent Class="space-y-4">
+                                    <div class="space-y-1">
+                                        <Label For="name">Name</Label>
+                                        <Input id="name" Value="Pedro Duarte" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label For="username">Username</Label>
+                                        <Input id="username" Value="@("@peduarte")" />
+                                    </div>
+                                </CardContent>
+                                <CardFooter>
+                                    <Button>Save changes</Button>
+                                </CardFooter>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent Value="password">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Password</CardTitle>
+                                    <CardDescription>
+                                        Change your password here. After saving, you'll be logged out.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent Class="space-y-4">
+                                    <div class="space-y-1">
+                                        <Label For="current">Current password</Label>
+                                        <Input id="current" type="password" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label For="new">New password</Label>
+                                        <Input id="new" type="password" />
+                                    </div>
+                                </CardContent>
+                                <CardFooter>
+                                    <Button>Save password</Button>
+                                </CardFooter>
+                            </Card>
+                        </TabsContent>
+                    </Tabs>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Controlled" Description="Control the active tab programmatically.">
+            <ComponentExample Code="@ControlledCode">
+                <Preview>
+                    <div class="space-y-4">
+                        <Tabs Value="@activeTab" ValueChanged="v => activeTab = v" Class="w-full max-w-md">
+                            <TabsList>
+                                <TabsTrigger Value="overview">Overview</TabsTrigger>
+                                <TabsTrigger Value="analytics">Analytics</TabsTrigger>
+                                <TabsTrigger Value="reports">Reports</TabsTrigger>
+                            </TabsList>
+                            <TabsContent Value="overview">
+                                <p class="text-sm text-muted-foreground p-4">Overview content goes here.</p>
+                            </TabsContent>
+                            <TabsContent Value="analytics">
+                                <p class="text-sm text-muted-foreground p-4">Analytics content goes here.</p>
+                            </TabsContent>
+                            <TabsContent Value="reports">
+                                <p class="text-sm text-muted-foreground p-4">Reports content goes here.</p>
+                            </TabsContent>
+                        </Tabs>
+                        <p class="text-sm">Active tab: <strong>@activeTab</strong></p>
+                        <div class="flex gap-2">
+                            <Button Size="ButtonSize.Sm" OnClick='() => activeTab = "overview"'>Go to Overview</Button>
+                            <Button Size="ButtonSize.Sm" Variant="ButtonVariant.Outline" OnClick='() => activeTab = "reports"'>Go to Reports</Button>
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private string activeTab = "overview";
+
+    private const string BasicCode = @"<Tabs DefaultValue=""account"">
+    <TabsList>
+        <TabsTrigger Value=""account"">Account</TabsTrigger>
+        <TabsTrigger Value=""password"">Password</TabsTrigger>
+    </TabsList>
+    <TabsContent Value=""account"">
+        <p>Account settings content...</p>
+    </TabsContent>
+    <TabsContent Value=""password"">
+        <p>Password settings content...</p>
+    </TabsContent>
+</Tabs>";
+
+    private const string ControlledCode = @"<Tabs @bind-Value=""activeTab"">
+    <TabsList>
+        <TabsTrigger Value=""overview"">Overview</TabsTrigger>
+        <TabsTrigger Value=""analytics"">Analytics</TabsTrigger>
+    </TabsList>
+    <TabsContent Value=""overview"">...</TabsContent>
+    <TabsContent Value=""analytics"">...</TabsContent>
+</Tabs>
+
+@code {
+    private string activeTab = ""overview"";
+}";
+}

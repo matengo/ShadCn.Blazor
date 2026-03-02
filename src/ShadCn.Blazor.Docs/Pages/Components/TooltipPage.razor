@@ -1,0 +1,87 @@
+@page "/components/tooltip"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Tooltip - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Tooltip</h1>
+        <p class="text-lg text-muted-foreground">
+            A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="Hover over the button to see the tooltip.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Button Variant="ButtonVariant.Outline">Hover me</Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Add to library</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Custom Delay" Description="Configure the delay before showing the tooltip.">
+            <ComponentExample Code="@DelayCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <Tooltip DelayDuration="0">
+                            <TooltipTrigger>
+                                <Button Variant="ButtonVariant.Outline">No delay</Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Shows immediately</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        
+                        <Tooltip DelayDuration="1000">
+                            <TooltipTrigger>
+                                <Button Variant="ButtonVariant.Outline">1s delay</Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>1 second delay</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<Tooltip>
+    <TooltipTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Hover me</Button>
+    </TooltipTrigger>
+    <TooltipContent>
+        <p>Add to library</p>
+    </TooltipContent>
+</Tooltip>";
+
+    private const string DelayCode = @"<Tooltip DelayDuration=""0"">
+    <TooltipTrigger>
+        <Button>No delay</Button>
+    </TooltipTrigger>
+    <TooltipContent>
+        <p>Shows immediately</p>
+    </TooltipContent>
+</Tooltip>
+
+<Tooltip DelayDuration=""1000"">
+    <TooltipTrigger>
+        <Button>1s delay</Button>
+    </TooltipTrigger>
+    <TooltipContent>
+        <p>1 second delay</p>
+    </TooltipContent>
+</Tooltip>";
+}

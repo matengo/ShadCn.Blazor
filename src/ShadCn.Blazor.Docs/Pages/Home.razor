@@ -1,0 +1,86 @@
+﻿@page "/"
+
+<PageTitle>ShadCn.Blazor - Component Library</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-4xl font-bold tracking-tight">ShadCn.Blazor</h1>
+        <p class="text-xl text-muted-foreground">
+            Beautifully designed components for Blazor. Accessible. Customizable. Open Source.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-6">
+        <h2 class="text-2xl font-semibold">Components Preview</h2>
+        
+        <!-- Buttons -->
+        <Card>
+            <CardHeader>
+                <CardTitle>Button</CardTitle>
+                <CardDescription>Displays a button or a component that looks like a button.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button>Default</Button>
+                    <Button Variant="ButtonVariant.Secondary">Secondary</Button>
+                    <Button Variant="ButtonVariant.Destructive">Destructive</Button>
+                    <Button Variant="ButtonVariant.Outline">Outline</Button>
+                    <Button Variant="ButtonVariant.Ghost">Ghost</Button>
+                    <Button Variant="ButtonVariant.Link">Link</Button>
+                </div>
+            </CardContent>
+        </Card>
+
+        <!-- Input -->
+        <Card>
+            <CardHeader>
+                <CardTitle>Input</CardTitle>
+                <CardDescription>Displays a form input field.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="max-w-sm space-y-4">
+                    <Input Placeholder="Email" Type="email" />
+                    <Input Placeholder="Disabled" Disabled="true" />
+                </div>
+            </CardContent>
+        </Card>
+
+        <!-- Badges -->
+        <Card>
+            <CardHeader>
+                <CardTitle>Badge</CardTitle>
+                <CardDescription>Displays a badge or a component that looks like a badge.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="flex flex-wrap gap-4">
+                    <Badge>Default</Badge>
+                    <Badge Variant="BadgeVariant.Secondary">Secondary</Badge>
+                    <Badge Variant="BadgeVariant.Destructive">Destructive</Badge>
+                    <Badge Variant="BadgeVariant.Outline">Outline</Badge>
+                </div>
+            </CardContent>
+        </Card>
+
+        <!-- Alerts -->
+        <Card>
+            <CardHeader>
+                <CardTitle>Alert</CardTitle>
+                <CardDescription>Displays a callout for user attention.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="space-y-4">
+                    <Alert>
+                        <AlertTitle>Heads up!</AlertTitle>
+                        <AlertDescription>You can add components to your app using the CLI.</AlertDescription>
+                    </Alert>
+                    <Alert Variant="AlertVariant.Destructive">
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+                    </Alert>
+                </div>
+            </CardContent>
+        </Card>
+    </div>
+</div>

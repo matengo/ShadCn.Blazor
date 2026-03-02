@@ -1,0 +1,62 @@
+@namespace ShadCn.Blazor.Components
+
+<span class="relative inline-flex" 
+      @onmouseenter="HandleMouseEnter" 
+      @onmouseleave="HandleMouseLeave"
+      @onfocus="HandleFocus"
+      @onblur="HandleBlur"
+      tabindex="0">
+    @ChildContent
+</span>
+
+@code {
+    [CascadingParameter] public Tooltip? Tooltip { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private System.Timers.Timer? _showTimer;
+
+    private void HandleMouseEnter()
+    {
+        if (Tooltip != null)
+        {
+            _showTimer?.Dispose();
+            
+            if (Tooltip.DelayDuration <= 0)
+            {
+                Tooltip.SetOpen(true);
+            }
+            else
+            {
+                _showTimer = new System.Timers.Timer(Tooltip.DelayDuration);
+                _showTimer.Elapsed += (s, e) =>
+                {
+                    _showTimer?.Dispose();
+                    InvokeAsync(() => Tooltip.SetOpen(true));
+                };
+                _showTimer.AutoReset = false;
+                _showTimer.Start();
+            }
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        _showTimer?.Dispose();
+        Tooltip?.SetOpen(false);
+    }
+
+    private void HandleFocus()
+    {
+        Tooltip?.SetOpen(true);
+    }
+
+    private void HandleBlur()
+    {
+        Tooltip?.SetOpen(false);
+    }
+
+    public void Dispose()
+    {
+        _showTimer?.Dispose();
+    }
+}

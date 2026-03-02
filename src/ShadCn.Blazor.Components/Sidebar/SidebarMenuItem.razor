@@ -1,0 +1,39 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<a href="@Href" class="@ComputedClass" @attributes="AdditionalAttributes">
+    @if (Icon != null)
+    {
+        <span class="@IconClass">@Icon</span>
+    }
+    @if (Sidebar?.Collapsed != true)
+    {
+        <span class="flex-1 truncate">@ChildContent</span>
+        @if (Badge != null)
+        {
+            <span class="ml-auto text-xs bg-primary text-primary-foreground rounded-full px-2 py-0.5">@Badge</span>
+        }
+    }
+</a>
+
+@code {
+    [CascadingParameter] public Sidebar? Sidebar { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Icon { get; set; }
+    [Parameter] public string? Href { get; set; }
+    [Parameter] public bool Active { get; set; }
+    [Parameter] public string? Badge { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors")
+        .Add(Active 
+            ? "bg-accent text-accent-foreground" 
+            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")
+        .Add(Sidebar?.Collapsed == true ? "justify-center" : "")
+        .Add(Class)
+        .Build();
+
+    private string IconClass => Sidebar?.Collapsed == true ? "h-5 w-5" : "h-4 w-4 shrink-0";
+}

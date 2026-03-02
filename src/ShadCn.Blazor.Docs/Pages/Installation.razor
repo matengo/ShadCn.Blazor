@@ -1,0 +1,267 @@
+@page "/installation"
+
+<PageTitle>Installation - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Installation</h1>
+        <p class="text-lg text-muted-foreground">
+            Get started with ShadCn.Blazor in your Blazor project.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Prerequisites -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Prerequisites</h2>
+            <ul class="list-disc list-inside space-y-2 text-muted-foreground">
+                <li>.NET 8.0 or later</li>
+                <li>Blazor WebAssembly or Blazor Server project</li>
+            </ul>
+        </section>
+
+        <!-- Install NuGet Package -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">1. Install NuGet Packages</h2>
+            <p class="text-muted-foreground">
+                Install the ShadCn.Blazor packages via NuGet Package Manager or the .NET CLI.
+            </p>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-medium mb-2">.NET CLI</h3>
+                    <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>dotnet add package ShadCn.Blazor.Components
+dotnet add package ShadCn.Blazor.Theme.Default</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-medium mb-2">Package Manager Console</h3>
+                    <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>Install-Package ShadCn.Blazor.Components
+Install-Package ShadCn.Blazor.Theme.Default</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add CSS -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">2. Add Theme CSS</h2>
+            <p class="text-muted-foreground">
+                Add the theme stylesheet to your <code class="bg-muted px-1.5 py-0.5 rounded text-sm">index.html</code> (Blazor WebAssembly) 
+                or <code class="bg-muted px-1.5 py-0.5 rounded text-sm">_Host.cshtml</code> / <code class="bg-muted px-1.5 py-0.5 rounded text-sm">App.razor</code> (Blazor Server).
+            </p>
+            
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>&lt;link rel="stylesheet" href="_content/ShadCn.Blazor.Theme.Default/theme.css" /&gt;</code></pre>
+            
+            <Alert>
+                <AlertTitle>Note</AlertTitle>
+                <AlertDescription>
+                    The theme uses CSS variables for colors. You can customize the theme by overriding these variables in your own CSS.
+                </AlertDescription>
+            </Alert>
+        </section>
+
+        <!-- Add Imports -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">3. Add Imports</h2>
+            <p class="text-muted-foreground">
+                Add the following using statements to your <code class="bg-muted px-1.5 py-0.5 rounded text-sm">_Imports.razor</code> file.
+            </p>
+            
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>@@using ShadCn.Blazor.Components
+@@using ShadCn.Blazor.Components.Alert
+@@using ShadCn.Blazor.Components.Badge
+@@using ShadCn.Blazor.Components.Button
+@@using ShadCn.Blazor.Components.Card
+@@using ShadCn.Blazor.Components.Input
+@@using ShadCn.Blazor.Components.Separator</code></pre>
+
+            <p class="text-sm text-muted-foreground">
+                Add imports for each component namespace you want to use in your project.
+            </p>
+        </section>
+
+        <!-- Start Using -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">4. Start Using Components</h2>
+            <p class="text-muted-foreground">
+                You're all set! Start using the components in your Blazor pages and components.
+            </p>
+            
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>&lt;Button&gt;Click me&lt;/Button&gt;
+
+&lt;Card&gt;
+    &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Welcome&lt;/CardTitle&gt;
+        &lt;CardDescription&gt;Get started with ShadCn.Blazor&lt;/CardDescription&gt;
+    &lt;/CardHeader&gt;
+    &lt;CardContent&gt;
+        &lt;p&gt;Your content here&lt;/p&gt;
+    &lt;/CardContent&gt;
+&lt;/Card&gt;
+
+&lt;Alert&gt;
+    &lt;AlertTitle&gt;Heads up!&lt;/AlertTitle&gt;
+    &lt;AlertDescription&gt;You can customize all components.&lt;/AlertDescription&gt;
+&lt;/Alert&gt;</code></pre>
+        </section>
+
+        <!-- Dark Mode -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Dark Mode</h2>
+            <p class="text-muted-foreground">
+                The theme supports dark mode out of the box. Add the <code class="bg-muted px-1.5 py-0.5 rounded text-sm">dark</code> class to 
+                your <code class="bg-muted px-1.5 py-0.5 rounded text-sm">&lt;html&gt;</code> element to enable dark mode.
+            </p>
+            
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>&lt;html class="dark"&gt;
+  ...
+&lt;/html&gt;</code></pre>
+
+            <p class="text-muted-foreground">
+                You can toggle dark mode dynamically using JavaScript or by persisting the user's preference.
+            </p>
+        </section>
+
+        <!-- Customization -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Customization</h2>
+            <p class="text-muted-foreground">
+                All components accept a <code class="bg-muted px-1.5 py-0.5 rounded text-sm">Class</code> parameter that allows you to add 
+                custom Tailwind CSS classes to override or extend the default styling.
+            </p>
+            
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>&lt;Button Class="w-full"&gt;Full Width Button&lt;/Button&gt;
+&lt;Card Class="max-w-md mx-auto"&gt;...&lt;/Card&gt;</code></pre>
+
+            <p class="text-muted-foreground">
+                For deeper customization, you can override the CSS variables defined in the theme. 
+                All color values use HSL format (hue saturation% lightness%) without the <code class="bg-muted px-1.5 py-0.5 rounded text-sm">hsl()</code> wrapper.
+            </p>
+
+            <h3 class="text-lg font-medium mt-6">Light Mode Variables</h3>
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>:root {
+  /* Background colors */
+  --background: 0 0% 100%;           /* Page background */
+  --foreground: 222.2 84% 4.9%;      /* Default text color */
+
+  /* Card */
+  --card: 0 0% 100%;                 /* Card background */
+  --card-foreground: 222.2 84% 4.9%; /* Card text color */
+
+  /* Popover (dropdowns, tooltips) */
+  --popover: 0 0% 100%;              /* Popover background */
+  --popover-foreground: 222.2 84% 4.9%; /* Popover text */
+
+  /* Primary (buttons, links, accents) */
+  --primary: 222.2 47.4% 11.2%;      /* Primary background */
+  --primary-foreground: 210 40% 98%; /* Primary text */
+
+  /* Secondary */
+  --secondary: 210 40% 96.1%;        /* Secondary background */
+  --secondary-foreground: 222.2 47.4% 11.2%; /* Secondary text */
+
+  /* Muted (subtle backgrounds, placeholder text) */
+  --muted: 210 40% 96.1%;            /* Muted background */
+  --muted-foreground: 215.4 16.3% 46.9%; /* Muted text */
+
+  /* Accent (hover states, highlights) */
+  --accent: 210 40% 96.1%;           /* Accent background */
+  --accent-foreground: 222.2 47.4% 11.2%; /* Accent text */
+
+  /* Destructive (errors, delete actions) */
+  --destructive: 0 84.2% 60.2%;      /* Destructive background */
+  --destructive-foreground: 210 40% 98%; /* Destructive text */
+
+  /* Borders and inputs */
+  --border: 214.3 31.8% 91.4%;       /* Border color */
+  --input: 214.3 31.8% 91.4%;        /* Input border color */
+  --ring: 222.2 84% 4.9%;            /* Focus ring color */
+
+  /* Border radius */
+  --radius: 0.5rem;                  /* Base border radius */
+}</code></pre>
+
+            <h3 class="text-lg font-medium mt-6">Dark Mode Variables</h3>
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>.dark {
+  /* Background colors */
+  --background: 222.2 84% 4.9%;      /* Page background */
+  --foreground: 210 40% 98%;         /* Default text color */
+
+  /* Card */
+  --card: 222.2 84% 4.9%;            /* Card background */
+  --card-foreground: 210 40% 98%;    /* Card text color */
+
+  /* Popover */
+  --popover: 222.2 84% 4.9%;         /* Popover background */
+  --popover-foreground: 210 40% 98%; /* Popover text */
+
+  /* Primary */
+  --primary: 210 40% 98%;            /* Primary background */
+  --primary-foreground: 222.2 47.4% 11.2%; /* Primary text */
+
+  /* Secondary */
+  --secondary: 217.2 32.6% 17.5%;    /* Secondary background */
+  --secondary-foreground: 210 40% 98%; /* Secondary text */
+
+  /* Muted */
+  --muted: 217.2 32.6% 17.5%;        /* Muted background */
+  --muted-foreground: 215 20.2% 65.1%; /* Muted text */
+
+  /* Accent */
+  --accent: 217.2 32.6% 17.5%;       /* Accent background */
+  --accent-foreground: 210 40% 98%;  /* Accent text */
+
+  /* Destructive */
+  --destructive: 0 62.8% 30.6%;      /* Destructive background */
+  --destructive-foreground: 210 40% 98%; /* Destructive text */
+
+  /* Borders and inputs */
+  --border: 217.2 32.6% 17.5%;       /* Border color */
+  --input: 217.2 32.6% 17.5%;        /* Input border color */
+  --ring: 212.7 26.8% 83.9%;         /* Focus ring color */
+}</code></pre>
+
+            <h3 class="text-lg font-medium mt-6">Font Families</h3>
+            <p class="text-muted-foreground mb-2">
+                The theme uses Geist font (same as shadcn/ui). You can override fonts in your CSS:
+            </p>
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>@@theme {
+  --font-sans: "Your Font", system-ui, sans-serif;
+  --font-mono: "Your Mono Font", monospace;
+}</code></pre>
+
+            <h3 class="text-lg font-medium mt-6">Border Radius</h3>
+            <p class="text-muted-foreground mb-2">
+                Adjust the border radius for all components by changing the <code class="bg-muted px-1.5 py-0.5 rounded text-sm">--radius</code> variable:
+            </p>
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>:root {
+  --radius: 0.25rem;  /* Smaller, more subtle */
+  --radius: 0.5rem;   /* Default */
+  --radius: 0.75rem;  /* Larger, more rounded */
+  --radius: 1rem;     /* Very rounded */
+}</code></pre>
+
+            <Alert>
+                <AlertTitle>Tip</AlertTitle>
+                <AlertDescription>
+                    Use a tool like <a href="https://ui.shadcn.com/themes" target="_blank" class="underline">shadcn/ui Themes</a> to generate color palettes, 
+                    then copy the CSS variables to your project.
+                </AlertDescription>
+            </Alert>
+        </section>
+
+        <!-- Next Steps -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Next Steps</h2>
+            <p class="text-muted-foreground">
+                Explore the components in the sidebar to see examples and usage documentation for each component.
+            </p>
+            <div class="flex gap-4">
+                <Button href="components/button">View Button</Button>
+                <Button Variant="ButtonVariant.Outline" href="components/card">View Card</Button>
+            </div>
+        </section>
+    </div>
+</div>

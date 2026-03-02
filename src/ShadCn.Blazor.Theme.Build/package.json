@@ -1,0 +1,20 @@
+{
+  "name": "shadcn-blazor-theme-build",
+  "version": "1.0.0",
+  "description": "Tailwind CSS build pipeline for ShadCn.Blazor",
+  "scripts": {
+    "copy:fonts": "npx shx mkdir -p ../ShadCn.Blazor.Theme.Default/wwwroot/fonts && npx shx cp node_modules/@fontsource-variable/geist/files/*.woff2 ../ShadCn.Blazor.Theme.Default/wwwroot/fonts/ && npx shx cp node_modules/@fontsource-variable/geist-mono/files/*.woff2 ../ShadCn.Blazor.Theme.Default/wwwroot/fonts/",
+    "build:css": "npx @tailwindcss/cli -i src/input.css -o ../ShadCn.Blazor.Theme.Default/wwwroot/theme.css --minify",
+    "build:theme": "npm run copy:fonts && npm run build:css",
+    "dev": "npx @tailwindcss/cli -i src/input.css -o ../ShadCn.Blazor.Theme.Default/wwwroot/theme.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "shx": "^0.3.4",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource-variable/geist-mono": "^5.2.7"
+  }
+}

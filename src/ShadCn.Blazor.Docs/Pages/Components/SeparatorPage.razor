@@ -1,0 +1,69 @@
+@page "/components/separator"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Separator - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Separator</h1>
+        <p class="text-lg text-muted-foreground">
+            Visually or semantically separates content.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Horizontal" Description="A horizontal separator (default).">
+            <ComponentExample Code="@HorizontalCode">
+                <Preview>
+                    <div class="w-full max-w-md">
+                        <div class="space-y-1">
+                            <h4 class="text-sm font-medium leading-none">ShadCn.Blazor</h4>
+                            <p class="text-sm text-muted-foreground">
+                                An open-source UI component library for Blazor.
+                            </p>
+                        </div>
+                        <Separator Class="my-4" />
+                        <div class="flex h-5 items-center space-x-4 text-sm">
+                            <div>Blog</div>
+                            <Separator Orientation="SeparatorOrientation.Vertical" />
+                            <div>Docs</div>
+                            <Separator Orientation="SeparatorOrientation.Vertical" />
+                            <div>Source</div>
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Vertical" Description="A vertical separator.">
+            <ComponentExample Code="@VerticalCode">
+                <Preview>
+                    <div class="flex h-5 items-center space-x-4 text-sm">
+                        <div>Home</div>
+                        <Separator Orientation="SeparatorOrientation.Vertical" />
+                        <div>About</div>
+                        <Separator Orientation="SeparatorOrientation.Vertical" />
+                        <div>Contact</div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string HorizontalCode = @"<Separator />
+
+// Or with custom margin
+<Separator Class=""my-4"" />";
+
+    private const string VerticalCode = @"<div class=""flex h-5 items-center space-x-4"">
+    <div>Home</div>
+    <Separator Orientation=""SeparatorOrientation.Vertical"" />
+    <div>About</div>
+    <Separator Orientation=""SeparatorOrientation.Vertical"" />
+    <div>Contact</div>
+</div>";
+}

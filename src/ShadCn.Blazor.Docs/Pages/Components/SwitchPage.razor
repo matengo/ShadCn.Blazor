@@ -1,0 +1,89 @@
+@page "/components/switch"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Switch - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Switch</h1>
+        <p class="text-lg text-muted-foreground">
+            A control that allows the user to toggle between on and off.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A basic switch with two-way binding.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <div class="flex items-center space-x-2">
+                        <Switch Checked="@isEnabled" CheckedChanged="v => isEnabled = v" />
+                        <Label>Airplane Mode</Label>
+                    </div>
+                    <p class="text-sm text-muted-foreground mt-2">Enabled: @isEnabled</p>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Form Example" Description="Use Switch in a settings form.">
+            <ComponentExample Code="@FormCode">
+                <Preview>
+                    <div class="space-y-4 w-full max-w-sm">
+                        <div class="flex items-center justify-between">
+                            <div class="space-y-0.5">
+                                <Label>Marketing emails</Label>
+                                <p class="text-sm text-muted-foreground">Receive emails about new products.</p>
+                            </div>
+                            <Switch Checked="@marketing" CheckedChanged="v => marketing = v" />
+                        </div>
+                        <Separator />
+                        <div class="flex items-center justify-between">
+                            <div class="space-y-0.5">
+                                <Label>Security emails</Label>
+                                <p class="text-sm text-muted-foreground">Receive emails about your account security.</p>
+                            </div>
+                            <Switch Checked="@security" CheckedChanged="v => security = v" />
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Disabled" Description="Switch can be disabled.">
+            <ComponentExample Code="@DisabledCode">
+                <Preview>
+                    <div class="flex items-center space-x-2">
+                        <Switch Checked="true" Disabled="true" />
+                        <Label>Disabled</Label>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool isEnabled = false;
+    private bool marketing = true;
+    private bool security = true;
+
+    private const string BasicCode = @"<div class=""flex items-center space-x-2"">
+    <Switch @bind-Checked=""isEnabled"" />
+    <Label>Airplane Mode</Label>
+</div>
+
+@code {
+    private bool isEnabled = false;
+}";
+
+    private const string FormCode = @"<div class=""flex items-center justify-between"">
+    <div class=""space-y-0.5"">
+        <Label>Marketing emails</Label>
+        <p class=""text-sm text-muted-foreground"">Receive emails about new products.</p>
+    </div>
+    <Switch @bind-Checked=""marketing"" />
+</div>";
+
+    private const string DisabledCode = @"<Switch Checked=""true"" Disabled=""true"" />";
+}

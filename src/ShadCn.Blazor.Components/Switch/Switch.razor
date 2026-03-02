@@ -1,0 +1,40 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<button type="button"
+        role="switch"
+        aria-checked="@Checked.ToString().ToLower()"
+        data-state="@(Checked ? "checked" : "unchecked")"
+        disabled="@Disabled"
+        class="@ComputedClass"
+        @onclick="Toggle"
+        @attributes="AdditionalAttributes">
+    <span class="@ThumbClass" data-state="@(Checked ? "checked" : "unchecked")"></span>
+</button>
+
+@code {
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent " +
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
+        "disabled:cursor-not-allowed disabled:opacity-50 " +
+        "data-[state=checked]:bg-primary data-[state=unchecked]:bg-input")
+        .Add(Class)
+        .Build();
+
+    private const string ThumbClass = 
+        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform " +
+        "data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0";
+
+    private async Task Toggle()
+    {
+        if (Disabled) return;
+        Checked = !Checked;
+        await CheckedChanged.InvokeAsync(Checked);
+    }
+}

@@ -1,0 +1,17 @@
+@namespace ShadCn.Blazor.Components
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+
+    internal async Task SetOpen(bool open)
+    {
+        Open = open;
+        await OpenChanged.InvokeAsync(Open);
+    }
+}

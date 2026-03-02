@@ -1,0 +1,31 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (Popover?.Open == true)
+{
+    @* Invisible overlay to capture outside clicks *@
+    <div class="fixed inset-0 z-40" @onclick="ClosePopover" @onclick:stopPropagation></div>
+    <div class="@ComputedClass" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter] public Popover? Popover { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "absolute left-0 top-full mt-2 z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95")
+        .Add(Class)
+        .Build();
+
+    private async Task ClosePopover()
+    {
+        if (Popover != null)
+        {
+            await Popover.SetOpen(false);
+        }
+    }
+}

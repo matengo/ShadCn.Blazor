@@ -1,0 +1,42 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<button type="button" class="@ComputedClass" @onclick="HandleClick" @attributes="AdditionalAttributes">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         class="@IconClass">
+        <rect width="18" height="18" x="3" y="3" rx="2"/>
+        <path d="M9 3v18"/>
+        @if (Sidebar?.Collapsed == true)
+        {
+            <path d="m14 9 3 3-3 3"/>
+        }
+        else
+        {
+            <path d="m16 15-3-3 3-3"/>
+        }
+    </svg>
+    <span class="sr-only">Toggle Sidebar</span>
+</button>
+
+@code {
+    [CascadingParameter] public Sidebar? Sidebar { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors " +
+        "hover:bg-accent hover:text-accent-foreground h-9 w-9")
+        .Add(Class)
+        .Build();
+
+    private string IconClass => "h-4 w-4";
+
+    private async Task HandleClick()
+    {
+        if (Sidebar != null)
+        {
+            await Sidebar.ToggleCollapsed();
+        }
+    }
+}
