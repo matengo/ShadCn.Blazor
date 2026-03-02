@@ -1,0 +1,107 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Search { get; set; }
+    [Parameter] public EventCallback<string> SearchChanged { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly Dictionary<Guid, bool> _items = new();
+    private string _searchValue = string.Empty;
+    private int _matchCount;
+
+    internal string CurrentSearch => Search ?? _searchValue;
+
+    internal bool HasMatches => _matchCount > 0;
+
+    internal bool IsMatch(string? value, IEnumerable<string>? keywords)
+    {
+        if (string.IsNullOrWhiteSpace(CurrentSearch))
+        {
+            return true;
+        }
+
+        var query = CurrentSearch.Trim();
+
+        if (!string.IsNullOrWhiteSpace(value) && value.Contains(query, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (keywords != null)
+        {
+            foreach (var keyword in keywords)
+            {
+                if (!string.IsNullOrWhiteSpace(keyword) && keyword.Contains(query, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    internal void RegisterItem(Guid id, bool isMatch)
+    {
+        if (_items.TryGetValue(id, out var previous))
+        {
+            if (previous == isMatch)
+            {
+                return;
+            }
+
+            _items[id] = isMatch;
+            _matchCount += isMatch ? 1 : -1;
+        }
+        else
+        {
+            _items[id] = isMatch;
+            if (isMatch)
+            {
+                _matchCount++;
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    internal void UnregisterItem(Guid id)
+    {
+        if (_items.TryGetValue(id, out var previous))
+        {
+            _items.Remove(id);
+            if (previous)
+            {
+                _matchCount--;
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    internal async Task SetSearch(string? value)
+    {
+        _searchValue = value ?? string.Empty;
+
+        if (SearchChanged.HasDelegate)
+        {
+            await SearchChanged.InvokeAsync(_searchValue);
+        }
+
+        StateHasChanged();
+    }
+
+    private string ComputedClass => new ClassBuilder(
+        "flex h-full w-full flex-col overflow-hidden rounded-md border bg-popover text-popover-foreground")
+        .Add(Class)
+        .Build();
+}

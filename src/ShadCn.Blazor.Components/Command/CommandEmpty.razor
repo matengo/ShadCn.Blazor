@@ -1,0 +1,27 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (Command != null && !Command.HasMatches)
+{
+    <div class="@ComputedClass" role="status" @attributes="AdditionalAttributes">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <span>No results found.</span>
+        }
+    </div>
+}
+
+@code {
+    [CascadingParameter] public Command? Command { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder("py-6 text-center text-sm text-muted-foreground")
+        .Add(Class)
+        .Build();
+}

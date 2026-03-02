@@ -1,17 +1,13 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-<div class="@ComputedClass" @attributes="AdditionalAttributes">
-    @ChildContent
-</div>
+<div class="@ComputedClass" role="separator" @attributes="AdditionalAttributes"></div>
 
 @code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string ComputedClass => new ClassBuilder(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto px-2 py-4")
+    private string ComputedClass => new ClassBuilder("mx-1 my-1 h-px bg-border")
         .Add(Class)
         .Build();
 }

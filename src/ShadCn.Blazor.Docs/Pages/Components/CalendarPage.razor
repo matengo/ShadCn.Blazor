@@ -1,4 +1,5 @@
 @page "/components/calendar"
+@using ShadCn.Blazor.Components
 @using ShadCn.Blazor.Docs.Shared
 
 <PageTitle>Calendar - ShadCn.Blazor</PageTitle>
@@ -17,13 +18,20 @@
         <ExampleSection Title="Basic" Description="A simple calendar for date selection.">
             <ComponentExample Code="@BasicCode">
                 <Preview>
-                    <Calendar Class="rounded-lg border" SelectedDate="@selectedDate" SelectedDateChanged="v => selectedDate = v" />
-                    @if (selectedDate.HasValue)
-                    {
-                        <p class="mt-4 text-sm text-muted-foreground">
-                            Selected: @selectedDate.Value.ToString("dddd, MMMM d, yyyy")
-                        </p>
-                    }
+                    <div class="flex gap-8 flex-wrap">
+                        <div class="space-y-2">
+                            <Calendar Class="rounded-lg border" SelectedDate="@selectedDate" SelectedDateChanged="v => selectedDate = v" />
+                            @if (selectedDate.HasValue)
+                            {
+                                <p class="mt-4 text-sm text-muted-foreground">
+                                    Selected: @selectedDate.Value.ToString("dddd, MMMM d, yyyy")
+                                </p>
+                            }
+                        </div>
+                        
+                    </div>
+
+                    
                 </Preview>
             </ComponentExample>
         </ExampleSection>
@@ -31,7 +39,11 @@
         <ExampleSection Title="With Preselected Date" Description="Calendar with an initial date selected.">
             <ComponentExample Code="@PreselectedCode">
                 <Preview>
-                    <Calendar Class="rounded-lg border" SelectedDate="@preselectedDate" SelectedDateChanged="v => preselectedDate = v" />
+                    <div class="flex gap-8 flex-wrap">
+                        <div class="space-y-2">
+                            <Calendar Class="rounded-lg border" SelectedDate="@preselectedDate" SelectedDateChanged="v => preselectedDate = v" />
+                        </div>
+                    </div>
                 </Preview>
             </ComponentExample>
         </ExampleSection>
@@ -39,16 +51,19 @@
         <ExampleSection Title="Date Range Constraints" Description="Limit selectable dates with min and max values.">
             <ComponentExample Code="@ConstrainedCode">
                 <Preview>
-                    <div class="space-y-4">
-                        <Calendar Class="rounded-lg border" 
-                                  SelectedDate="@constrainedDate" 
-                                  SelectedDateChanged="v => constrainedDate = v"
-                                  MinDate="@DateTime.Today"
-                                  MaxDate="@DateTime.Today.AddDays(30)" />
-                        <p class="text-sm text-muted-foreground">
-                            Only dates from today to 30 days ahead can be selected.
-                        </p>
+                    <div class="flex gap-8 flex-wrap">
+                        <div class="space-y-2">
+                            <Calendar Class="rounded-lg border"
+                                      SelectedDate="@constrainedDate"
+                                      SelectedDateChanged="v => constrainedDate = v"
+                                      MinDate="@DateTime.Today"
+                                      MaxDate="@DateTime.Today.AddDays(30)" />
+                            <p class="text-sm text-muted-foreground">
+                                Only dates from today to 30 days ahead can be selected.
+                            </p>
+                        </div>
                     </div>
+                    
                 </Preview>
             </ComponentExample>
         </ExampleSection>

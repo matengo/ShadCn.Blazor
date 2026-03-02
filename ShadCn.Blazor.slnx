@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/files/">
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/ShadCn.Blazor.Components/ShadCn.Blazor.Components.csproj" />
     <Project Path="src/ShadCn.Blazor.Docs/ShadCn.Blazor.Docs.csproj" />

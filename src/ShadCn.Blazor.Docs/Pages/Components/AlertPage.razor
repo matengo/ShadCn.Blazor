@@ -1,4 +1,5 @@
 @page "/components/alert"
+@using ShadCn.Blazor.Docs.Shared
 
 <PageTitle>Alert - ShadCn.Blazor</PageTitle>
 
@@ -13,45 +14,81 @@
     <Separator />
 
     <div class="space-y-8">
-        <!-- Default -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Default</h2>
-            <Alert>
-                <AlertTitle>Heads up!</AlertTitle>
-                <AlertDescription>
-                    You can add components to your app using the CLI.
-                </AlertDescription>
-            </Alert>
-        </section>
+        <ExampleSection Title="Default" Description="A basic alert with title and description.">
+            <ComponentExample Code="@DefaultCode">
+                <Preview>
+                    <Alert>
+                        <AlertTitle>Heads up!</AlertTitle>
+                        <AlertDescription>
+                            You can add components to your app using the CLI.
+                        </AlertDescription>
+                    </Alert>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Destructive -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Destructive</h2>
-            <Alert Variant="AlertVariant.Destructive">
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                    Your session has expired. Please log in again.
-                </AlertDescription>
-            </Alert>
-        </section>
+        <ExampleSection Title="Destructive" Description="Use the Destructive variant for critical alerts.">
+            <ComponentExample Code="@DestructiveCode">
+                <Preview>
+                    <Alert Variant="AlertVariant.Destructive">
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>
+                            Your session has expired. Please log in again.
+                        </AlertDescription>
+                    </Alert>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Examples -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">More Examples</h2>
-            <div class="space-y-4">
-                <Alert>
-                    <AlertTitle>Success!</AlertTitle>
-                    <AlertDescription>
-                        Your payment was processed successfully.
-                    </AlertDescription>
-                </Alert>
-                <Alert>
-                    <AlertTitle>Tip</AlertTitle>
-                    <AlertDescription>
-                        Press <kbd class="px-1 py-0.5 rounded bg-muted text-xs">Ctrl + K</kbd> to open the command menu.
-                    </AlertDescription>
-                </Alert>
-            </div>
-        </section>
+        <ExampleSection Title="More Examples" Description="Additional alert styles for common messaging.">
+            <ComponentExample Code="@ExamplesCode">
+                <Preview>
+                    <div class="space-y-4">
+                        <Alert>
+                            <AlertTitle>Success!</AlertTitle>
+                            <AlertDescription>
+                                Your payment was processed successfully.
+                            </AlertDescription>
+                        </Alert>
+                        <Alert>
+                            <AlertTitle>Tip</AlertTitle>
+                            <AlertDescription>
+                                Press <kbd class="px-1 py-0.5 rounded bg-muted text-xs">Ctrl + K</kbd> to open the command menu.
+                            </AlertDescription>
+                        </Alert>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
     </div>
 </div>
+
+@code {
+    private const string DefaultCode = @"<Alert>
+    <AlertTitle>Heads up!</AlertTitle>
+    <AlertDescription>
+        You can add components to your app using the CLI.
+    </AlertDescription>
+</Alert>";
+
+    private const string DestructiveCode = @"<Alert Variant=""AlertVariant.Destructive"">
+    <AlertTitle>Error</AlertTitle>
+    <AlertDescription>
+        Your session has expired. Please log in again.
+    </AlertDescription>
+</Alert>";
+
+    private const string ExamplesCode = @"<Alert>
+    <AlertTitle>Success!</AlertTitle>
+    <AlertDescription>
+        Your payment was processed successfully.
+    </AlertDescription>
+</Alert>
+
+<Alert>
+    <AlertTitle>Tip</AlertTitle>
+    <AlertDescription>
+        Press <kbd>Ctrl + K</kbd> to open the command menu.
+    </AlertDescription>
+</Alert>";
+}

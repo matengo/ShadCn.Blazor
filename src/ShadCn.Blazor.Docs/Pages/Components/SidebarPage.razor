@@ -24,19 +24,19 @@
                             </SidebarHeader>
                             <SidebarContent>
                                 <SidebarMenu>
-                                    <SidebarMenuItem Href="#" Active="true">
+                                    <SidebarMenuItem Href="#" Active="true" Title="Dashboard">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                                         </Icon>
                                         <ChildContent>Dashboard</ChildContent>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#">
+                                    <SidebarMenuItem Href="#" Title="Users">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                                         </Icon>
                                         <ChildContent>Users</ChildContent>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#">
+                                    <SidebarMenuItem Href="#" Title="Settings">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
                                         </Icon>
@@ -71,19 +71,19 @@
                             </SidebarHeader>
                             <SidebarContent>
                                 <SidebarMenu>
-                                    <SidebarMenuItem Href="#" Active="true">
+                                    <SidebarMenuItem Href="#" Active="true" Title="Dashboard">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                                         </Icon>
                                         <ChildContent>Dashboard</ChildContent>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#">
+                                    <SidebarMenuItem Href="#" Title="Users">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                                         </Icon>
                                         <ChildContent>Users</ChildContent>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#" Badge="3">
+                                    <SidebarMenuItem Href="#" Badge="3" Title="Notifications">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
                                         </Icon>
@@ -101,6 +101,89 @@
             </ComponentExample>
         </ExampleSection>
 
+        <ExampleSection Title="App Sidebar" Description="Shadcn-style layout with search, groups, badges, and actions.">
+            <ComponentExample Code="@AppCode">
+                <Preview>
+                    <div class="flex h-[520px] border rounded-lg overflow-hidden">
+                        <Sidebar Collapsible="true" Collapsed="@appSidebarCollapsed" CollapsedChanged="v => appSidebarCollapsed = v">
+                            <SidebarHeader>
+                                @if (appSidebarCollapsed)
+                                {
+                                    <SidebarTrigger />
+                                }
+                                else
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-semibold">A</div>
+                                        <span class="font-semibold">Acme</span>
+                                    </div>
+                                    <SidebarTrigger />
+                                }
+                            </SidebarHeader>
+                            <SidebarContent>
+                                @if (!appSidebarCollapsed)
+                                {
+                                    <SidebarInput Placeholder="Search..." />
+                                    <SidebarSeparator />
+                                }
+                                <SidebarGroupLabel>Platform</SidebarGroupLabel>
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem Href="#" Active="true" Badge="New" Title="Dashboard">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                            </Icon>
+                                            <ChildContent>Dashboard</ChildContent>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem Href="#" Title="Teams">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                            </Icon>
+                                            <ChildContent>Teams</ChildContent>
+                                            <Action>
+                                                <span class="text-xs text-muted-foreground">⌘K</span>
+                                            </Action>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem Href="#" Title="Analytics">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                            </Icon>
+                                            <ChildContent>Analytics</ChildContent>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+
+                                <SidebarGroupLabel>Settings</SidebarGroupLabel>
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem Href="#" Title="Profile">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                            </Icon>
+                                            <ChildContent>Profile</ChildContent>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem Href="#" Title="Preferences">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            </Icon>
+                                            <ChildContent>Preferences</ChildContent>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+                            </SidebarContent>
+                            <SidebarFooter>
+                                <div class="text-xs text-muted-foreground">v1.0.0</div>
+                            </SidebarFooter>
+                        </Sidebar>
+                        <div class="flex-1 p-6">
+                            <h2 class="text-xl font-semibold">Main Content</h2>
+                            <p class="text-muted-foreground mt-2">SidebarInput, group labels, and trailing actions match the shadcn layout.</p>
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
         <ExampleSection Title="With Groups" Description="Organize menu items into groups with labels.">
             <ComponentExample Code="@GroupsCode">
                 <Preview>
@@ -110,41 +193,87 @@
                                 <span class="font-semibold">My App</span>
                             </SidebarHeader>
                             <SidebarContent>
-                                <SidebarGroup>Platform</SidebarGroup>
+                                <SidebarGroupLabel>Platform</SidebarGroupLabel>
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem Href="#" Active="true" Title="Dashboard">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                            </Icon>
+                                            <ChildContent>Dashboard</ChildContent>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem Href="#" Title="Analytics">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                            </Icon>
+                                            <ChildContent>Analytics</ChildContent>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+
+                                <SidebarGroupLabel>Settings</SidebarGroupLabel>
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        <SidebarMenuItem Href="#" Title="Profile">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                            </Icon>
+                                            <ChildContent>Profile</ChildContent>
+                                        </SidebarMenuItem>
+                                        <SidebarMenuItem Href="#" Title="Preferences">
+                                            <Icon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            </Icon>
+                                            <ChildContent>Preferences</ChildContent>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+                            </SidebarContent>
+                        </Sidebar>
+                        <div class="flex-1 p-6">
+                            <h2 class="text-xl font-semibold">Main Content</h2>
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Custom Widths" Description="Control the expanded and collapsed widths.">
+            <ComponentExample Code="@CustomWidthCode">
+                <Preview>
+                    <div class="flex h-[380px] border rounded-lg overflow-hidden">
+                        <Sidebar Collapsible="true"
+                                 Collapsed="@widthSidebarCollapsed"
+                                 CollapsedChanged="v => widthSidebarCollapsed = v"
+                                 ExpandedWidth="18rem"
+                                 CollapsedWidth="4rem">
+                            <SidebarHeader>
+                                <SidebarTrigger />
+                                @if (!widthSidebarCollapsed)
+                                {
+                                    <span class="font-semibold">Wide Sidebar</span>
+                                }
+                            </SidebarHeader>
+                            <SidebarContent>
                                 <SidebarMenu>
-                                    <SidebarMenuItem Href="#" Active="true">
+                                    <SidebarMenuItem Href="#" Active="true" Title="Dashboard">
                                         <Icon>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                                         </Icon>
                                         <ChildContent>Dashboard</ChildContent>
                                     </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#">
+                                    <SidebarMenuItem Href="#" Title="Users">
                                         <Icon>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                                         </Icon>
-                                        <ChildContent>Analytics</ChildContent>
-                                    </SidebarMenuItem>
-                                </SidebarMenu>
-                                
-                                <SidebarGroup>Settings</SidebarGroup>
-                                <SidebarMenu>
-                                    <SidebarMenuItem Href="#">
-                                        <Icon>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                        </Icon>
-                                        <ChildContent>Profile</ChildContent>
-                                    </SidebarMenuItem>
-                                    <SidebarMenuItem Href="#">
-                                        <Icon>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        </Icon>
-                                        <ChildContent>Preferences</ChildContent>
+                                        <ChildContent>Users</ChildContent>
                                     </SidebarMenuItem>
                                 </SidebarMenu>
                             </SidebarContent>
                         </Sidebar>
                         <div class="flex-1 p-6">
                             <h2 class="text-xl font-semibold">Main Content</h2>
+                            <p class="text-muted-foreground mt-2">Use ExpandedWidth and CollapsedWidth to tune layout.</p>
                         </div>
                     </div>
                 </Preview>
@@ -155,6 +284,8 @@
 
 @code {
     private bool sidebarCollapsed;
+    private bool appSidebarCollapsed;
+    private bool widthSidebarCollapsed;
 
     private const string BasicCode = @"<Sidebar>
     <SidebarHeader>
@@ -162,13 +293,13 @@
     </SidebarHeader>
     <SidebarContent>
         <SidebarMenu>
-            <SidebarMenuItem Href=""/"" Active=""true"">
+            <SidebarMenuItem Href=""/"" Active=""true"" Title=""Dashboard"">
                 <Icon>🏠</Icon>
-                Dashboard
+                <ChildContent>Dashboard</ChildContent>
             </SidebarMenuItem>
-            <SidebarMenuItem Href=""/users"">
+            <SidebarMenuItem Href=""/users"" Title=""Users"">
                 <Icon>👤</Icon>
-                Users
+                <ChildContent>Users</ChildContent>
             </SidebarMenuItem>
         </SidebarMenu>
     </SidebarContent>
@@ -187,13 +318,13 @@
     </SidebarHeader>
     <SidebarContent>
         <SidebarMenu>
-            <SidebarMenuItem Href=""/"" Active=""true"">
+            <SidebarMenuItem Href=""/"" Active=""true"" Title=""Dashboard"">
                 <Icon>🏠</Icon>
-                Dashboard
+                <ChildContent>Dashboard</ChildContent>
             </SidebarMenuItem>
-            <SidebarMenuItem Href=""/notifications"" Badge=""3"">
+            <SidebarMenuItem Href=""/notifications"" Badge=""3"" Title=""Notifications"">
                 <Icon>🔔</Icon>
-                Notifications
+                <ChildContent>Notifications</ChildContent>
             </SidebarMenuItem>
         </SidebarMenu>
     </SidebarContent>
@@ -203,27 +334,99 @@
     private bool sidebarCollapsed;
 }";
 
+    private const string AppCode = @"<Sidebar Collapsible=""true"" @bind-Collapsed=""sidebarCollapsed"">
+    <SidebarHeader>
+        @if (sidebarCollapsed)
+        {
+            <SidebarTrigger />
+        }
+        else
+        {
+            <div class=""flex items-center gap-2"">
+                <div class=""flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-semibold"">A</div>
+                <span class=""font-semibold"">Acme</span>
+            </div>
+            <SidebarTrigger />
+        }
+    </SidebarHeader>
+    <SidebarContent>
+        @if (!sidebarCollapsed)
+        {
+            <SidebarInput Placeholder=""Search..."" />
+            <SidebarSeparator />
+        }
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupContent>
+            <SidebarMenu>
+                <SidebarMenuItem Href=""/"" Active=""true"" Badge=""New"" Title=""Dashboard"">
+                    <Icon>🏠</Icon>
+                    <ChildContent>Dashboard</ChildContent>
+                </SidebarMenuItem>
+                <SidebarMenuItem Href=""/teams"" Title=""Teams"">
+                    <Icon>👥</Icon>
+                    <ChildContent>Teams</ChildContent>
+                    <Action>
+                        <span class=""text-xs text-muted-foreground"">⌘K</span>
+                    </Action>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarGroupContent>
+    </SidebarContent>
+    <SidebarFooter>
+        <div class=""text-xs text-muted-foreground"">v1.0.0</div>
+    </SidebarFooter>
+</Sidebar>";
+
     private const string GroupsCode = @"<Sidebar>
     <SidebarHeader>
         <span class=""font-semibold"">My App</span>
     </SidebarHeader>
     <SidebarContent>
-        <SidebarGroup>Platform</SidebarGroup>
-        <SidebarMenu>
-            <SidebarMenuItem Href=""/"" Active=""true"">
-                Dashboard
-            </SidebarMenuItem>
-            <SidebarMenuItem Href=""/analytics"">
-                Analytics
-            </SidebarMenuItem>
-        </SidebarMenu>
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupContent>
+            <SidebarMenu>
+                <SidebarMenuItem Href=""/"" Active=""true"" Title=""Dashboard"">
+                    Dashboard
+                </SidebarMenuItem>
+                <SidebarMenuItem Href=""/analytics"" Title=""Analytics"">
+                    Analytics
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarGroupContent>
         
-        <SidebarGroup>Settings</SidebarGroup>
+        <SidebarGroupLabel>Settings</SidebarGroupLabel>
+        <SidebarGroupContent>
+            <SidebarMenu>
+                <SidebarMenuItem Href=""/profile"" Title=""Profile"">
+                    Profile
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarGroupContent>
+    </SidebarContent>
+</Sidebar>";
+
+    private const string CustomWidthCode = @"<Sidebar Collapsible=""true""
+         ExpandedWidth=""18rem""
+         CollapsedWidth=""4rem""
+         @bind-Collapsed=""sidebarCollapsed"">
+    <SidebarHeader>
+        <SidebarTrigger />
+        @if (!sidebarCollapsed)
+        {
+            <span class=""font-semibold"">Wide Sidebar</span>
+        }
+    </SidebarHeader>
+    <SidebarContent>
         <SidebarMenu>
-            <SidebarMenuItem Href=""/profile"">
-                Profile
+            <SidebarMenuItem Href=""/"" Active=""true"" Title=""Dashboard"">
+                <Icon>🏠</Icon>
+                <ChildContent>Dashboard</ChildContent>
             </SidebarMenuItem>
         </SidebarMenu>
     </SidebarContent>
-</Sidebar>";
+</Sidebar>
+
+@code {
+    private bool sidebarCollapsed;
+}";
 }

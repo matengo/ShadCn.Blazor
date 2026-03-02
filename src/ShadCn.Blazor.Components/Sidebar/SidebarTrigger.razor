@@ -26,7 +26,9 @@
 
     private string ComputedClass => new ClassBuilder(
         "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors " +
-        "hover:bg-accent hover:text-accent-foreground h-9 w-9")
+        "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground " +
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:ring-offset-2 " +
+        "focus-visible:ring-offset-sidebar h-9 w-9")
         .Add(Class)
         .Build();
 

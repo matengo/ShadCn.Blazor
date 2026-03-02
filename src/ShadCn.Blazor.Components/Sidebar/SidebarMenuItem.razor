@@ -1,39 +1,105 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-<a href="@Href" class="@ComputedClass" @attributes="AdditionalAttributes">
-    @if (Icon != null)
+<li>
+    @if (IsLink)
     {
-        <span class="@IconClass">@Icon</span>
+        <a href="@Href"
+           class="@ComputedClass"
+           aria-current="@(Active ? "page" : null)"
+           aria-disabled="@(Disabled ? "true" : null)"
+           tabindex="@(Disabled ? "-1" : null)"
+           title="@ResolvedTitle"
+           @attributes="AdditionalAttributes">
+            @if (Icon != null)
+            {
+                <span class="@IconClass">@Icon</span>
+            }
+            @if (Sidebar?.Collapsed != true)
+            {
+                <span class="flex-1 truncate">@ChildContent</span>
+                @if (HasTrailingContent)
+                {
+                    <span class="ml-auto flex items-center gap-1">
+                        @if (BadgeContent != null)
+                        {
+                            @BadgeContent
+                        }
+                        else if (!string.IsNullOrWhiteSpace(Badge))
+                        {
+                            <span class="@BadgeClass">@Badge</span>
+                        }
+                        @Action
+                    </span>
+                }
+            }
+        </a>
     }
-    @if (Sidebar?.Collapsed != true)
+    else
     {
-        <span class="flex-1 truncate">@ChildContent</span>
-        @if (Badge != null)
-        {
-            <span class="ml-auto text-xs bg-primary text-primary-foreground rounded-full px-2 py-0.5">@Badge</span>
-        }
+        <button type="button"
+                class="@ComputedClass"
+                disabled="@Disabled"
+                title="@ResolvedTitle"
+                @onclick="OnClick"
+                @attributes="AdditionalAttributes">
+            @if (Icon != null)
+            {
+                <span class="@IconClass">@Icon</span>
+            }
+            @if (Sidebar?.Collapsed != true)
+            {
+                <span class="flex-1 truncate">@ChildContent</span>
+                @if (HasTrailingContent)
+                {
+                    <span class="ml-auto flex items-center gap-1">
+                        @if (BadgeContent != null)
+                        {
+                            @BadgeContent
+                        }
+                        else if (!string.IsNullOrWhiteSpace(Badge))
+                        {
+                            <span class="@BadgeClass">@Badge</span>
+                        }
+                        @Action
+                    </span>
+                }
+            }
+        </button>
     }
-</a>
+</li>
 
 @code {
     [CascadingParameter] public Sidebar? Sidebar { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? Icon { get; set; }
+    [Parameter] public RenderFragment? Action { get; set; }
+    [Parameter] public RenderFragment? BadgeContent { get; set; }
     [Parameter] public string? Href { get; set; }
     [Parameter] public bool Active { get; set; }
     [Parameter] public string? Badge { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors")
-        .Add(Active 
-            ? "bg-accent text-accent-foreground" 
-            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground")
+        "flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm font-medium transition-colors " +
+        "outline-none ring-sidebar-ring ring-offset-sidebar " +
+        "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground " +
+        "focus-visible:ring-2 focus-visible:ring-offset-2")
+        .Add(Active
+            ? "bg-sidebar-accent text-sidebar-accent-foreground"
+            : "text-sidebar-foreground/70")
+        .Add(Disabled ? "pointer-events-none opacity-50" : "")
         .Add(Sidebar?.Collapsed == true ? "justify-center" : "")
         .Add(Class)
         .Build();
 
     private string IconClass => Sidebar?.Collapsed == true ? "h-5 w-5" : "h-4 w-4 shrink-0";
+    private string BadgeClass => "rounded-full bg-sidebar-primary px-2 py-0.5 text-xs text-sidebar-primary-foreground";
+    private bool IsLink => !string.IsNullOrWhiteSpace(Href);
+    private bool HasTrailingContent => BadgeContent != null || !string.IsNullOrWhiteSpace(Badge) || Action != null;
+    private string? ResolvedTitle => Sidebar?.Collapsed == true ? Title : null;
 }

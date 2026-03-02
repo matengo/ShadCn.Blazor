@@ -1,9 +1,9 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-<nav class="@ComputedClass" @attributes="AdditionalAttributes">
+<ul class="@ComputedClass" role="list" @attributes="AdditionalAttributes">
     @ChildContent
-</nav>
+</ul>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -11,7 +11,7 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "space-y-1")
+        "flex flex-col gap-1")
         .Add(Class)
         .Build();
 }

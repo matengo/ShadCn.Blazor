@@ -1,0 +1,147 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+@implements IDisposable
+@inject ISonnerService SonnerService
+
+@if (SonnerService.Toasts.Count > 0)
+{
+    <div class="@ContainerClass" aria-live="polite">
+        @{
+            var allToasts = SonnerService.Toasts;
+            var count = allToasts.Count;
+        }
+        @for (var idx = 0; idx < count; idx++)
+        {
+            var toast = allToasts[idx];
+            var fromEnd = count - 1 - idx;
+            var isFront = fromEnd < MaxVisible;
+
+            if (fromEnd >= MaxVisible + 2)
+            {
+                continue;
+            }
+
+            <div class="@GetToastClass(toast)" style="@GetItemStyle(fromEnd)" role="status">
+                @if (ToastTemplate != null)
+                {
+                    @ToastTemplate(toast)
+                }
+                else
+                {
+                    <div class="grid gap-1">
+                        <div class="text-sm font-semibold">@toast.Title</div>
+                        @if (!string.IsNullOrWhiteSpace(toast.Description))
+                        {
+                            <div class="@GetDescriptionClass(toast)">@toast.Description</div>
+                        }
+                    </div>
+                    @if (toast.Dismissible && isFront)
+                    {
+                        <button type="button"
+                                class="@GetDismissClass(toast)"
+                                @onclick="() => Dismiss(toast.Id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18" />
+                                <path d="M6 6 18 18" />
+                            </svg>
+                        </button>
+                    }
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public int MaxVisible { get; set; } = 3;
+    [Parameter] public SonnerPosition Position { get; set; } = SonnerPosition.BottomRight;
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment<SonnerToast>? ToastTemplate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SonnerService.OnChange += HandleChange;
+    }
+
+    private void HandleChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        SonnerService.OnChange -= HandleChange;
+    }
+
+    private void Dismiss(Guid id) => SonnerService.Dismiss(id);
+
+    private string GetItemStyle(int fromEnd)
+    {
+        if (fromEnd < MaxVisible)
+        {
+            return $"z-index: {100 - fromEnd};";
+        }
+
+        var behind = fromEnd - MaxVisible;
+        var scale = 1.0 - (behind + 1) * 0.05;
+        var opacity = 0.8 - behind * 0.3;
+        if (opacity < 0) opacity = 0;
+
+        var origin = IsTopPosition ? "transform-origin: top center;" : "transform-origin: bottom center;";
+        var margin = IsTopPosition
+            ? $"margin-top: -{(behind + 1) * 36}px;"
+            : $"margin-bottom: -{(behind + 1) * 36}px;";
+
+        return $"z-index: {100 - fromEnd}; transform: scale({scale.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)}); " +
+               $"opacity: {opacity.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)}; {origin} {margin} " +
+               "pointer-events: none; transition: all 200ms ease;";
+    }
+
+    private bool IsTopPosition => Position is SonnerPosition.TopLeft or SonnerPosition.TopCenter or SonnerPosition.TopRight;
+
+    private string ContainerClass
+    {
+        get
+        {
+            var direction = IsTopPosition ? "flex-col-reverse" : "flex-col";
+            return new ClassBuilder(
+                $"fixed z-50 flex w-full max-w-sm {direction} gap-2 p-4 pointer-events-none")
+                .Add(GetPositionClasses())
+                .Add(Class)
+                .Build();
+        }
+    }
+
+    private string GetPositionClasses()
+        => Position switch
+        {
+            SonnerPosition.TopLeft => "top-0 left-0 items-start",
+            SonnerPosition.TopCenter => "top-0 left-1/2 -translate-x-1/2 items-center",
+            SonnerPosition.TopRight => "top-0 right-0 items-end",
+            SonnerPosition.BottomLeft => "bottom-0 left-0 items-start",
+            SonnerPosition.BottomCenter => "bottom-0 left-1/2 -translate-x-1/2 items-center",
+            SonnerPosition.BottomRight => "bottom-0 right-0 items-end",
+            _ => "bottom-0 right-0 items-end"
+        };
+
+    private string GetToastClass(SonnerToast toast)
+        => new ClassBuilder(
+            "pointer-events-auto flex w-full items-start gap-3 rounded-md border p-4 shadow-lg")
+            .Add("bg-background text-foreground", toast.Variant != SonnerToastVariant.Destructive)
+            .Add("bg-destructive text-destructive-foreground border-destructive", toast.Variant == SonnerToastVariant.Destructive)
+            .Build();
+
+    private string GetDescriptionClass(SonnerToast toast)
+        => new ClassBuilder("text-sm")
+            .Add("text-muted-foreground", toast.Variant != SonnerToastVariant.Destructive)
+            .Add("text-destructive-foreground", toast.Variant == SonnerToastVariant.Destructive)
+            .Build();
+
+    private string GetDismissClass(SonnerToast toast)
+        => new ClassBuilder(
+            "ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md transition-colors " +
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2")
+            .Add("text-muted-foreground hover:text-foreground", toast.Variant != SonnerToastVariant.Destructive)
+            .Add("text-destructive-foreground hover:text-destructive-foreground", toast.Variant == SonnerToastVariant.Destructive)
+            .Build();
+}

@@ -1,7 +1,7 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-<aside class="@ComputedClass" @attributes="AdditionalAttributes">
+<aside class="@ComputedClass" style="@SidebarStyle" @attributes="AdditionalAttributes">
     <CascadingValue Value="this">
         @ChildContent
     </CascadingValue>
@@ -13,13 +13,18 @@
     [Parameter] public bool Collapsible { get; set; }
     [Parameter] public bool Collapsed { get; set; }
     [Parameter] public EventCallback<bool> CollapsedChanged { get; set; }
+    [Parameter] public string ExpandedWidth { get; set; } = "16rem";
+    [Parameter] public string CollapsedWidth { get; set; } = "3.5rem";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "flex h-full flex-col border-r bg-background transition-all duration-300")
-        .Add(Collapsed ? "w-16" : "w-64")
+        "flex h-full shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground " +
+        "transition-[width] duration-300")
+        .Add(Collapsed ? "w-[var(--sidebar-width-collapsed)]" : "w-[var(--sidebar-width)]")
         .Add(Class)
         .Build();
+
+    private string SidebarStyle => $"--sidebar-width:{ExpandedWidth};--sidebar-width-collapsed:{CollapsedWidth};";
 
     internal async Task ToggleCollapsed()
     {

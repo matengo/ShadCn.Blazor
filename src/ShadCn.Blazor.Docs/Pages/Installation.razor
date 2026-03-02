@@ -62,9 +62,22 @@ Install-Package ShadCn.Blazor.Theme.Default</code></pre>
             </Alert>
         </section>
 
+        <!-- Register Services -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">3. Register Services</h2>
+            <p class="text-muted-foreground">
+                Register ShadCn.Blazor services in your <code class="bg-muted px-1.5 py-0.5 rounded text-sm">Program.cs</code>.
+            </p>
+
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>builder.Services.AddShadCnBlazorComponents();</code></pre>
+            <p class="text-sm text-muted-foreground">
+                Add <code class="bg-muted px-1.5 py-0.5 rounded text-sm">using ShadCn.Blazor.Components;</code> if needed.
+            </p>
+        </section>
+
         <!-- Add Imports -->
         <section class="space-y-4">
-            <h2 class="text-2xl font-semibold">3. Add Imports</h2>
+            <h2 class="text-2xl font-semibold">4. Add Imports</h2>
             <p class="text-muted-foreground">
                 Add the following using statements to your <code class="bg-muted px-1.5 py-0.5 rounded text-sm">_Imports.razor</code> file.
             </p>
@@ -84,7 +97,7 @@ Install-Package ShadCn.Blazor.Theme.Default</code></pre>
 
         <!-- Start Using -->
         <section class="space-y-4">
-            <h2 class="text-2xl font-semibold">4. Start Using Components</h2>
+            <h2 class="text-2xl font-semibold">5. Start Using Components</h2>
             <p class="text-muted-foreground">
                 You're all set! Start using the components in your Blazor pages and components.
             </p>

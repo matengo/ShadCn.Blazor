@@ -1,21 +1,14 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-@if (Sidebar?.Collapsed != true)
-{
-    <div class="@ComputedClass" @attributes="AdditionalAttributes">
-        @ChildContent
-    </div>
-}
+<hr class="@ComputedClass" @attributes="AdditionalAttributes" />
 
 @code {
-    [CascadingParameter] public Sidebar? Sidebar { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "px-2 text-xs font-medium text-muted-foreground")
+        "my-2 border-sidebar-border")
         .Add(Class)
         .Build();
 }

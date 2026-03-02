@@ -1,21 +1,23 @@
 @namespace ShadCn.Blazor.Components
 @using ShadCn.Blazor.Primitives.Utilities
 
-@if (Sidebar?.Collapsed != true)
-{
-    <div class="@ComputedClass" @attributes="AdditionalAttributes">
+<div class="@ComputedClass" role="group" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrWhiteSpace(Heading))
+    {
+        <div class="px-2 py-1.5 text-xs font-medium text-muted-foreground">@Heading</div>
+    }
+    <div class="space-y-1">
         @ChildContent
     </div>
-}
+</div>
 
 @code {
-    [CascadingParameter] public Sidebar? Sidebar { get; set; }
+    [Parameter] public string? Heading { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string ComputedClass => new ClassBuilder(
-        "px-2 text-xs font-medium text-muted-foreground")
+    private string ComputedClass => new ClassBuilder("px-1 py-2")
         .Add(Class)
         .Build();
 }

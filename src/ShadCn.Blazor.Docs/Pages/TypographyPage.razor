@@ -1,0 +1,144 @@
+@page "/typography"
+@using ShadCn.Blazor.Docs.Shared
+
+<PageTitle>Typography - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Typography</h1>
+        <p class="text-lg text-muted-foreground">
+            The theme provides base styles for standard HTML elements. Just use plain
+            <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, etc. — no extra classes or components needed.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="H1" Description="Page title. Just use a plain &lt;h1&gt; element.">
+            <ComponentExample Code="@H1Code">
+                <Preview>
+                    <div class="[&>h1]:border-0">
+                        <h1>Taxing Laughter: The Joke Tax Chronicles</h1>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="H2" Description="Section heading with bottom border.">
+            <ComponentExample Code="@H2Code">
+                <Preview>
+                    <h2>The People of the Kingdom</h2>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="H3" Description="Sub-section heading.">
+            <ComponentExample Code="@H3Code">
+                <Preview>
+                    <h3>The Joke Tax</h3>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="H4" Description="Minor heading.">
+            <ComponentExample Code="@H4Code">
+                <Preview>
+                    <h4>People stopped telling jokes</h4>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Paragraph" Description="Standard body text with proper leading. Consecutive paragraphs get automatic spacing.">
+            <ComponentExample Code="@ParagraphCode">
+                <Preview>
+                    <div>
+                        <p>
+                            The king, seeing how much happier his subjects were, realized the error of
+                            his ways and repealed the joke tax.
+                        </p>
+                        <p>
+                            Jokester began sneaking into the castle in the middle of the night and leaving
+                            jokes all over the place: under the king's pillow, in his soup, even in the
+                            royal toilet.
+                        </p>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Blockquote" Description="Italicized quote with left border accent.">
+            <ComponentExample Code="@BlockquoteCode">
+                <Preview>
+                    <blockquote>
+                        "After all," he said, "everyone enjoys a good joke, so it's only fair that
+                        they should pay for the privilege."
+                    </blockquote>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Inline Code" Description="Inline code snippets are styled automatically when not inside a &lt;pre&gt;.">
+            <ComponentExample Code="@InlineCodeCode">
+                <Preview>
+                    <p>
+                        Use the <code>Alert</code> component to display important messages.
+                    </p>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Small" Description="Small text for fine print and labels.">
+            <ComponentExample Code="@SmallCode">
+                <Preview>
+                    <small>Email address</small>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <Separator />
+
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Customization</h2>
+            <p class="text-muted-foreground">
+                All typography styles come from the theme CSS and use the same CSS variables as
+                the rest of the library. Override them in your own stylesheet:
+            </p>
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>/* Override heading sizes */
+h1 { font-size: 3rem; }
+h2 { border-bottom: none; }
+
+/* Override code background */
+code:not(pre code) {
+    background-color: hsl(var(--secondary));
+}</code></pre>
+        </section>
+    </div>
+</div>
+
+@code {
+    private const string H1Code = @"<h1>Taxing Laughter: The Joke Tax Chronicles</h1>";
+    private const string H2Code = @"<h2>The People of the Kingdom</h2>";
+    private const string H3Code = @"<h3>The Joke Tax</h3>";
+    private const string H4Code = @"<h4>People stopped telling jokes</h4>";
+
+    private const string ParagraphCode = @"<p>
+    The king, seeing how much happier his subjects were, realized the error of
+    his ways and repealed the joke tax.
+</p>
+<p>
+    Jokester began sneaking into the castle in the middle of the night and
+    leaving jokes all over the place.
+</p>";
+
+    private const string BlockquoteCode = @"<blockquote>
+    ""After all,"" he said, ""everyone enjoys a good joke, so it's only fair
+    that they should pay for the privilege.""
+</blockquote>";
+
+    private const string InlineCodeCode = @"<p>
+    Use the <code>Alert</code> component to display important messages.
+</p>";
+
+    private const string SmallCode = @"<small>Email address</small>";
+}
