@@ -63,7 +63,7 @@ jobs:
             artifacts/*.snupkg
 
       - name: Publish to NuGet.org
-        if: ${{ inputs.publish }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
