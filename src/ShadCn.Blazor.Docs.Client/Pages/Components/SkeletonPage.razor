@@ -1,0 +1,97 @@
+@page "/components/skeleton"
+
+<PageTitle>Skeleton - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Skeleton</h1>
+        <p class="text-lg text-muted-foreground">
+            Use to show a placeholder while content is loading.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="Basic skeleton shapes.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <div class="space-y-4">
+                        <Skeleton Class="h-4 w-[250px]" />
+                        <Skeleton Class="h-4 w-[200px]" />
+                        <Skeleton Class="h-4 w-[150px]" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Card Loading" Description="Skeleton for a card component.">
+            <ComponentExample Code="@CardCode">
+                <Preview>
+                    <div class="flex items-center space-x-4">
+                        <Skeleton Class="h-12 w-12 rounded-full" />
+                        <div class="space-y-2">
+                            <Skeleton Class="h-4 w-[250px]" />
+                            <Skeleton Class="h-4 w-[200px]" />
+                        </div>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Full Card" Description="Complete card skeleton.">
+            <ComponentExample Code="@FullCardCode">
+                <Preview>
+                    <Card Class="w-full max-w-sm">
+                        <CardHeader>
+                            <div class="flex items-center space-x-4">
+                                <Skeleton Class="h-10 w-10 rounded-full" />
+                                <div class="space-y-2">
+                                    <Skeleton Class="h-4 w-[150px]" />
+                                    <Skeleton Class="h-3 w-[100px]" />
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div class="space-y-2">
+                                <Skeleton Class="h-4 w-full" />
+                                <Skeleton Class="h-4 w-full" />
+                                <Skeleton Class="h-4 w-3/4" />
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<Skeleton Class=""h-4 w-[250px]"" />
+<Skeleton Class=""h-4 w-[200px]"" />
+<Skeleton Class=""h-4 w-[150px]"" />";
+
+    private const string CardCode = @"<div class=""flex items-center space-x-4"">
+    <Skeleton Class=""h-12 w-12 rounded-full"" />
+    <div class=""space-y-2"">
+        <Skeleton Class=""h-4 w-[250px]"" />
+        <Skeleton Class=""h-4 w-[200px]"" />
+    </div>
+</div>";
+
+    private const string FullCardCode = @"<Card>
+    <CardHeader>
+        <div class=""flex items-center space-x-4"">
+            <Skeleton Class=""h-10 w-10 rounded-full"" />
+            <div class=""space-y-2"">
+                <Skeleton Class=""h-4 w-[150px]"" />
+                <Skeleton Class=""h-3 w-[100px]"" />
+            </div>
+        </div>
+    </CardHeader>
+    <CardContent>
+        <Skeleton Class=""h-4 w-full"" />
+        <Skeleton Class=""h-4 w-full"" />
+    </CardContent>
+</Card>";
+}

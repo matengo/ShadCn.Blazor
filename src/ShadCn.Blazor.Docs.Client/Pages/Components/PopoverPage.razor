@@ -1,0 +1,108 @@
+@page "/components/popover"
+
+<PageTitle>Popover - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Popover</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays rich content in a portal, triggered by a button.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="Click the button to show the popover content.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button Variant="ButtonVariant.Outline">Open popover</Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <div class="grid gap-4">
+                                <div class="space-y-2">
+                                    <h4 class="font-medium leading-none">Dimensions</h4>
+                                    <p class="text-sm text-muted-foreground">
+                                        Set the dimensions for the layer.
+                                    </p>
+                                </div>
+                                <div class="grid gap-2">
+                                    <div class="grid grid-cols-3 items-center gap-4">
+                                        <Label>Width</Label>
+                                        <Input Class="col-span-2 h-8" Placeholder="100%" />
+                                    </div>
+                                    <div class="grid grid-cols-3 items-center gap-4">
+                                        <Label>Height</Label>
+                                        <Input Class="col-span-2 h-8" Placeholder="25px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Controlled" Description="Control the popover state programmatically.">
+            <ComponentExample Code="@ControlledCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <Popover Open="@popoverOpen" OpenChanged="v => popoverOpen = v">
+                            <PopoverTrigger>
+                                <Button Variant="ButtonVariant.Outline">
+                                    @(popoverOpen ? "Close" : "Open") popover
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <p class="text-sm">This is a controlled popover.</p>
+                                <Button Class="mt-4" Size="ButtonSize.Sm" @onclick="() => popoverOpen = false">Close</Button>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool popoverOpen;
+
+    private const string BasicCode = @"<Popover>
+    <PopoverTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Open popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+        <div class=""grid gap-4"">
+            <div class=""space-y-2"">
+                <h4 class=""font-medium leading-none"">Dimensions</h4>
+                <p class=""text-sm text-muted-foreground"">
+                    Set the dimensions for the layer.
+                </p>
+            </div>
+            <div class=""grid gap-2"">
+                <div class=""grid grid-cols-3 items-center gap-4"">
+                    <Label>Width</Label>
+                    <Input Class=""col-span-2 h-8"" />
+                </div>
+            </div>
+        </div>
+    </PopoverContent>
+</Popover>";
+
+    private const string ControlledCode = @"@code {
+    private bool popoverOpen;
+}
+
+<Popover @bind-Open=""popoverOpen"">
+    <PopoverTrigger>
+        <Button>Toggle Popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+        <p>This is a controlled popover.</p>
+        <Button @onclick=""() => popoverOpen = false"">Close</Button>
+    </PopoverContent>
+</Popover>";
+}

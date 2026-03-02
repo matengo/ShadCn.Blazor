@@ -1,21 +1,34 @@
 # ShadCn.Blazor
 
-ShadCn.Blazor is a Blazor component library inspired by shadcn/ui. It provides accessible, customizable, open source UI components for Blazor WebAssembly and Blazor Server, with a default theme driven by CSS variables.
+ShadCn.Blazor is a Blazor component library inspired by shadcn/ui. It provides accessible, customizable, open source UI components for Blazor WebAssembly and Blazor Server, with a default theme driven by CSS variables. Components are pure Blazor and require no JavaScript/JS interop at runtime.
 
 ## Highlights
 
 - Built for .NET 8+ and both Blazor WebAssembly and Blazor Server.
+- No JavaScript/JS interop required at runtime.
 - Components package plus a default theme package.
 - Dark mode support via a `dark` class on the `html` element.
 - Easy customization through CSS variables and a `Class` parameter on components.
 
-## Quickstart
+## Prerequisites
+
+- .NET 8.0 or later
+- Blazor WebAssembly or Blazor Server project
+
+## Installation
 
 ### 1) Install NuGet packages
 
 ```bash
 dotnet add package ShadCn.Blazor.Components
 dotnet add package ShadCn.Blazor.Theme.Default
+```
+
+Package Manager Console:
+
+```powershell
+Install-Package ShadCn.Blazor.Components
+Install-Package ShadCn.Blazor.Theme.Default
 ```
 
 ### 2) Add the theme CSS
@@ -25,6 +38,7 @@ Add this to `index.html` (WebAssembly) or `_Host.cshtml` / `App.razor` (Server):
 ```html
 <link rel="stylesheet" href="_content/ShadCn.Blazor.Theme.Default/theme.css" />
 ```
+The theme uses CSS variables for colors. Values are in HSL format without the `hsl()` wrapper.
 
 ### 3) Register services
 
@@ -64,3 +78,45 @@ Add component namespaces to your `_Imports.razor`:
     </CardContent>
 </Card>
 ```
+
+## Dark mode
+
+Add the `dark` class to your `html` element:
+
+```html
+<html class="dark">
+  ...
+</html>
+```
+You can toggle dark mode by adding/removing the class (for example via JavaScript or a persisted user preference).
+
+## Customization
+
+All components accept a `Class` parameter for additional Tailwind CSS classes:
+
+```razor
+<Button Class="w-full">Full Width Button</Button>
+<Card Class="max-w-md mx-auto">...</Card>
+```
+
+The default theme uses Geist font (same as shadcn/ui). Override fonts in your CSS:
+
+```css
+@theme {
+  --font-sans: "Your Font", system-ui, sans-serif;
+  --font-mono: "Your Mono Font", monospace;
+}
+```
+
+Adjust component rounding with `--radius`:
+
+```css
+:root {
+  --radius: 0.25rem;  /* Smaller, more subtle */
+  --radius: 0.5rem;   /* Default */
+  --radius: 0.75rem;  /* Larger, more rounded */
+  --radius: 1rem;     /* Very rounded */
+}
+```
+
+Tip: use https://ui.shadcn.com/themes to generate color palettes, then copy the CSS variables into your project.

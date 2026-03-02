@@ -68,8 +68,8 @@
 @source "../../ShadCn.Blazor.Components/**/*.razor";
 @source "../../ShadCn.Blazor.Components/**/*.cs";
 @source "../../ShadCn.Blazor.Primitives/**/*.razor";
-@source "../../ShadCn.Blazor.Docs/**/*.razor";
-@source "../../ShadCn.Blazor.Docs/**/*.html";
+@source "../../ShadCn.Blazor.Docs.Client/**/*.razor";
+@source "../../ShadCn.Blazor.Docs.Client/**/*.html";
 
 /* Custom theme configuration */
 @theme {

@@ -1,0 +1,78 @@
+@page "/components/badge"
+
+<PageTitle>Badge - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Badge</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays a badge or a component that looks like a badge.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Variants" Description="Badge comes in several visual variants.">
+            <ComponentExample Code="@VariantsCode">
+                <Preview>
+                    <Card>
+                        <CardContent Class="pt-6">
+                            <div class="flex flex-wrap gap-4">
+                                <Badge>Default</Badge>
+                                <Badge Variant="BadgeVariant.Secondary">Secondary</Badge>
+                                <Badge Variant="BadgeVariant.Destructive">Destructive</Badge>
+                                <Badge Variant="BadgeVariant.Outline">Outline</Badge>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Usage Examples" Description="Use badges to annotate statuses or counts.">
+            <ComponentExample Code="@UsageCode">
+                <Preview>
+                    <Card>
+                        <CardContent Class="pt-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <span>Status:</span>
+                                    <Badge>Active</Badge>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span>Notifications:</span>
+                                    <Badge Variant="BadgeVariant.Destructive">5</Badge>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span>Version:</span>
+                                    <Badge Variant="BadgeVariant.Outline">v1.0.0</Badge>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string VariantsCode = @"<Badge>Default</Badge>
+<Badge Variant=""BadgeVariant.Secondary"">Secondary</Badge>
+<Badge Variant=""BadgeVariant.Destructive"">Destructive</Badge>
+<Badge Variant=""BadgeVariant.Outline"">Outline</Badge>";
+
+    private const string UsageCode = @"<div class=""flex items-center gap-2"">
+    <span>Status:</span>
+    <Badge>Active</Badge>
+</div>
+<div class=""flex items-center gap-2"">
+    <span>Notifications:</span>
+    <Badge Variant=""BadgeVariant.Destructive"">5</Badge>
+</div>
+<div class=""flex items-center gap-2"">
+    <span>Version:</span>
+    <Badge Variant=""BadgeVariant.Outline"">v1.0.0</Badge>
+</div>";
+}

@@ -1,0 +1,67 @@
+@page "/components/avatar"
+
+<PageTitle>Avatar - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Avatar</h1>
+        <p class="text-lg text-muted-foreground">
+            An image element with a fallback for representing the user.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="Avatar with image and fallback.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <Avatar Src="https://github.com/shadcn.png" Alt="shadcn" />
+                        <Avatar Fallback="CN" />
+                        <Avatar Fallback="JD" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Sizes" Description="Customize avatar size with the Class parameter.">
+            <ComponentExample Code="@SizesCode">
+                <Preview>
+                    <div class="flex items-center gap-4">
+                        <Avatar Src="https://github.com/shadcn.png" Class="h-8 w-8" />
+                        <Avatar Src="https://github.com/shadcn.png" Class="h-10 w-10" />
+                        <Avatar Src="https://github.com/shadcn.png" Class="h-12 w-12" />
+                        <Avatar Src="https://github.com/shadcn.png" Class="h-16 w-16" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Fallback" Description="Display initials when no image is provided.">
+            <ComponentExample Code="@FallbackCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <Avatar Fallback="AB" />
+                        <Avatar Fallback="CD" />
+                        <Avatar Fallback="EF" />
+                        <Avatar Fallback="GH" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<Avatar Src=""https://github.com/shadcn.png"" Alt=""@shadcn"" />
+<Avatar Fallback=""CN"" />";
+
+    private const string SizesCode = @"<Avatar Src=""..."" Class=""h-8 w-8"" />
+<Avatar Src=""..."" Class=""h-10 w-10"" />
+<Avatar Src=""..."" Class=""h-12 w-12"" />
+<Avatar Src=""..."" Class=""h-16 w-16"" />";
+
+    private const string FallbackCode = @"<Avatar Fallback=""AB"" />
+<Avatar Fallback=""CD"" />";
+}

@@ -1,0 +1,110 @@
+@page "/components/button"
+
+<PageTitle>Button - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Button</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays a button or a component that looks like a button.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Variants -->
+        <ExampleSection Title="Variants" Description="Button comes in several visual variants.">
+            <ComponentExample Code="@VariantsCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Button>Default</Button>
+                        <Button Variant="ButtonVariant.Secondary">Secondary</Button>
+                        <Button Variant="ButtonVariant.Destructive">Destructive</Button>
+                        <Button Variant="ButtonVariant.Outline">Outline</Button>
+                        <Button Variant="ButtonVariant.Ghost">Ghost</Button>
+                        <Button Variant="ButtonVariant.Link">Link</Button>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Sizes -->
+        <ExampleSection Title="Sizes" Description="Use the Size property to change button sizes.">
+            <ComponentExample Code="@SizesCode">
+                <Preview>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <Button Size="ButtonSize.Sm">Small</Button>
+                        <Button Size="ButtonSize.Default">Default</Button>
+                        <Button Size="ButtonSize.Lg">Large</Button>
+                        <Button Size="ButtonSize.Icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"/>
+                                <path d="M12 5v14"/>
+                            </svg>
+                        </Button>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Loading -->
+        <ExampleSection Title="Loading State" Description="Show a loading spinner with the IsLoading property.">
+            <ComponentExample Code="@LoadingCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Button IsLoading="true">Loading</Button>
+                        <Button IsLoading="@isLoading" OnClick="HandleClick">
+                            @(isLoading ? "Please wait..." : "Click me")
+                        </Button>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Disabled -->
+        <ExampleSection Title="Disabled" Description="Disable the button to prevent interaction.">
+            <ComponentExample Code="@DisabledCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Button Disabled="true">Disabled</Button>
+                        <Button Variant="ButtonVariant.Outline" Disabled="true">Disabled</Button>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool isLoading = false;
+
+    private async Task HandleClick()
+    {
+        isLoading = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private const string VariantsCode = @"<Button>Default</Button>
+<Button Variant=""ButtonVariant.Secondary"">Secondary</Button>
+<Button Variant=""ButtonVariant.Destructive"">Destructive</Button>
+<Button Variant=""ButtonVariant.Outline"">Outline</Button>
+<Button Variant=""ButtonVariant.Ghost"">Ghost</Button>
+<Button Variant=""ButtonVariant.Link"">Link</Button>";
+
+    private const string SizesCode = @"<Button Size=""ButtonSize.Sm"">Small</Button>
+<Button Size=""ButtonSize.Default"">Default</Button>
+<Button Size=""ButtonSize.Lg"">Large</Button>
+<Button Size=""ButtonSize.Icon"">...</Button>";
+
+    private const string LoadingCode = @"<Button IsLoading=""true"">Loading</Button>
+<Button IsLoading=""@isLoading"" OnClick=""HandleClick"">
+    @(isLoading ? ""Please wait..."" : ""Click me"")
+</Button>";
+
+    private const string DisabledCode = @"<Button Disabled=""true"">Disabled</Button>
+<Button Variant=""ButtonVariant.Outline"" Disabled=""true"">Disabled</Button>";
+}

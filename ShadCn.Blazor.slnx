@@ -6,6 +6,7 @@
   <Folder Name="/src/">
     <Project Path="src/ShadCn.Blazor.Components/ShadCn.Blazor.Components.csproj" />
     <Project Path="src/ShadCn.Blazor.Docs/ShadCn.Blazor.Docs.csproj" />
+    <Project Path="src/ShadCn.Blazor.Docs.Client/ShadCn.Blazor.Docs.Client.csproj" />
     <Project Path="src/ShadCn.Blazor.Primitives/ShadCn.Blazor.Primitives.csproj" />
     <Project Path="src/ShadCn.Blazor.Theme.Default/ShadCn.Blazor.Theme.Default.csproj" />
   </Folder>

@@ -1,0 +1,18 @@
+@namespace ShadCn.Blazor.Docs.Client.Shared
+
+<div class="space-y-4">
+    <div class="rounded-lg border border-border p-6 bg-card">
+        @Preview
+    </div>
+    @if (Code != null)
+    {
+        <div class="relative">
+            <pre class="rounded-lg bg-muted p-4 overflow-x-auto text-sm font-mono"><code>@Code</code></pre>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Preview { get; set; }
+    [Parameter] public string? Code { get; set; }
+}

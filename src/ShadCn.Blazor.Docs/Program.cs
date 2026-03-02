@@ -1,13 +1,26 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using ShadCn.Blazor.Docs;
 using ShadCn.Blazor.Components;
+using ShadCn.Blazor.Docs.Components;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddRazorComponents()
+    .AddInteractiveWebAssemblyComponents();
+
 builder.Services.AddShadCnBlazorComponents();
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+}
+
+app.UseStaticFiles();
+app.MapStaticAssets();
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(ShadCn.Blazor.Docs.Client._Imports).Assembly);
+
+app.Run();
