@@ -1,0 +1,95 @@
+@page "/components/link"
+
+<PageTitle>Link - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Link</h1>
+        <p class="text-lg text-muted-foreground">
+            A navigation link styled with the same visual variants as Button.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Variants -->
+        <ExampleSection Title="Variants" Description="Link supports all Button visual variants.">
+            <ComponentExample Code="@VariantsCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Link Href="components/link">Default</Link>
+                        <Link Href="components/link" Variant="ButtonVariant.Secondary">Secondary</Link>
+                        <Link Href="components/link" Variant="ButtonVariant.Destructive">Destructive</Link>
+                        <Link Href="components/link" Variant="ButtonVariant.Outline">Outline</Link>
+                        <Link Href="components/link" Variant="ButtonVariant.Ghost">Ghost</Link>
+                        <Link Href="components/link" Variant="ButtonVariant.Link">Link</Link>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Sizes -->
+        <ExampleSection Title="Sizes" Description="Use the Size property to change the link size.">
+            <ComponentExample Code="@SizesCode">
+                <Preview>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <Link Href="components/link" Size="ButtonSize.Sm">Small</Link>
+                        <Link Href="components/link" Size="ButtonSize.Default">Default</Link>
+                        <Link Href="components/link" Size="ButtonSize.Lg">Large</Link>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- External Link -->
+        <ExampleSection Title="External Link" Description="Open links in a new tab with the target attribute.">
+            <ComponentExample Code="@ExternalCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Link Href="https://github.com" target="_blank" rel="noopener noreferrer">
+                            GitHub ↗
+                        </Link>
+                        <Link Href="https://github.com" target="_blank" rel="noopener noreferrer" Variant="ButtonVariant.Outline">
+                            GitHub ↗
+                        </Link>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Usage with navigation -->
+        <ExampleSection Title="Navigation" Description="Use Link for internal navigation between pages.">
+            <ComponentExample Code="@NavigationCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Link Href="components/button">View Button</Link>
+                        <Link Href="components/card" Variant="ButtonVariant.Outline">View Card</Link>
+                        <Link Href="installation" Variant="ButtonVariant.Ghost">Installation</Link>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string VariantsCode = @"<Link Href=""/page"">Default</Link>
+<Link Href=""/page"" Variant=""ButtonVariant.Secondary"">Secondary</Link>
+<Link Href=""/page"" Variant=""ButtonVariant.Destructive"">Destructive</Link>
+<Link Href=""/page"" Variant=""ButtonVariant.Outline"">Outline</Link>
+<Link Href=""/page"" Variant=""ButtonVariant.Ghost"">Ghost</Link>
+<Link Href=""/page"" Variant=""ButtonVariant.Link"">Link</Link>";
+
+    private const string SizesCode = @"<Link Href=""/page"" Size=""ButtonSize.Sm"">Small</Link>
+<Link Href=""/page"" Size=""ButtonSize.Default"">Default</Link>
+<Link Href=""/page"" Size=""ButtonSize.Lg"">Large</Link>";
+
+    private const string ExternalCode = @"<Link Href=""https://github.com"" target=""_blank"" rel=""noopener noreferrer"">
+    GitHub ↗
+</Link>";
+
+    private const string NavigationCode = @"<Link Href=""components/button"">View Button</Link>
+<Link Href=""components/card"" Variant=""ButtonVariant.Outline"">View Card</Link>
+<Link Href=""installation"" Variant=""ButtonVariant.Ghost"">Installation</Link>";
+}
