@@ -2,13 +2,13 @@
 
 ShadCn.Blazor is a Blazor component library inspired by shadcn/ui. It provides accessible, customizable, open source UI components for Blazor WebAssembly and Blazor Server, with a default theme driven by CSS variables. Components are pure Blazor and require no JavaScript/JS interop at runtime.
 
-?? **[Live Documentation](https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io/)**
+**[Live Documentation](https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io/)**
 
 ## Highlights
 
 - Built for .NET 8+ and both Blazor WebAssembly and Blazor Server.
 - No JavaScript/JS interop required at runtime.
-- Components package plus a default theme package.
+- Single package install.
 - Dark mode support via a `dark` class on the `html` element.
 - Easy customization through CSS variables and a `Class` parameter on components.
 
@@ -19,18 +19,16 @@ ShadCn.Blazor is a Blazor component library inspired by shadcn/ui. It provides a
 
 ## Installation
 
-### 1) Install NuGet packages
+### 1) Install NuGet package
 
 ```bash
 dotnet add package ShadCn.Blazor.Components
-dotnet add package ShadCn.Blazor.Theme.Default
 ```
 
 Package Manager Console:
 
 ```powershell
 Install-Package ShadCn.Blazor.Components
-Install-Package ShadCn.Blazor.Theme.Default
 ```
 
 ### 2) Add the theme CSS

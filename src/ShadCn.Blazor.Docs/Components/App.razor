@@ -14,6 +14,27 @@
 
 <body class="min-h-screen bg-background font-sans antialiased">
     <Routes @rendermode="InteractiveWebAssembly" />
+    <script>
+        (function () {
+            var theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        window.themeInterop = {
+            toggle: function () {
+                var isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                return isDark;
+            },
+            isDark: function () {
+                return document.documentElement.classList.contains('dark');
+            }
+        };
+    </script>
     <script src="_framework/blazor.web.js"></script>
 </body>
 
