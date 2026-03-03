@@ -10,6 +10,8 @@ public interface ISheetService
 
     Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, SheetOptions? options = null) 
         where TComponent : ComponentBase;
+
+    void CloseAll();
 }
 
 public class SheetService : ISheetService
@@ -66,6 +68,21 @@ public class SheetService : ISheetService
         await Task.Delay(300);
         _sheets.Remove(reference);
         reference.TaskCompletionSource.TrySetResult(reference.PendingResult);
+        OnChange?.Invoke();
+    }
+
+    public void CloseAll()
+    {
+        var all = _sheets.ToList();
+        foreach (var reference in all)
+        {
+            if (!reference.IsClosing)
+            {
+                reference.IsClosing = true;
+                reference.PendingResult = null;
+                _ = RemoveAfterAnimation(reference);
+            }
+        }
         OnChange?.Invoke();
     }
 }

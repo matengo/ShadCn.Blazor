@@ -3,7 +3,7 @@
 
 @if (Sheet?.Open == true || IsExiting)
 {
-    <div class="fixed inset-0 z-50">
+    <div class="fixed inset-0" style="z-index: @ZIndex">
         @* Overlay *@
         <div class="@OverlayClass" @onclick="HandleOverlayClick"></div>
         
@@ -27,18 +27,19 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public SheetSide Side { get; set; } = SheetSide.Right;
     [Parameter] public string? Class { get; set; }
+    [Parameter] public int ZIndex { get; set; } = 50;
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private bool IsExiting => Sheet?.Closing ?? false;
 
     private string OverlayClass => IsExiting
-        ? "fixed inset-0 bg-black/80 animate-out fade-out-0 duration-300"
-        : "fixed inset-0 bg-black/80 animate-in fade-in-0 duration-200";
+        ? "fixed inset-0 bg-black/40 animate-out fade-out-0 duration-300"
+        : "fixed inset-0 bg-black/40 animate-in fade-in-0 duration-200";
 
     private string ComputedClass => new ClassBuilder(
         IsExiting
-            ? "fixed z-50 gap-4 bg-background p-6 shadow-lg animate-out duration-300"
-            : "fixed z-50 gap-4 bg-background p-6 shadow-lg animate-in duration-300")
+            ? "fixed gap-4 bg-background p-6 shadow-lg animate-out duration-300"
+            : "fixed gap-4 bg-background p-6 shadow-lg animate-in duration-300")
         .Add(IsExiting ? GetExitSideClasses() : GetEnterSideClasses())
         .Add(Class)
         .Build();

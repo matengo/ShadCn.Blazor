@@ -1,0 +1,42 @@
+@using ShadCn.Blazor.Components.Dialog
+@using ShadCn.Blazor.Components.Button
+@inject IDialogService DialogService
+
+<DialogHeader>
+    <DialogTitle>Dialog @Data.Level</DialogTitle>
+    <DialogDescription>
+        This is dialog level @Data.Level. You can open another dialog on top of this one.
+    </DialogDescription>
+</DialogHeader>
+<div class="py-4">
+    <p class="text-sm text-muted-foreground mb-4">
+        Click the button below to open another dialog stacked on top of this one.
+    </p>
+    @if (!string.IsNullOrEmpty(_nestedResult))
+    {
+        <p class="text-sm">Nested dialog returned: <strong>@_nestedResult</strong></p>
+    }
+</div>
+<DialogFooter>
+    <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Close</Button>
+    <Button OnClick="OpenNested">Open Dialog @(Data.Level + 1)</Button>
+</DialogFooter>
+
+@code {
+    [Parameter] public NestedDialogModel Data { get; set; } = new();
+    [CascadingParameter] public DialogContext Dialog { get; set; } = default!;
+
+    private string? _nestedResult;
+
+    private async Task OpenNested()
+    {
+        var input = new NestedDialogModel { Level = Data.Level + 1 };
+        var result = await DialogService.ShowAsync<NestedDialogContent, string, NestedDialogModel>(input);
+        _nestedResult = result;
+    }
+
+    private void Cancel()
+    {
+        Dialog.Close($"Closed at level {Data.Level}");
+    }
+}

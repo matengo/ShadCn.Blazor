@@ -5,10 +5,12 @@
 
 @if (Service.Sheets.Any())
 {
+    var index = 0;
     @foreach (var sheet in Service.Sheets)
     {
+        var zIndex = 50 + (index * 10);
         <Sheet @key="sheet.Id" Open="true" IsClosing="@sheet.IsClosing" OpenChanged="@((bool open) => { if(!open) Service.FinalizeClose(sheet.Id, null); })">
-            <SheetContent Side="@sheet.Options.Side" Class="@sheet.Options.Class">
+            <SheetContent Side="@sheet.Options.Side" Class="@sheet.Options.Class" ZIndex="@zIndex">
                 <CascadingValue Value="new SheetContext(sheet, Service)" IsFixed="true">
                     @if (sheet.ComponentType != null)
                     {
@@ -21,6 +23,7 @@
                 </CascadingValue>
             </SheetContent>
         </Sheet>
+        index++;
     }
 }
 

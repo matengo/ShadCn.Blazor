@@ -5,10 +5,12 @@
 
 @if (Service.Dialogs.Any())
 {
+    var index = 0;
     @foreach (var dialog in Service.Dialogs)
     {
+        var zIndex = 50 + (index * 10);
         <Dialog @key="dialog.Id" Open="true" IsClosing="@dialog.IsClosing" OpenChanged="@((bool open) => { if(!open) Service.FinalizeClose(dialog.Id, null); })">
-            <DialogContent Class="@dialog.Options.Width">
+            <DialogContent Class="@dialog.Options.Width" ZIndex="@zIndex">
                 <CascadingValue Value="new DialogContext(dialog, Service)" IsFixed="true">
                     @if (dialog.ComponentType != null)
                     {
@@ -21,6 +23,7 @@
                 </CascadingValue>
             </DialogContent>
         </Dialog>
+        index++;
     }
 }
 

@@ -1,0 +1,46 @@
+@using ShadCn.Blazor.Components
+@using ShadCn.Blazor.Components.Sheet
+@using ShadCn.Blazor.Components.Button
+@inject ISheetService SheetService
+
+<SheetHeader>
+    <SheetTitle>Sheet @Data.Level</SheetTitle>
+    <SheetDescription>
+        This is sheet level @Data.Level. You can open another sheet on top of this one.
+    </SheetDescription>
+</SheetHeader>
+<div class="py-4 flex-1">
+    <p class="text-sm text-muted-foreground mb-4">
+        Click the button below to open another sheet stacked on top of this one.
+    </p>
+    @if (!string.IsNullOrEmpty(_nestedResult))
+    {
+        <p class="text-sm">Nested sheet returned: <strong>@_nestedResult</strong></p>
+    }
+</div>
+<SheetFooter>
+    <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Close</Button>
+    <Button OnClick="OpenNested">Open Sheet @(Data.Level + 1)</Button>
+</SheetFooter>
+
+@code {
+    [Parameter] public NestedDialogModel Data { get; set; } = new();
+    [CascadingParameter] public SheetContext Sheet { get; set; } = default!;
+
+    private string? _nestedResult;
+
+    private async Task OpenNested()
+    {
+        var nextSide = Data.Level % 2 == 0 ? SheetSide.Left : SheetSide.Right;
+        var input = new NestedDialogModel { Level = Data.Level + 1 };
+        var result = await SheetService.ShowAsync<NestedSheetContent, string, NestedDialogModel>(
+            input,
+            new SheetOptions { Side = nextSide });
+        _nestedResult = result;
+    }
+
+    private void Cancel()
+    {
+        Sheet.Close($"Closed at level {Data.Level}");
+    }
+}

@@ -3,7 +3,7 @@
 
 @if (Dialog?.Open == true || IsExiting)
 {
-    <div class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="fixed inset-0 flex items-center justify-center" style="z-index: @ZIndex">
         @* Overlay with animation *@
         <div class="@OverlayClass" @onclick="HandleOverlayClick"></div>
         
@@ -26,18 +26,19 @@
     [CascadingParameter] public Dialog? Dialog { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
+    [Parameter] public int ZIndex { get; set; } = 50;
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private bool IsExiting => Dialog?.Closing ?? false;
 
     private string OverlayClass => IsExiting
-        ? "fixed inset-0 bg-black/80 animate-out fade-out-0 duration-200"
-        : "fixed inset-0 bg-black/80 animate-in fade-in-0 duration-200";
+        ? "fixed inset-0 bg-black/40 animate-out fade-out-0 duration-200"
+        : "fixed inset-0 bg-black/40 animate-in fade-in-0 duration-200";
 
     private string ComputedClass => new ClassBuilder(
         IsExiting
-            ? "relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
-            : "relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200")
+            ? "relative grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
+            : "relative grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200")
         .Add(Class)
         .Build();
 

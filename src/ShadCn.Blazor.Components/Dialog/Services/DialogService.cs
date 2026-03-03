@@ -10,6 +10,8 @@ public interface IDialogService
 
     Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, DialogOptions? options = null) 
         where TComponent : ComponentBase;
+
+    void CloseAll();
 }
 
 public class DialogService : IDialogService
@@ -66,6 +68,21 @@ public class DialogService : IDialogService
         await Task.Delay(200);
         _dialogs.Remove(reference);
         reference.TaskCompletionSource.TrySetResult(reference.PendingResult);
+        OnChange?.Invoke();
+    }
+
+    public void CloseAll()
+    {
+        var all = _dialogs.ToList();
+        foreach (var reference in all)
+        {
+            if (!reference.IsClosing)
+            {
+                reference.IsClosing = true;
+                reference.PendingResult = null;
+                _ = RemoveAfterAnimation(reference);
+            }
+        }
         OnChange?.Invoke();
     }
 }

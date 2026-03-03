@@ -55,11 +55,54 @@
 }</code></pre>
             </div>
         </section>
+
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Stacked Dialogs</h2>
+            <p>
+                Dialogs can be opened from within other dialogs. Each new dialog stacks on top of the previous one
+                with proper z-index management. Closing the topmost dialog reveals the one beneath it.
+            </p>
+
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col gap-4">
+                    <p>Result: <strong>@(_stackedResult ?? "None")</strong></p>
+                    <div class="flex gap-4">
+                        <Button OnClick="OpenStackedDialog">Open Stacked Dialogs</Button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-md bg-muted p-4">
+<pre class="overflow-x-auto"><code>// The dialog component can inject IDialogService and open new dialogs:
+@@inject IDialogService DialogService
+
+&lt;DialogHeader&gt;
+    &lt;DialogTitle&gt;Dialog Level @@Data.Level&lt;/DialogTitle&gt;
+&lt;/DialogHeader&gt;
+&lt;DialogFooter&gt;
+    &lt;Button OnClick="OpenNested"&gt;Open Next Dialog&lt;/Button&gt;
+&lt;/DialogFooter&gt;
+
+@@code {
+    [Parameter] public NestedDialogModel Data { get; set; } = new();
+    [CascadingParameter] public DialogContext Dialog { get; set; } = default!;
+    @@inject IDialogService DialogService
+
+    private async Task OpenNested()
+    {
+        var input = new NestedDialogModel { Level = Data.Level + 1 };
+        var result = await DialogService
+            .ShowAsync&lt;NestedDialogContent, string, NestedDialogModel&gt;(input);
+    }
+}</code></pre>
+            </div>
+        </section>
     </div>
 </div>
 
 @code {
     private string? _lastResult;
+    private string? _stackedResult;
 
     private async Task OpenDialog()
     {
@@ -78,5 +121,12 @@
         {
             _lastResult = "Cancelled";
         }
+    }
+
+    private async Task OpenStackedDialog()
+    {
+        var input = new NestedDialogModel { Level = 1 };
+        var result = await DialogService.ShowAsync<NestedDialogContent, string, NestedDialogModel>(input);
+        _stackedResult = result ?? "Dismissed";
     }
 }

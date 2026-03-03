@@ -51,6 +51,50 @@
         </section>
 
         <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Stacked Sheets</h2>
+            <p>
+                Sheets can be opened from within other sheets. Each new sheet stacks on top with proper z-index management.
+                Sheets alternate sides to visually distinguish the layers.
+            </p>
+
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col gap-4">
+                    <p>Result: <strong>@(_stackedResult ?? "None")</strong></p>
+                    <div class="flex gap-4">
+                        <Button OnClick="OpenStackedSheet">Open Stacked Sheets</Button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-md bg-muted p-4">
+<pre class="overflow-x-auto"><code>// The sheet component can inject ISheetService and open new sheets:
+@@inject ISheetService SheetService
+
+&lt;SheetHeader&gt;
+    &lt;SheetTitle&gt;Sheet Level @@Data.Level&lt;/SheetTitle&gt;
+&lt;/SheetHeader&gt;
+&lt;SheetFooter&gt;
+    &lt;Button OnClick="OpenNested"&gt;Open Next Sheet&lt;/Button&gt;
+&lt;/SheetFooter&gt;
+
+@@code {
+    [Parameter] public NestedDialogModel Data { get; set; } = new();
+    [CascadingParameter] public SheetContext Sheet { get; set; } = default!;
+    @@inject ISheetService SheetService
+
+    private async Task OpenNested()
+    {
+        var nextSide = Data.Level % 2 == 0 ? SheetSide.Left : SheetSide.Right;
+        var input = new NestedDialogModel { Level = Data.Level + 1 };
+        var result = await SheetService
+            .ShowAsync&lt;NestedSheetContent, string, NestedDialogModel&gt;(
+                input, new SheetOptions { Side = nextSide });
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="space-y-4">
             <h2 class="text-2xl font-semibold">Code</h2>
             <div class="rounded-md bg-muted p-4">
 <pre class="overflow-x-auto"><code>@@inject ISheetService SheetService
@@ -78,6 +122,7 @@
 
 @code {
     private string? _lastResult;
+    private string? _stackedResult;
 
     private async Task OpenSheet()
     {
@@ -113,5 +158,14 @@
         {
             _lastResult = $"{side} sheet dismissed";
         }
+    }
+
+    private async Task OpenStackedSheet()
+    {
+        var input = new NestedDialogModel { Level = 1 };
+        var result = await SheetService.ShowAsync<NestedSheetContent, string, NestedDialogModel>(
+            input,
+            new SheetOptions { Side = SheetSide.Right });
+        _stackedResult = result ?? "Dismissed";
     }
 }
