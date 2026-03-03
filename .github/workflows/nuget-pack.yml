@@ -53,7 +53,10 @@ jobs:
       - name: Build
         run: dotnet build -c Release --no-restore
 
-      - name: Pack components (includes all dependencies)
+      - name: Pack Theme.Default
+        run: dotnet pack src/ShadCn.Blazor.Theme.Default/ShadCn.Blazor.Theme.Default.csproj -c Release --no-build -o artifacts -p:PackageVersion=${{ steps.version.outputs.value }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+      - name: Pack Components
         run: dotnet pack src/ShadCn.Blazor.Components/ShadCn.Blazor.Components.csproj -c Release --no-build -o artifacts -p:PackageVersion=${{ steps.version.outputs.value }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
       - name: Upload packages

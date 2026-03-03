@@ -32,10 +32,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </ProjectReference>
-    <ProjectReference Include="..\ShadCn.Blazor.Theme.Default\ShadCn.Blazor.Theme.Default.csproj">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\ShadCn.Blazor.Theme.Default\ShadCn.Blazor.Theme.Default.csproj" />
   </ItemGroup>
 
   <!-- Manually add the referenced project DLLs to the package -->
@@ -43,16 +40,7 @@
     <ItemGroup>
       <!-- Include the compiled DLLs from referenced projects -->
       <None Include="$(OutputPath)ShadCn.Blazor.Primitives.dll" Pack="true" PackagePath="lib/$(TargetFramework)/" Visible="false" />
-      <None Include="$(OutputPath)ShadCn.Blazor.Theme.Default.dll" Pack="true" PackagePath="lib/$(TargetFramework)/" Visible="false" />
-      
-      <!-- Include static web assets from Theme.Default with proper Blazor static web asset structure -->
-      <_ThemeAssets Include="..\ShadCn.Blazor.Theme.Default\wwwroot\**\*" />
-      <None Include="@(_ThemeAssets)">
-        <Pack>true</Pack>
-        <PackagePath>staticwebassets/</PackagePath>
-        <Visible>false</Visible>
-        <Link>staticwebassets\%(_ThemeAssets.RecursiveDir)%(_ThemeAssets.Filename)%(_ThemeAssets.Extension)</Link>
-      </None>
+      <!-- Theme.Default is a normal package dependency; its static web assets are handled by the SDK -->
     </ItemGroup>
   </Target>
 
