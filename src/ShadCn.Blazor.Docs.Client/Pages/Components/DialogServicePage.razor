@@ -1,0 +1,82 @@
+@page "/components/dialog-service"
+@using ShadCn.Blazor.Components.Dialog
+@inject IDialogService DialogService
+
+<PageTitle>Dialog Service - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Dialog Service</h1>
+        <p class="text-lg text-muted-foreground">
+            A service to programmatically open dialogs with strongly-typed results.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Usage</h2>
+            <p>
+                Inject <code>IDialogService</code> and use <code>ShowAsync&lt;TComponent, TResult, TInput&gt;</code>.
+            </p>
+            
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col gap-4">
+                    <p>Current Result: <strong>@(_lastResult ?? "None")</strong></p>
+                    
+                    <div class="flex gap-4">
+                        <Button OnClick="OpenDialog">Open Profile Dialog</Button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Code</h2>
+            <div class="rounded-md bg-muted p-4">
+<pre class="overflow-x-auto"><code>@@inject IDialogService DialogService
+
+@@code {
+    private async Task OpenDialog()
+    {
+        var input = new UserProfile { Name = "John Doe", Username = "johndoe" };
+        
+        var result = await DialogService.ShowAsync&lt;SimpleDialogContent, DialogResult, UserProfile&gt;(
+            input,
+            new DialogOptions { Dismissable = true }
+        );
+
+        if (result.Success)
+        {
+            Console.WriteLine($"Updated: {result.UpdatedProfile.Name}");
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+    </div>
+</div>
+
+@code {
+    private string? _lastResult;
+
+    private async Task OpenDialog()
+    {
+        var input = new UserProfile { Name = "John Doe", Username = "johndoe" };
+        
+        var result = await DialogService.ShowAsync<SimpleDialogContent, DialogResult, UserProfile>(
+            input,
+            new DialogOptions { Dismissable = true }
+        );
+
+        if (result != null && result.Success && result.UpdatedProfile != null)
+        {
+            _lastResult = $"Saved: {result.UpdatedProfile.Name} ({result.UpdatedProfile.Username})";
+        }
+        else
+        {
+            _lastResult = "Cancelled";
+        }
+    }
+}

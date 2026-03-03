@@ -1,0 +1,40 @@
+@using ShadCn.Blazor.Components.Dialog
+@using ShadCn.Blazor.Components.Button
+@using ShadCn.Blazor.Components.Input
+
+<DialogHeader>
+    <DialogTitle>Edit profile</DialogTitle>
+    <DialogDescription>
+        Make changes to your profile here. Click save when you're done.
+    </DialogDescription>
+</DialogHeader>
+<div class="grid gap-4 py-4">
+    <div class="grid grid-cols-4 items-center gap-4">
+        <Label HtmlFor="name" Class="text-right">Name</Label>
+        <Input Id="name" @bind-Value="Data.Name" Class="col-span-3" />
+    </div>
+    <div class="grid grid-cols-4 items-center gap-4">
+        <Label HtmlFor="username" Class="text-right">Username</Label>
+        <Input Id="username" @bind-Value="Data.Username" Class="col-span-3" />
+    </div>
+</div>
+<DialogFooter>
+    <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Cancel</Button>
+    <Button OnClick="Save">Save changes</Button>
+</DialogFooter>
+
+@code {
+    [Parameter] public UserProfile Data { get; set; } = new();
+    [CascadingParameter] public DialogContext Dialog { get; set; } = default!;
+
+    private void Save()
+    {
+        // Simulate saving
+        Dialog.Close(new DialogResult { Success = true, UpdatedProfile = Data });
+    }
+
+    private void Cancel()
+    {
+        Dialog.Close(new DialogResult { Success = false });
+    }
+}

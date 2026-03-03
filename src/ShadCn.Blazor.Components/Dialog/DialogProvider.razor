@@ -1,0 +1,37 @@
+@namespace ShadCn.Blazor.Components.Dialog
+@using ShadCn.Blazor.Components
+@inject DialogService Service
+@implements IDisposable
+
+@if (Service.Dialogs.Any())
+{
+    @foreach (var dialog in Service.Dialogs)
+    {
+        <Dialog @key="dialog.Id" Open="true" OpenChanged="@((bool open) => { if(!open) Service.Close(dialog.Id, null); })">
+            <DialogContent Class="@dialog.Options.Width">
+                <CascadingValue Value="new DialogContext(dialog, Service)" IsFixed="true">
+                    @if (dialog.ComponentType != null)
+                    {
+                        <DynamicComponent Type="dialog.ComponentType" Parameters="dialog.Parameters" />
+                    }
+                    else if (dialog.Content != null)
+                    {
+                        @dialog.Content
+                    }
+                </CascadingValue>
+            </DialogContent>
+        </Dialog>
+    }
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        Service.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Service.OnChange -= StateHasChanged;
+    }
+}

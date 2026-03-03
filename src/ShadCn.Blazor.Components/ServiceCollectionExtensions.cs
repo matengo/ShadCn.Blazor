@@ -15,6 +15,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddShadCnBlazorComponents(this IServiceCollection services)
     {
         services.AddScoped<ISonnerService, SonnerService>();
+        
+        // Register DialogService as concrete type first
+        services.AddScoped<DialogService>();
+        // Then register IDialogService to resolve to the same instance
+        services.AddScoped<IDialogService>(sp => sp.GetRequiredService<DialogService>());
 
         return services;
     }
