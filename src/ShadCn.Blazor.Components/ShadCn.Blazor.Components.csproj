@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/matengo/ShadCn.Blazor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 
