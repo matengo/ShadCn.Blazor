@@ -1,0 +1,17 @@
+@namespace ShadCn.Blazor.Components
+@using ShadCn.Blazor.Primitives.Utilities
+
+<header class="@ComputedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</header>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "shrink-0 border-b border-border")
+        .Add(Class)
+        .Build();
+}
