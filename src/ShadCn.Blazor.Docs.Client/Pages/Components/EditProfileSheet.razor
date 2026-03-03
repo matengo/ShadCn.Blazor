@@ -1,0 +1,40 @@
+@using ShadCn.Blazor.Components
+@using ShadCn.Blazor.Components.Sheet
+@using ShadCn.Blazor.Components.Button
+@using ShadCn.Blazor.Components.Input
+
+<SheetHeader>
+    <SheetTitle>Edit profile</SheetTitle>
+    <SheetDescription>
+        Make changes to your profile here. Click save when you're done.
+    </SheetDescription>
+</SheetHeader>
+<div class="grid gap-4 py-4">
+    <div class="grid grid-cols-4 items-center gap-4">
+        <Label For="name" Class="text-right">Name</Label>
+        <Input @bind-Value="Data.Name" Id="name" Class="col-span-3" />
+    </div>
+    <div class="grid grid-cols-4 items-center gap-4">
+        <Label For="username" Class="text-right">Username</Label>
+        <Input @bind-Value="Data.Username" Id="username" Class="col-span-3" />
+    </div>
+</div>
+<SheetFooter>
+    <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Cancel</Button>
+    <Button OnClick="Save">Save changes</Button>
+</SheetFooter>
+
+@code {
+    [CascadingParameter] public SheetContext Sheet { get; set; } = default!;
+    [Parameter] public EditProfileModel Data { get; set; } = new();
+
+    private void Cancel()
+    {
+        Sheet.Dismiss();
+    }
+
+    private void Save()
+    {
+        Sheet.Close(Data);
+    }
+}

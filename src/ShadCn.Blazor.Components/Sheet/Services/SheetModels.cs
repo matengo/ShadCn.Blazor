@@ -1,37 +1,45 @@
 using Microsoft.AspNetCore.Components;
 
-namespace ShadCn.Blazor.Components.Dialog;
+namespace ShadCn.Blazor.Components.Sheet;
 
-public class DialogOptions
+public enum SheetSide
+{
+    Top,
+    Right,
+    Bottom,
+    Left
+}
+
+public class SheetOptions
 {
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public string Width { get; set; } = "max-w-lg";
+    public SheetSide Side { get; set; } = SheetSide.Right;
     public bool Dismissable { get; set; } = true;
     public string? Class { get; set; }
 }
 
-public class DialogParameters : Dictionary<string, object>
+public class SheetParameters : Dictionary<string, object>
 {
-    public DialogParameters() { }
-    public DialogParameters(IDictionary<string, object> dictionary) : base(dictionary) { }
+    public SheetParameters() { }
+    public SheetParameters(IDictionary<string, object> dictionary) : base(dictionary) { }
 
     public new void Add(string name, object value) => base.Add(name, value);
     public T? Get<T>(string name) => this.TryGetValue(name, out var value) ? (T)value : default;
 }
 
-public class DialogReference
+public class SheetReference
 {
     public Guid Id { get; } = Guid.NewGuid();
     public TaskCompletionSource<object?> TaskCompletionSource { get; } = new();
     public Type? ComponentType { get; }
-    public DialogParameters Parameters { get; }
-    public DialogOptions Options { get; }
+    public SheetParameters Parameters { get; }
+    public SheetOptions Options { get; }
     public RenderFragment? Content { get; }
     public bool IsClosing { get; set; }
     internal object? PendingResult { get; set; }
 
-    public DialogReference(Type componentType, DialogParameters parameters, DialogOptions options)
+    public SheetReference(Type componentType, SheetParameters parameters, SheetOptions options)
     {
         ComponentType = componentType;
         Parameters = parameters;
@@ -39,11 +47,11 @@ public class DialogReference
     }
     
     // For rendering a simple RenderFragment directly if needed
-    public DialogReference(RenderFragment content, DialogOptions options)
+    public SheetReference(RenderFragment content, SheetOptions options)
     {
         Content = content;
         Options = options;
-        Parameters = new DialogParameters();
+        Parameters = new SheetParameters();
     }
 
     public void Close(object? result)
@@ -57,12 +65,12 @@ public class DialogReference
     }
 }
 
-public class DialogContext
+public class SheetContext
 {
-    private readonly DialogReference _reference;
-    private readonly DialogService _service;
+    private readonly SheetReference _reference;
+    private readonly SheetService _service;
 
-    public DialogContext(DialogReference reference, DialogService service)
+    public SheetContext(SheetReference reference, SheetService service)
     {
         _reference = reference;
         _service = service;

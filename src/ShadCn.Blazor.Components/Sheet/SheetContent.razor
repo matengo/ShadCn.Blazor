@@ -1,0 +1,79 @@
+@namespace ShadCn.Blazor.Components.Sheet
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (Sheet?.Open == true || IsExiting)
+{
+    <div class="fixed inset-0 z-50">
+        @* Overlay *@
+        <div class="@OverlayClass" @onclick="HandleOverlayClick"></div>
+        
+        @* Content *@
+        <div class="@ComputedClass" role="dialog" aria-modal="true" @attributes="AdditionalAttributes">
+            @ChildContent
+            <button type="button" 
+                    class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+                    @onclick="HandleClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter] public Sheet? Sheet { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public SheetSide Side { get; set; } = SheetSide.Right;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsExiting => Sheet?.Closing ?? false;
+
+    private string OverlayClass => IsExiting
+        ? "fixed inset-0 bg-black/80 animate-out fade-out-0 duration-300"
+        : "fixed inset-0 bg-black/80 animate-in fade-in-0 duration-200";
+
+    private string ComputedClass => new ClassBuilder(
+        IsExiting
+            ? "fixed z-50 gap-4 bg-background p-6 shadow-lg animate-out duration-300"
+            : "fixed z-50 gap-4 bg-background p-6 shadow-lg animate-in duration-300")
+        .Add(IsExiting ? GetExitSideClasses() : GetEnterSideClasses())
+        .Add(Class)
+        .Build();
+
+    private string GetEnterSideClasses() => Side switch
+    {
+        SheetSide.Top => "inset-x-0 top-0 border-b slide-in-from-top",
+        SheetSide.Bottom => "inset-x-0 bottom-0 border-t slide-in-from-bottom",
+        SheetSide.Left => "inset-y-0 left-0 h-full w-3/4 border-r slide-in-from-left sm:max-w-sm",
+        SheetSide.Right => "inset-y-0 right-0 h-full w-3/4 border-l slide-in-from-right sm:max-w-sm",
+        _ => "inset-y-0 right-0 h-full w-3/4 border-l slide-in-from-right sm:max-w-sm"
+    };
+
+    private string GetExitSideClasses() => Side switch
+    {
+        SheetSide.Top => "inset-x-0 top-0 border-b slide-out-to-top",
+        SheetSide.Bottom => "inset-x-0 bottom-0 border-t slide-out-to-bottom",
+        SheetSide.Left => "inset-y-0 left-0 h-full w-3/4 border-r slide-out-to-left sm:max-w-sm",
+        SheetSide.Right => "inset-y-0 right-0 h-full w-3/4 border-l slide-out-to-right sm:max-w-sm",
+        _ => "inset-y-0 right-0 h-full w-3/4 border-l slide-out-to-right sm:max-w-sm"
+    };
+
+    private async Task HandleOverlayClick()
+    {
+        if (Sheet != null)
+        {
+            await Sheet.SetOpen(false);
+        }
+    }
+
+    private async Task HandleClose()
+    {
+        if (Sheet != null)
+        {
+            await Sheet.SetOpen(false);
+        }
+    }
+}

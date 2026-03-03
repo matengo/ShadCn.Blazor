@@ -1,0 +1,37 @@
+@namespace ShadCn.Blazor.Components.Sheet
+@using ShadCn.Blazor.Components
+@inject SheetService Service
+@implements IDisposable
+
+@if (Service.Sheets.Any())
+{
+    @foreach (var sheet in Service.Sheets)
+    {
+        <Sheet @key="sheet.Id" Open="true" IsClosing="@sheet.IsClosing" OpenChanged="@((bool open) => { if(!open) Service.FinalizeClose(sheet.Id, null); })">
+            <SheetContent Side="@sheet.Options.Side" Class="@sheet.Options.Class">
+                <CascadingValue Value="new SheetContext(sheet, Service)" IsFixed="true">
+                    @if (sheet.ComponentType != null)
+                    {
+                        <DynamicComponent Type="sheet.ComponentType" Parameters="sheet.Parameters" />
+                    }
+                    else if (sheet.Content != null)
+                    {
+                        @sheet.Content
+                    }
+                </CascadingValue>
+            </SheetContent>
+        </Sheet>
+    }
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        Service.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Service.OnChange -= StateHasChanged;
+    }
+}

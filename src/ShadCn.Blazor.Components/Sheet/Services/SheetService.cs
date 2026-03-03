@@ -1,37 +1,37 @@
 using Microsoft.AspNetCore.Components;
-using ShadCn.Blazor.Components.Dialog;
+using ShadCn.Blazor.Components.Sheet;
 
 namespace ShadCn.Blazor.Components;
 
-public interface IDialogService
+public interface ISheetService
 {
-    Task<TResult> ShowAsync<TComponent, TResult>(Dictionary<string, object> parameters, DialogOptions? options = null) 
+    Task<TResult> ShowAsync<TComponent, TResult>(Dictionary<string, object> parameters, SheetOptions? options = null) 
         where TComponent : ComponentBase;
 
-    Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, DialogOptions? options = null) 
+    Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, SheetOptions? options = null) 
         where TComponent : ComponentBase;
 }
 
-public class DialogService : IDialogService
+public class SheetService : ISheetService
 {
     public event Action? OnChange;
-    private readonly List<DialogReference> _dialogs = new();
+    private readonly List<SheetReference> _sheets = new();
 
-    public IReadOnlyList<DialogReference> Dialogs => _dialogs.AsReadOnly();
+    public IReadOnlyList<SheetReference> Sheets => _sheets.AsReadOnly();
 
-    public async Task<TResult> ShowAsync<TComponent, TResult>(Dictionary<string, object> parameters, DialogOptions? options = null)
+    public async Task<TResult> ShowAsync<TComponent, TResult>(Dictionary<string, object> parameters, SheetOptions? options = null)
         where TComponent : ComponentBase
     {
-        var reference = new DialogReference(typeof(TComponent), new DialogParameters(parameters), options ?? new DialogOptions());
+        var reference = new SheetReference(typeof(TComponent), new SheetParameters(parameters), options ?? new SheetOptions());
 
-        _dialogs.Add(reference);
+        _sheets.Add(reference);
         OnChange?.Invoke();
 
         var result = await reference.TaskCompletionSource.Task;
         return (TResult)result!;
     }
 
-    public Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, DialogOptions? options = null)
+    public Task<TResult> ShowAsync<TComponent, TResult, TInput>(TInput model, SheetOptions? options = null)
         where TComponent : ComponentBase
     {
         var parameters = new Dictionary<string, object> { { "Data", model! } };
@@ -40,7 +40,7 @@ public class DialogService : IDialogService
 
     public void Close(Guid id, object? result)
     {
-        var reference = _dialogs.FirstOrDefault(x => x.Id == id);
+        var reference = _sheets.FirstOrDefault(x => x.Id == id);
         if (reference == null || reference.IsClosing) return;
 
         reference.IsClosing = true;
@@ -52,19 +52,19 @@ public class DialogService : IDialogService
 
     public void FinalizeClose(Guid id, object? result)
     {
-        var reference = _dialogs.FirstOrDefault(x => x.Id == id);
+        var reference = _sheets.FirstOrDefault(x => x.Id == id);
         if (reference != null)
         {
-            _dialogs.Remove(reference);
+            _sheets.Remove(reference);
             reference.TaskCompletionSource.TrySetResult(result);
             OnChange?.Invoke();
         }
     }
 
-    private async Task RemoveAfterAnimation(DialogReference reference)
+    private async Task RemoveAfterAnimation(SheetReference reference)
     {
-        await Task.Delay(200);
-        _dialogs.Remove(reference);
+        await Task.Delay(300);
+        _sheets.Remove(reference);
         reference.TaskCompletionSource.TrySetResult(reference.PendingResult);
         OnChange?.Invoke();
     }

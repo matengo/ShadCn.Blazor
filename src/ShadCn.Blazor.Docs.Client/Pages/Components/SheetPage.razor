@@ -1,0 +1,138 @@
+@page "/components/sheet"
+
+<PageTitle>Sheet - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Sheet</h1>
+        <p class="text-lg text-muted-foreground">
+            A panel that slides out from the edge of the screen. Useful for navigation, details, or editing forms.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A simple sheet that slides in from the right.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Sheet @bind-Open="_basicOpen">
+                        <SheetTrigger>
+                            <Button>Open Sheet</Button>
+                        </SheetTrigger>
+                        <SheetContent Side="SheetSide.Right">
+                            <SheetHeader>
+                                <SheetTitle>Edit profile</SheetTitle>
+                                <SheetDescription>
+                                    Make changes to your profile here. Click save when you're done.
+                                </SheetDescription>
+                            </SheetHeader>
+                            <div class="grid gap-4 py-4">
+                                <div class="grid grid-cols-4 items-center gap-4">
+                                    <Label Class="text-right">Name</Label>
+                                    <Input Class="col-span-3" Placeholder="Pedro Duarte" />
+                                </div>
+                                <div class="grid grid-cols-4 items-center gap-4">
+                                    <Label Class="text-right">Username</Label>
+                                    <Input Class="col-span-3" Placeholder="peduarte" />
+                                </div>
+                            </div>
+                            <SheetFooter>
+                                <SheetClose>
+                                    <Button Variant="ButtonVariant.Outline">Cancel</Button>
+                                </SheetClose>
+                                <Button @onclick="() => _basicOpen = false">Save changes</Button>
+                            </SheetFooter>
+                        </SheetContent>
+                    </Sheet>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Side" Description="Use the Side property to control the direction the Sheet slides in from.">
+            <ComponentExample Code="@SidesCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var side in Enum.GetValues<SheetSide>())
+                        {
+                            <Sheet @bind-Open="_sideStates[side]">
+                                <SheetTrigger>
+                                    <Button Variant="ButtonVariant.Outline">@side</Button>
+                                </SheetTrigger>
+                                <SheetContent Side="@side">
+                                    <SheetHeader>
+                                        <SheetTitle>@side Sheet</SheetTitle>
+                                        <SheetDescription>
+                                            This sheet slides in from the @side.ToString().ToLower().
+                                        </SheetDescription>
+                                    </SheetHeader>
+                                    <div class="py-4">
+                                        <p class="text-sm text-muted-foreground">Content goes here.</p>
+                                    </div>
+                                    <SheetFooter>
+                                        <SheetClose>
+                                            <Button>Close</Button>
+                                        </SheetClose>
+                                    </SheetFooter>
+                                </SheetContent>
+                            </Sheet>
+                        }
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool _basicOpen;
+    private Dictionary<SheetSide, bool> _sideStates = Enum.GetValues<SheetSide>().ToDictionary(s => s, _ => false);
+
+    private const string BasicCode = @"<Sheet @bind-Open=""sheetOpen"">
+    <SheetTrigger>
+        <Button>Open Sheet</Button>
+    </SheetTrigger>
+    <SheetContent Side=""SheetSide.Right"">
+        <SheetHeader>
+            <SheetTitle>Edit profile</SheetTitle>
+            <SheetDescription>
+                Make changes to your profile here.
+            </SheetDescription>
+        </SheetHeader>
+        <div class=""grid gap-4 py-4"">
+            <div class=""grid grid-cols-4 items-center gap-4"">
+                <Label Class=""text-right"">Name</Label>
+                <Input Class=""col-span-3"" Placeholder=""Pedro Duarte"" />
+            </div>
+        </div>
+        <SheetFooter>
+            <SheetClose>
+                <Button Variant=""ButtonVariant.Outline"">Cancel</Button>
+            </SheetClose>
+            <Button>Save changes</Button>
+        </SheetFooter>
+    </SheetContent>
+</Sheet>";
+
+    private const string SidesCode = @"@foreach (var side in Enum.GetValues<SheetSide>())
+{
+    <Sheet @bind-Open=""sideStates[side]"">
+        <SheetTrigger>
+            <Button Variant=""ButtonVariant.Outline"">@side</Button>
+        </SheetTrigger>
+        <SheetContent Side=""@side"">
+            <SheetHeader>
+                <SheetTitle>@side Sheet</SheetTitle>
+                <SheetDescription>
+                    This sheet slides in from the @side.
+                </SheetDescription>
+            </SheetHeader>
+            <SheetFooter>
+                <SheetClose>
+                    <Button>Close</Button>
+                </SheetClose>
+            </SheetFooter>
+        </SheetContent>
+    </Sheet>
+}";
+}

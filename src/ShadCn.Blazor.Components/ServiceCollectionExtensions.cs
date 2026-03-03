@@ -21,6 +21,11 @@ public static class ServiceCollectionExtensions
         // Then register IDialogService to resolve to the same instance
         services.AddScoped<IDialogService>(sp => sp.GetRequiredService<DialogService>());
 
+        // Register SheetService as concrete type first
+        services.AddScoped<SheetService>();
+        // Then register ISheetService to resolve to the same instance
+        services.AddScoped<ISheetService>(sp => sp.GetRequiredService<SheetService>());
+
         return services;
     }
 }

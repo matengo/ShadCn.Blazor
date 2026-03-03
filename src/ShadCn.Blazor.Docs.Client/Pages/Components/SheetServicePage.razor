@@ -1,0 +1,117 @@
+@page "/components/sheet-service"
+@using ShadCn.Blazor.Components.Sheet
+@inject ISheetService SheetService
+
+<PageTitle>Sheet Service - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Sheet Service</h1>
+        <p class="text-lg text-muted-foreground">
+            A service to programmatically open sheets with strongly-typed results.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Usage</h2>
+            <p>
+                Inject <code>ISheetService</code> and use <code>ShowAsync&lt;TComponent, TResult, TInput&gt;</code>.
+            </p>
+
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col gap-4">
+                    <p>Current Result: <strong>@(_lastResult ?? "None")</strong></p>
+
+                    <div class="flex gap-4">
+                        <Button OnClick="OpenSheet">Open Edit Profile Sheet</Button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Sides</h2>
+            <p>
+                Control which edge the sheet slides in from using <code>SheetOptions.Side</code>.
+            </p>
+
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-wrap gap-2">
+                    @foreach (var side in Enum.GetValues<SheetSide>())
+                    {
+                        <Button Variant="ButtonVariant.Outline" OnClick="@(() => OpenSide(side))">
+                            @side
+                        </Button>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Code</h2>
+            <div class="rounded-md bg-muted p-4">
+<pre class="overflow-x-auto"><code>@@inject ISheetService SheetService
+
+@@code {
+    private async Task OpenSheet()
+    {
+        var input = new EditProfileModel { Name = "John Doe", Username = "johndoe" };
+
+        var result = await SheetService.ShowAsync&lt;EditProfileSheet, EditProfileModel, EditProfileModel&gt;(
+            input,
+            new SheetOptions { Side = SheetSide.Right }
+        );
+
+        if (result != null)
+        {
+            Console.WriteLine($"Updated: {result.Name}");
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+    </div>
+</div>
+
+@code {
+    private string? _lastResult;
+
+    private async Task OpenSheet()
+    {
+        var model = new EditProfileModel { Name = "John Doe", Username = "@@johndoe" };
+
+        var result = await SheetService.ShowAsync<EditProfileSheet, EditProfileModel, EditProfileModel>(
+            model,
+            new SheetOptions { Side = SheetSide.Right }
+        );
+
+        if (result != null)
+        {
+            _lastResult = $"Saved: {result.Name} ({result.Username})";
+        }
+        else
+        {
+            _lastResult = "Cancelled";
+        }
+    }
+
+    private async Task OpenSide(SheetSide side)
+    {
+        var model = new EditProfileModel();
+        var options = new SheetOptions { Side = side };
+
+        var result = await SheetService.ShowAsync<EditProfileSheet, EditProfileModel, EditProfileModel>(model, options);
+
+        if (result != null)
+        {
+            _lastResult = $"Saved from {side}: {result.Name} ({result.Username})";
+        }
+        else
+        {
+            _lastResult = $"{side} sheet dismissed";
+        }
+    }
+}

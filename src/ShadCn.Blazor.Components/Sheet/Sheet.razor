@@ -1,4 +1,4 @@
-@namespace ShadCn.Blazor.Components.Dialog
+@namespace ShadCn.Blazor.Components.Sheet
 
 <CascadingValue Value="this">
     @ChildContent
@@ -20,7 +20,7 @@
         {
             _internalIsClosing = true;
             StateHasChanged();
-            await Task.Delay(200);
+            await Task.Delay(300);
             _internalIsClosing = false;
         }
 

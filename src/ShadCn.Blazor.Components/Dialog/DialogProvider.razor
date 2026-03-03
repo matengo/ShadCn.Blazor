@@ -7,7 +7,7 @@
 {
     @foreach (var dialog in Service.Dialogs)
     {
-        <Dialog @key="dialog.Id" Open="true" OpenChanged="@((bool open) => { if(!open) Service.Close(dialog.Id, null); })">
+        <Dialog @key="dialog.Id" Open="true" IsClosing="@dialog.IsClosing" OpenChanged="@((bool open) => { if(!open) Service.FinalizeClose(dialog.Id, null); })">
             <DialogContent Class="@dialog.Options.Width">
                 <CascadingValue Value="new DialogContext(dialog, Service)" IsFixed="true">
                     @if (dialog.ComponentType != null)

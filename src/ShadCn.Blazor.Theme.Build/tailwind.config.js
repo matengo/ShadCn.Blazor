@@ -7,6 +7,8 @@ export default {
     "../ShadCn.Blazor.Primitives/**/*.cs",
     "../ShadCn.Blazor.Docs/**/*.razor",
     "../ShadCn.Blazor.Docs/**/*.cs",
+    "../ShadCn.Blazor.Docs.Client/**/*.razor",
+    "../ShadCn.Blazor.Docs.Client/**/*.cs",
   ],
   darkMode: ["class"],
   theme: {
