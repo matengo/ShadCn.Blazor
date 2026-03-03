@@ -1,0 +1,21 @@
+<Project>
+  <!-- This file is automatically included when the package is referenced -->
+  
+  <!-- Add references to embedded assemblies -->
+  <ItemGroup>
+    <Reference Include="ShadCn.Blazor.Primitives">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\$(TargetFramework)\ShadCn.Blazor.Primitives.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ShadCn.Blazor.Theme.Default">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\$(TargetFramework)\ShadCn.Blazor.Theme.Default.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Add static web assets from Theme.Default as Content for Blazor -->
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\staticwebassets\theme.css" Link="_content\ShadCn.Blazor.Theme.Default\theme.css" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(MSBuildThisFileDirectory)..\staticwebassets\fonts\**\*.woff2" Link="_content\ShadCn.Blazor.Theme.Default\fonts\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

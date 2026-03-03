@@ -8,6 +8,7 @@
     <PackageProjectUrl>https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matengo/ShadCn.Blazor</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
 
@@ -17,6 +18,8 @@
 
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <!-- Include the .targets file so MSBuild can find the embedded DLLs -->
+    <None Include="build\ShadCn.Blazor.Components.targets" Pack="true" PackagePath="build\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,8 +27,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShadCn.Blazor.Primitives\ShadCn.Blazor.Primitives.csproj" />
-    <ProjectReference Include="..\ShadCn.Blazor.Theme.Default\ShadCn.Blazor.Theme.Default.csproj" />
+    <!-- Mark dependencies as private so they get embedded in this package -->
+    <ProjectReference Include="..\ShadCn.Blazor.Primitives\ShadCn.Blazor.Primitives.csproj">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\ShadCn.Blazor.Theme.Default\ShadCn.Blazor.Theme.Default.csproj">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </ProjectReference>
   </ItemGroup>
+
+  <!-- Manually add the referenced project DLLs to the package -->
+  <Target Name="IncludeReferencedProjectsInPackage" BeforeTargets="_GetPackageFiles">
+    <ItemGroup>
+      <!-- Include the compiled DLLs from referenced projects -->
+      <None Include="$(OutputPath)ShadCn.Blazor.Primitives.dll" Pack="true" PackagePath="lib/$(TargetFramework)/" Visible="false" />
+      <None Include="$(OutputPath)ShadCn.Blazor.Theme.Default.dll" Pack="true" PackagePath="lib/$(TargetFramework)/" Visible="false" />
+      
+      <!-- Include static web assets from Theme.Default with proper Blazor static web asset structure -->
+      <_ThemeAssets Include="..\ShadCn.Blazor.Theme.Default\wwwroot\**\*" />
+      <None Include="@(_ThemeAssets)">
+        <Pack>true</Pack>
+        <PackagePath>staticwebassets/</PackagePath>
+        <Visible>false</Visible>
+        <Link>staticwebassets\%(_ThemeAssets.RecursiveDir)%(_ThemeAssets.Filename)%(_ThemeAssets.Extension)</Link>
+      </None>
+    </ItemGroup>
+  </Target>
 
 </Project>
