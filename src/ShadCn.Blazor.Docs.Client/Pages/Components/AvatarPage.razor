@@ -50,6 +50,19 @@
                 </Preview>
             </ComponentExample>
         </ExampleSection>
+
+        <ExampleSection Title="Fallback Color" Description="Set custom background colors for fallback avatars.">
+            <ComponentExample Code="@FallbackColorCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <Avatar Fallback="AB" FallbackColor="#e11d48" />
+                        <Avatar Fallback="CD" FallbackColor="#2563eb" />
+                        <Avatar Fallback="EF" FallbackColor="#16a34a" />
+                        <Avatar Fallback="GH" FallbackColor="#9333ea" />
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
     </div>
 </div>
 
@@ -64,4 +77,9 @@
 
     private const string FallbackCode = @"<Avatar Fallback=""AB"" />
 <Avatar Fallback=""CD"" />";
+
+    private const string FallbackColorCode = @"<Avatar Fallback=""AB"" FallbackColor=""#e11d48"" />
+<Avatar Fallback=""CD"" FallbackColor=""#2563eb"" />
+<Avatar Fallback=""EF"" FallbackColor=""#16a34a"" />
+<Avatar Fallback=""GH"" FallbackColor=""#9333ea"" />";
 }
