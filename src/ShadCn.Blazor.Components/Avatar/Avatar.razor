@@ -8,7 +8,7 @@
     }
     else if (!string.IsNullOrEmpty(Fallback))
     {
-        <span class="@FallbackClass">@Fallback</span>
+        <span class="@FallbackComputedClass" style="@FallbackStyle">@Fallback</span>
     }
     else
     {
@@ -20,6 +20,7 @@
     [Parameter] public string? Src { get; set; }
     [Parameter] public string? Alt { get; set; }
     [Parameter] public string? Fallback { get; set; }
+    [Parameter] public string? FallbackColor { get; set; }
     [Parameter] public string? Class { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
@@ -31,8 +32,14 @@
         .Add(Class)
         .Build();
 
-    private const string FallbackClass = 
-        "flex h-full w-full items-center justify-center rounded-full bg-muted text-muted-foreground text-sm font-medium";
+    private string FallbackComputedClass => new ClassBuilder(
+        "flex h-full w-full items-center justify-center rounded-full text-sm font-medium")
+        .Add(string.IsNullOrEmpty(FallbackColor) ? "bg-muted text-muted-foreground" : "text-white")
+        .Build();
+
+    private string? FallbackStyle => !string.IsNullOrEmpty(FallbackColor) 
+        ? $"background-color: {FallbackColor}" 
+        : null;
 
     private void OnImageError()
     {
