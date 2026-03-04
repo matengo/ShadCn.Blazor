@@ -69,12 +69,101 @@
                 </Preview>
             </ComponentExample>
         </ExampleSection>
+
+        <ExampleSection Title="Sizes" Description="Use the Size parameter to control the dialog width. Default is DialogSize.Default (max-w-lg).">
+            <ComponentExample Code="@SizesCode">
+                <Preview>
+                    <div class="flex flex-wrap gap-4">
+                        <Dialog Open="@sizeSmOpen" OpenChanged="v => sizeSmOpen = v">
+                            <DialogTrigger>
+                                <Button Variant="ButtonVariant.Outline">Small</Button>
+                            </DialogTrigger>
+                            <DialogContent Size="DialogSize.Sm">
+                                <DialogHeader>
+                                    <DialogTitle>Small Dialog</DialogTitle>
+                                    <DialogDescription>This dialog uses DialogSize.Sm (max-w-sm).</DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Button @onclick="() => sizeSmOpen = false">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog Open="@sizeDefaultOpen" OpenChanged="v => sizeDefaultOpen = v">
+                            <DialogTrigger>
+                                <Button Variant="ButtonVariant.Outline">Default</Button>
+                            </DialogTrigger>
+                            <DialogContent Size="DialogSize.Default">
+                                <DialogHeader>
+                                    <DialogTitle>Default Dialog</DialogTitle>
+                                    <DialogDescription>This dialog uses DialogSize.Default (max-w-lg).</DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Button @onclick="() => sizeDefaultOpen = false">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog Open="@sizeXlOpen" OpenChanged="v => sizeXlOpen = v">
+                            <DialogTrigger>
+                                <Button Variant="ButtonVariant.Outline">Extra Large</Button>
+                            </DialogTrigger>
+                            <DialogContent Size="DialogSize.Xl">
+                                <DialogHeader>
+                                    <DialogTitle>Extra Large Dialog</DialogTitle>
+                                    <DialogDescription>This dialog uses DialogSize.Xl (max-w-xl).</DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Button @onclick="() => sizeXlOpen = false">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog Open="@sizeXxxlOpen" OpenChanged="v => sizeXxxlOpen = v">
+                            <DialogTrigger>
+                                <Button Variant="ButtonVariant.Outline">3XL</Button>
+                            </DialogTrigger>
+                            <DialogContent Size="DialogSize.Xxxl">
+                                <DialogHeader>
+                                    <DialogTitle>3XL Dialog</DialogTitle>
+                                    <DialogDescription>This dialog uses DialogSize.Xxxl (max-w-3xl).</DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Button @onclick="() => sizeXxxlOpen = false">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog Open="@sizeFullOpen" OpenChanged="v => sizeFullOpen = v">
+                            <DialogTrigger>
+                                <Button Variant="ButtonVariant.Outline">Fullscreen</Button>
+                            </DialogTrigger>
+                            <DialogContent Size="DialogSize.Full">
+                                <DialogHeader>
+                                    <DialogTitle>Fullscreen Dialog</DialogTitle>
+                                    <DialogDescription>This dialog uses DialogSize.Full and covers the entire viewport.</DialogDescription>
+                                </DialogHeader>
+                                <div class="flex-1" />
+                                <DialogFooter>
+                                    <Button @onclick="() => sizeFullOpen = false">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
     </div>
 </div>
 
 @code {
     private bool dialogOpen;
     private bool formDialogOpen;
+    private bool sizeSmOpen;
+    private bool sizeDefaultOpen;
+    private bool sizeXlOpen;
+    private bool sizeXxxlOpen;
+    private bool sizeFullOpen;
 
     private const string BasicCode = @"<Dialog @bind-Open=""dialogOpen"">
     <DialogTrigger>
@@ -116,4 +205,21 @@
         </DialogFooter>
     </DialogContent>
 </Dialog>";
+
+    private const string SizesCode = @"@* Small *@
+<DialogContent Size=""DialogSize.Sm"">...</DialogContent>
+
+@* Default (max-w-lg) *@
+<DialogContent Size=""DialogSize.Default"">...</DialogContent>
+
+@* Extra Large *@
+<DialogContent Size=""DialogSize.Xl"">...</DialogContent>
+
+@* 3XL *@
+<DialogContent Size=""DialogSize.Xxxl"">...</DialogContent>
+
+@* Fullscreen *@
+<DialogContent Size=""DialogSize.Full"">...</DialogContent>
+
+@* Available sizes: Sm, Md, Lg, Xl, Xxl, Xxxl, Xxxxl, Full *@";
 }

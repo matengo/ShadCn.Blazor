@@ -57,6 +57,49 @@
         </section>
 
         <section class="space-y-4">
+            <h2 class="text-2xl font-semibold">Dialog Sizes</h2>
+            <p>
+                Use <code>DialogOptions.Size</code> to control the dialog width when opening via the service.
+                Available sizes: <code>Sm</code>, <code>Md</code>, <code>Lg</code>, <code>Xl</code>, <code>Xxl</code>, <code>Xxxl</code>, <code>Xxxxl</code>, and <code>Full</code> (fullscreen).
+            </p>
+
+            <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
+                <div class="flex flex-col gap-4">
+                    <p>Result: <strong>@(_sizeResult ?? "None")</strong></p>
+                    <div class="flex flex-wrap gap-4">
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Sm)">Small</Button>
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Default)">Default</Button>
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Xl)">Extra Large</Button>
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Xxxl)">3XL</Button>
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Full)">Fullscreen</Button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-md bg-muted p-4">
+<pre class="overflow-x-auto"><code>var result = await DialogService.ShowAsync&lt;SimpleDialogContent, DialogResult, UserProfile&gt;(
+    input,
+    new DialogOptions
+    {
+        Size = DialogSize.Xl,       // Extra large
+        Dismissable = true
+    }
+);
+
+// Available sizes:
+// DialogSize.Sm      - max-w-sm
+// DialogSize.Md      - max-w-md
+// DialogSize.Default  - max-w-lg (default)
+// DialogSize.Lg      - max-w-lg
+// DialogSize.Xl      - max-w-xl
+// DialogSize.Xxl     - max-w-2xl
+// DialogSize.Xxxl    - max-w-3xl
+// DialogSize.Xxxxl   - max-w-4xl
+// DialogSize.Full    - fullscreen</code></pre>
+            </div>
+        </section>
+
+        <section class="space-y-4">
             <h2 class="text-2xl font-semibold">Stacked Dialogs</h2>
             <p>
                 Dialogs can be opened from within other dialogs. Each new dialog stacks on top of the previous one
@@ -103,6 +146,7 @@
 @code {
     private string? _lastResult;
     private string? _stackedResult;
+    private string? _sizeResult;
 
     private async Task OpenDialog()
     {
@@ -128,5 +172,23 @@
         var input = new NestedDialogModel { Level = 1 };
         var result = await DialogService.ShowAsync<NestedDialogContent, string, NestedDialogModel>(input);
         _stackedResult = result ?? "Dismissed";
+    }
+
+    private async Task OpenSizedDialog(DialogSize size)
+    {
+        var input = new UserProfile { Name = "John Doe", Username = "johndoe" };
+        var result = await DialogService.ShowAsync<SimpleDialogContent, DialogResult, UserProfile>(
+            input,
+            new DialogOptions { Size = size, Dismissable = true }
+        );
+
+        if (result != null && result.Success && result.UpdatedProfile != null)
+        {
+            _sizeResult = $"Saved ({size}): {result.UpdatedProfile.Name}";
+        }
+        else
+        {
+            _sizeResult = $"Cancelled ({size})";
+        }
     }
 }

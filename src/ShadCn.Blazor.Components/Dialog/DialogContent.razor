@@ -3,7 +3,7 @@
 
 @if (Dialog?.Open == true || IsExiting)
 {
-    <div class="fixed inset-0 flex items-center justify-center" style="z-index: @ZIndex">
+    <div class="@ContainerClass" style="z-index: @ZIndex">
         @* Overlay with animation *@
         <div class="@OverlayClass" @onclick="HandleOverlayClick"></div>
         
@@ -26,21 +26,52 @@
     [CascadingParameter] public Dialog? Dialog { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Class { get; set; }
+    [Parameter] public DialogSize Size { get; set; } = DialogSize.Default;
     [Parameter] public int ZIndex { get; set; } = 50;
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private bool IsExiting => Dialog?.Closing ?? false;
+    private bool IsFullScreen => Size == DialogSize.Full;
+
+    private string ContainerClass => IsFullScreen
+        ? "fixed inset-0"
+        : "fixed inset-0 flex items-center justify-center";
 
     private string OverlayClass => IsExiting
         ? "fixed inset-0 bg-black/40 animate-out fade-out-0 duration-200"
         : "fixed inset-0 bg-black/40 animate-in fade-in-0 duration-200";
 
-    private string ComputedClass => new ClassBuilder(
-        IsExiting
-            ? "relative grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
-            : "relative grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200")
-        .Add(Class)
-        .Build();
+    private string SizeClass => Size switch
+    {
+        DialogSize.Sm => "max-w-sm",
+        DialogSize.Md => "max-w-md",
+        DialogSize.Lg => "max-w-lg",
+        DialogSize.Xl => "max-w-xl",
+        DialogSize.Xxl => "max-w-2xl",
+        DialogSize.Xxxl => "max-w-3xl",
+        DialogSize.Xxxxl => "max-w-4xl",
+        DialogSize.Full => "",
+        _ => "max-w-lg"
+    };
+
+    private string ComputedClass
+    {
+        get
+        {
+            if (IsFullScreen)
+            {
+                var fullBase = IsExiting
+                    ? "relative flex flex-col w-full h-full border bg-background p-6 shadow-lg animate-out fade-out-0 zoom-out-95 duration-200"
+                    : "relative flex flex-col w-full h-full border bg-background p-6 shadow-lg animate-in fade-in-0 zoom-in-95 duration-200";
+                return new ClassBuilder(fullBase).Add(Class).Build();
+            }
+
+            var baseClass = IsExiting
+                ? "relative grid w-full gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
+                : "relative grid w-full gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200";
+            return new ClassBuilder(baseClass).Add(SizeClass).Add(Class).Build();
+        }
+    }
 
     private async Task HandleOverlayClick()
     {

@@ -6,7 +6,7 @@ public class DialogOptions
 {
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public string Width { get; set; } = "max-w-lg";
+    public DialogSize Size { get; set; } = DialogSize.Default;
     public bool Dismissable { get; set; } = true;
     public string? Class { get; set; }
 }
