@@ -1,0 +1,157 @@
+@page "/components/table"
+
+<PageTitle>Table - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Table</h1>
+        <p class="text-lg text-muted-foreground">
+            A responsive table component.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A simple table with header, body, and caption.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Table>
+                        <TableCaption>A list of your recent invoices.</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead Class="w-[100px]">Invoice</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Method</TableHead>
+                                <TableHead Class="text-right">Amount</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV001</TableCell>
+                                <TableCell>Paid</TableCell>
+                                <TableCell>Credit Card</TableCell>
+                                <TableCell Class="text-right">$250.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV002</TableCell>
+                                <TableCell>Pending</TableCell>
+                                <TableCell>PayPal</TableCell>
+                                <TableCell Class="text-right">$150.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV003</TableCell>
+                                <TableCell>Unpaid</TableCell>
+                                <TableCell>Bank Transfer</TableCell>
+                                <TableCell Class="text-right">$350.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV004</TableCell>
+                                <TableCell>Paid</TableCell>
+                                <TableCell>Credit Card</TableCell>
+                                <TableCell Class="text-right">$450.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV005</TableCell>
+                                <TableCell>Paid</TableCell>
+                                <TableCell>PayPal</TableCell>
+                                <TableCell Class="text-right">$550.00</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="With Footer" Description="A table with a footer row for totals or summaries.">
+            <ComponentExample Code="@FooterCode">
+                <Preview>
+                    <Table>
+                        <TableCaption>A list of your recent invoices.</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead Class="w-[100px]">Invoice</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Method</TableHead>
+                                <TableHead Class="text-right">Amount</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV001</TableCell>
+                                <TableCell>Paid</TableCell>
+                                <TableCell>Credit Card</TableCell>
+                                <TableCell Class="text-right">$250.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV002</TableCell>
+                                <TableCell>Pending</TableCell>
+                                <TableCell>PayPal</TableCell>
+                                <TableCell Class="text-right">$150.00</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell Class="font-medium">INV003</TableCell>
+                                <TableCell>Unpaid</TableCell>
+                                <TableCell>Bank Transfer</TableCell>
+                                <TableCell Class="text-right">$350.00</TableCell>
+                            </TableRow>
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TableCell colspan="3">Total</TableCell>
+                                <TableCell Class="text-right">$750.00</TableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<Table>
+    <TableCaption>A list of your recent invoices.</TableCaption>
+    <TableHeader>
+        <TableRow>
+            <TableHead Class=""w-[100px]"">Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead Class=""text-right"">Amount</TableHead>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableCell Class=""font-medium"">INV001</TableCell>
+            <TableCell>Paid</TableCell>
+            <TableCell>Credit Card</TableCell>
+            <TableCell Class=""text-right"">$250.00</TableCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+    private const string FooterCode = @"<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHead>Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead Class=""text-right"">Amount</TableHead>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableCell Class=""font-medium"">INV001</TableCell>
+            <TableCell>Paid</TableCell>
+            <TableCell>Credit Card</TableCell>
+            <TableCell Class=""text-right"">$250.00</TableCell>
+        </TableRow>
+    </TableBody>
+    <TableFooter>
+        <TableRow>
+            <TableCell colspan=""3"">Total</TableCell>
+            <TableCell Class=""text-right"">$250.00</TableCell>
+        </TableRow>
+    </TableFooter>
+</Table>";
+}

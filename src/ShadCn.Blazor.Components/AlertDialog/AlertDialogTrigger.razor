@@ -1,0 +1,18 @@
+@namespace ShadCn.Blazor.Components.AlertDialog
+
+<span @onclick="HandleClick" style="cursor: pointer;">
+    @ChildContent
+</span>
+
+@code {
+    [CascadingParameter] public AlertDialog? AlertDialog { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task HandleClick()
+    {
+        if (AlertDialog != null)
+        {
+            await AlertDialog.SetOpen(true);
+        }
+    }
+}

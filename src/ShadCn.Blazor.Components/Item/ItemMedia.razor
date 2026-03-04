@@ -1,0 +1,26 @@
+@namespace ShadCn.Blazor.Components.Item
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ItemMediaVariant Variant { get; set; } = ItemMediaVariant.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "flex shrink-0 items-center justify-center gap-2")
+        .Add(VariantClasses)
+        .Add(Class)
+        .Build();
+
+    private string VariantClasses => Variant switch
+    {
+        ItemMediaVariant.Icon => "size-8 rounded-sm border bg-muted",
+        ItemMediaVariant.Image => "size-10 overflow-hidden rounded-sm",
+        _ => "bg-transparent"
+    };
+}

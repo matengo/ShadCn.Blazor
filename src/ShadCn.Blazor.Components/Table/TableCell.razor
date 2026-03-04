@@ -1,0 +1,17 @@
+@namespace ShadCn.Blazor.Components.Table
+@using ShadCn.Blazor.Primitives.Utilities
+
+<td class="@ComputedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</td>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "p-2 align-middle whitespace-nowrap")
+        .Add(Class)
+        .Build();
+}

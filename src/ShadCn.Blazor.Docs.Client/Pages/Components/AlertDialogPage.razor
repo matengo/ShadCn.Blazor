@@ -1,0 +1,182 @@
+@page "/components/alert-dialog"
+
+<PageTitle>Alert Dialog - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Alert Dialog</h1>
+        <p class="text-lg text-muted-foreground">
+            A modal dialog that interrupts the user with important content and expects a response.
+            Unlike Dialog, it cannot be dismissed by clicking the overlay or pressing escape —
+            the user must explicitly choose an action.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A confirmation dialog with cancel and continue actions.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <AlertDialog @bind-Open="basicOpen">
+                        <AlertDialogTrigger>
+                            <Button Variant="ButtonVariant.Outline">Delete Account</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete your
+                                    account and remove your data from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Destructive" Description="Use a destructive button variant for dangerous actions.">
+            <ComponentExample Code="@DestructiveCode">
+                <Preview>
+                    <AlertDialog @bind-Open="destructiveOpen">
+                        <AlertDialogTrigger>
+                            <Button Variant="ButtonVariant.Destructive">Delete Project</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Delete project?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will permanently delete the project and all associated data.
+                                    This action is irreversible.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction Variant="ButtonVariant.Destructive" OnClick="HandleDelete">
+                                    Delete
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    @if (_deleted)
+                    {
+                        <p class="mt-4 text-sm text-muted-foreground">Project deleted.</p>
+                    }
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="With Callback" Description="Handle user actions with OnClick callbacks.">
+            <ComponentExample Code="@CallbackCode">
+                <Preview>
+                    <div class="flex flex-col gap-4">
+                        <AlertDialog @bind-Open="callbackOpen">
+                            <AlertDialogTrigger>
+                                <Button>Confirm Action</Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Confirm</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Do you want to proceed with this action?
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel OnClick="HandleCancel">Cancel</AlertDialogCancel>
+                                    <AlertDialogAction OnClick="HandleConfirm">Confirm</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                        <p class="text-sm">Result: <strong>@(_result ?? "None")</strong></p>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool basicOpen;
+    private bool destructiveOpen;
+    private bool callbackOpen;
+    private bool _deleted;
+    private string? _result;
+
+    private void HandleDelete()
+    {
+        _deleted = true;
+    }
+
+    private void HandleCancel()
+    {
+        _result = "Cancelled";
+    }
+
+    private void HandleConfirm()
+    {
+        _result = "Confirmed";
+    }
+
+    private const string BasicCode = @"<AlertDialog @bind-Open=""open"">
+    <AlertDialogTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Delete Account</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete
+                your account and remove your data from our servers.
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>";
+
+    private const string DestructiveCode = @"<AlertDialog @bind-Open=""open"">
+    <AlertDialogTrigger>
+        <Button Variant=""ButtonVariant.Destructive"">Delete Project</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Delete project?</AlertDialogTitle>
+            <AlertDialogDescription>
+                This will permanently delete the project.
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction Variant=""ButtonVariant.Destructive""
+                               OnClick=""HandleDelete"">
+                Delete
+            </AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>";
+
+    private const string CallbackCode = @"<AlertDialog @bind-Open=""open"">
+    <AlertDialogTrigger>
+        <Button>Confirm Action</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Confirm</AlertDialogTitle>
+            <AlertDialogDescription>
+                Do you want to proceed?
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel OnClick=""HandleCancel"">Cancel</AlertDialogCancel>
+            <AlertDialogAction OnClick=""HandleConfirm"">Confirm</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>";
+}

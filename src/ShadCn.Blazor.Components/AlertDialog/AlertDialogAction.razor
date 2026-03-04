@@ -1,0 +1,24 @@
+@namespace ShadCn.Blazor.Components.AlertDialog
+@using ShadCn.Blazor.Components.Button
+
+<Button Variant="@Variant" OnClick="HandleClick" Class="@Class" @attributes="AdditionalAttributes">
+    @ChildContent
+</Button>
+
+@code {
+    [CascadingParameter] public AlertDialog? AlertDialog { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Default;
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task HandleClick()
+    {
+        await OnClick.InvokeAsync();
+        if (AlertDialog != null)
+        {
+            await AlertDialog.SetOpen(false);
+        }
+    }
+}

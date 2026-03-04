@@ -1,0 +1,29 @@
+@namespace ShadCn.Blazor.Components.AlertDialog
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+
+    private bool _isClosing;
+
+    public bool Closing => _isClosing;
+
+    internal async Task SetOpen(bool open)
+    {
+        if (!open && Open && !_isClosing)
+        {
+            _isClosing = true;
+            StateHasChanged();
+            await Task.Delay(200);
+            _isClosing = false;
+        }
+
+        Open = open;
+        await OpenChanged.InvokeAsync(Open);
+    }
+}
