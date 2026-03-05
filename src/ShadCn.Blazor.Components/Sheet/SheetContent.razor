@@ -38,8 +38,8 @@
 
     private string ComputedClass => new ClassBuilder(
         IsExiting
-            ? "fixed gap-4 bg-background p-6 shadow-lg animate-out duration-300"
-            : "fixed gap-4 bg-background p-6 shadow-lg animate-in duration-300")
+            ? "fixed flex flex-col bg-background shadow-lg animate-out duration-300"
+            : "fixed flex flex-col bg-background shadow-lg animate-in duration-300")
         .Add(IsExiting ? GetExitSideClasses() : GetEnterSideClasses())
         .Add(Class)
         .Build();

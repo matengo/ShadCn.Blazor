@@ -11,7 +11,7 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2")
+        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 px-6 py-4 border-t bg-muted/50")
         .Add(Class)
         .Build();
 }

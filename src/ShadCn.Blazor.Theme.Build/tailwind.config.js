@@ -3,6 +3,9 @@ export default {
   content: [
     "../ShadCn.Blazor.Components/**/*.razor",
     "../ShadCn.Blazor.Components/**/*.cs",
+    "../ShadCn.Blazor.Components/Dialog/*.razor",
+    "../ShadCn.Blazor.Components/Dialog/DialogBody.razor",
+    "../ShadCn.Blazor.Components/**/*.cs",
     "../ShadCn.Blazor.Primitives/**/*.razor",
     "../ShadCn.Blazor.Primitives/**/*.cs",
     "../ShadCn.Blazor.Docs/**/*.razor",

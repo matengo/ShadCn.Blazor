@@ -8,15 +8,17 @@
         This is dialog level @Data.Level. You can open another dialog on top of this one.
     </DialogDescription>
 </DialogHeader>
-<div class="py-4">
-    <p class="text-sm text-muted-foreground mb-4">
-        Click the button below to open another dialog stacked on top of this one.
-    </p>
-    @if (!string.IsNullOrEmpty(_nestedResult))
-    {
-        <p class="text-sm">Nested dialog returned: <strong>@_nestedResult</strong></p>
-    }
-</div>
+<DialogBody>
+    <div class="py-4">
+        <p class="text-sm text-muted-foreground mb-4">
+            Click the button below to open another dialog stacked on top of this one.
+        </p>
+        @if (!string.IsNullOrEmpty(_nestedResult))
+        {
+            <p class="text-sm">Nested dialog returned: <strong>@_nestedResult</strong></p>
+        }
+    </div>
+</DialogBody>
 <DialogFooter>
     <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Close</Button>
     <Button OnClick="OpenNested">Open Dialog @(Data.Level + 1)</Button>

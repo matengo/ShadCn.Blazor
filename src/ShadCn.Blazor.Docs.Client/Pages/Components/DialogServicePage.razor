@@ -60,7 +60,7 @@
             <h2 class="text-2xl font-semibold">Dialog Sizes</h2>
             <p>
                 Use <code>DialogOptions.Size</code> to control the dialog width when opening via the service.
-                Available sizes: <code>Sm</code>, <code>Md</code>, <code>Lg</code>, <code>Xl</code>, <code>Xxl</code>, <code>Xxxl</code>, <code>Xxxxl</code>, and <code>Full</code> (fullscreen).
+                Available sizes: <code>Sm</code>, <code>Md</code>, <code>Lg</code>, <code>Xl</code>, <code>Max2xl</code>, <code>Max3xl</code>, <code>Max4xl</code>, <code>Max5xl</code>, <code>Max6xl</code>, <code>Max7xl</code>, and <code>Full</code> (fullscreen).
             </p>
 
             <div class="p-6 border rounded-lg bg-card text-card-foreground shadow-sm">
@@ -70,7 +70,7 @@
                         <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Sm)">Small</Button>
                         <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Default)">Default</Button>
                         <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Xl)">Extra Large</Button>
-                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Xxxl)">3XL</Button>
+                        <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Max3xl)">Max3xl</Button>
                         <Button Variant="ButtonVariant.Outline" OnClick="() => OpenSizedDialog(DialogSize.Full)">Fullscreen</Button>
                     </div>
                 </div>
@@ -89,12 +89,15 @@
 // Available sizes:
 // DialogSize.Sm      - max-w-sm
 // DialogSize.Md      - max-w-md
-// DialogSize.Default  - max-w-lg (default)
+// DialogSize.Default - max-w-lg (default)
 // DialogSize.Lg      - max-w-lg
 // DialogSize.Xl      - max-w-xl
-// DialogSize.Xxl     - max-w-2xl
-// DialogSize.Xxxl    - max-w-3xl
-// DialogSize.Xxxxl   - max-w-4xl
+// DialogSize.Max2xl  - max-w-2xl
+// DialogSize.Max3xl  - max-w-3xl
+// DialogSize.Max4xl  - max-w-4xl
+// DialogSize.Max5xl  - max-w-5xl
+// DialogSize.Max6xl  - max-w-6xl
+// DialogSize.Max7xl  - max-w-7xl
 // DialogSize.Full    - fullscreen</code></pre>
             </div>
         </section>
@@ -122,6 +125,9 @@
 &lt;DialogHeader&gt;
     &lt;DialogTitle&gt;Dialog Level @@Data.Level&lt;/DialogTitle&gt;
 &lt;/DialogHeader&gt;
+&lt;DialogBody&gt;
+    &lt;p&gt;Dialog content...&lt;/p&gt;
+&lt;/DialogBody&gt;
 &lt;DialogFooter&gt;
     &lt;Button OnClick="OpenNested"&gt;Open Next Dialog&lt;/Button&gt;
 &lt;/DialogFooter&gt;

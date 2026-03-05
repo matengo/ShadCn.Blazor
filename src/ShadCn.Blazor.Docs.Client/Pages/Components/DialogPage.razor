@@ -24,9 +24,14 @@
                             <DialogHeader>
                                 <DialogTitle>Are you sure?</DialogTitle>
                                 <DialogDescription>
-                                    This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+                                    This action cannot be undone.
                                 </DialogDescription>
                             </DialogHeader>
+                            <DialogBody>
+                                <p class="text-sm">
+                                    Please confirm that you want to proceed with this action. If you have any doubts, it's best to cancel and review the information again.
+                                </p>
+                            </DialogBody>
                             <DialogFooter>
                                 <Button Variant="ButtonVariant.Outline" @onclick="() => dialogOpen = false">Cancel</Button>
                                 <Button @onclick="() => dialogOpen = false">Continue</Button>
@@ -37,7 +42,7 @@
             </ComponentExample>
         </ExampleSection>
 
-        <ExampleSection Title="Form Dialog" Description="Dialog containing a form for user input.">
+        <ExampleSection Title="Form Dialog" Description="Dialog containing a form for user input. Use DialogBody to wrap the form content.">
             <ComponentExample Code="@FormCode">
                 <Preview>
                     <Dialog Open="@formDialogOpen" OpenChanged="v => formDialogOpen = v">
@@ -51,18 +56,51 @@
                                     Make changes to your profile here. Click save when you're done.
                                 </DialogDescription>
                             </DialogHeader>
-                            <div class="grid gap-4 py-4">
-                                <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label Class="text-right">Name</Label>
-                                    <Input Class="col-span-3" Placeholder="Pedro Duarte" />
+                            <DialogBody>
+                                <div class="grid gap-4 py-4">
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <Label Class="text-right">Name</Label>
+                                        <Input Class="col-span-3" Placeholder="Pedro Duarte" />
+                                    </div>
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <Label Class="text-right">Username</Label>
+                                    <Input Class="col-span-3" Placeholder="peduarte" />
+                                    </div>
                                 </div>
-                                <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label Class="text-right">Username</Label>
-                                <Input Class="col-span-3" Placeholder="peduarte" />
-                                </div>
-                            </div>
+                            </DialogBody>
                             <DialogFooter>
                                 <Button @onclick="() => formDialogOpen = false">Save changes</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Scrollable Content" Description="Use DialogBody to create a scrollable area for long content.">
+            <ComponentExample Code="@ScrollableCode">
+                <Preview>
+                    <Dialog Open="@scrollableOpen" OpenChanged="v => scrollableOpen = v">
+                        <DialogTrigger>
+                            <Button Variant="ButtonVariant.Outline">Scrollable</Button>
+                        </DialogTrigger>
+                        <DialogContent Class="max-w-md">
+                            <DialogHeader>
+                                <DialogTitle>Terms of Service</DialogTitle>
+                                <DialogDescription>Please read the following terms.</DialogDescription>
+                            </DialogHeader>
+                            <DialogBody>
+                                @for (int i = 0; i < 20; i++)
+                                {
+                                    <p class="mb-4 text-sm">
+                                        This is a paragraph of text that is repeated to demonstrate scrolling. 
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                    </p>
+                                }
+                            </DialogBody>
+                            <DialogFooter>
+                                <Button @onclick="() => scrollableOpen = false">Accept</Button>
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
@@ -119,17 +157,17 @@
                             </DialogContent>
                         </Dialog>
 
-                        <Dialog Open="@sizeXxxlOpen" OpenChanged="v => sizeXxxlOpen = v">
+                        <Dialog Open="@sizeMax3xlOpen" OpenChanged="v => sizeMax3xlOpen = v">
                             <DialogTrigger>
                                 <Button Variant="ButtonVariant.Outline">3XL</Button>
                             </DialogTrigger>
-                            <DialogContent Size="DialogSize.Xxxl">
+                            <DialogContent Size="DialogSize.Max3xl">
                                 <DialogHeader>
                                     <DialogTitle>3XL Dialog</DialogTitle>
-                                    <DialogDescription>This dialog uses DialogSize.Xxxl (max-w-3xl).</DialogDescription>
+                                    <DialogDescription>This dialog uses DialogSize.Max3xl (max-w-3xl).</DialogDescription>
                                 </DialogHeader>
                                 <DialogFooter>
-                                    <Button @onclick="() => sizeXxxlOpen = false">Close</Button>
+                                    <Button @onclick="() => sizeMax3xlOpen = false">Close</Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
@@ -143,7 +181,9 @@
                                     <DialogTitle>Fullscreen Dialog</DialogTitle>
                                     <DialogDescription>This dialog uses DialogSize.Full and covers the entire viewport.</DialogDescription>
                                 </DialogHeader>
-                                <div class="flex-1" />
+                                <DialogBody>
+                                    Content goes here...
+                                </DialogBody>
                                 <DialogFooter>
                                     <Button @onclick="() => sizeFullOpen = false">Close</Button>
                                 </DialogFooter>
@@ -159,10 +199,11 @@
 @code {
     private bool dialogOpen;
     private bool formDialogOpen;
+    private bool scrollableOpen;
     private bool sizeSmOpen;
     private bool sizeDefaultOpen;
     private bool sizeXlOpen;
-    private bool sizeXxxlOpen;
+    private bool sizeMax3xlOpen;
     private bool sizeFullOpen;
 
     private const string BasicCode = @"<Dialog @bind-Open=""dialogOpen"">
@@ -194,14 +235,39 @@
                 Make changes to your profile here.
             </DialogDescription>
         </DialogHeader>
-        <div class=""grid gap-4 py-4"">
-            <div class=""grid grid-cols-4 items-center gap-4"">
-                <Label Class=""text-right"">Name</Label>
-                <Input Class=""col-span-3"" />
+        <DialogBody>
+            <div class=""grid gap-4 py-4"">
+                <div class=""grid grid-cols-4 items-center gap-4"">
+                    <Label Class=""text-right"">Name</Label>
+                    <Input Class=""col-span-3"" />
+                </div>
             </div>
-        </div>
+        </DialogBody>
         <DialogFooter>
             <Button>Save changes</Button>
+        </DialogFooter>
+    </DialogContent>
+</Dialog>";
+
+    private const string ScrollableCode = @"<Dialog @bind-Open=""scrollableOpen"">
+    <DialogTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Scrollable</Button>
+    </DialogTrigger>
+    <DialogContent Class=""max-w-md"">
+        <DialogHeader>
+            <DialogTitle>Terms of Service</DialogTitle>
+            <DialogDescription>Please read the following terms.</DialogDescription>
+        </DialogHeader>
+        <DialogBody>
+            @for (int i = 0; i < 20; i++)
+            {
+                <p class=""mb-4 text-sm"">
+                    This is a paragraph of text that is repeated...
+                </p>
+            }
+        </DialogBody>
+        <DialogFooter>
+            <Button>Accept</Button>
         </DialogFooter>
     </DialogContent>
 </Dialog>";
@@ -216,10 +282,10 @@
 <DialogContent Size=""DialogSize.Xl"">...</DialogContent>
 
 @* 3XL *@
-<DialogContent Size=""DialogSize.Xxxl"">...</DialogContent>
+<DialogContent Size=""DialogSize.Max3xl"">...</DialogContent>
 
 @* Fullscreen *@
 <DialogContent Size=""DialogSize.Full"">...</DialogContent>
 
-@* Available sizes: Sm, Md, Lg, Xl, Xxl, Xxxl, Xxxxl, Full *@";
+@* Available sizes: Sm, Md, Lg, Xl, Max2xl, Max3xl, Max4xl, Max5xl, Max6xl, Max7xl, Full *@";
 }

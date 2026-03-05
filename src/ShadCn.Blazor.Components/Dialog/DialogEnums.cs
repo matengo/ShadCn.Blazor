@@ -10,8 +10,11 @@ public enum DialogSize
     Md,
     Lg,
     Xl,
-    Xxl,
-    Xxxl,
-    Xxxxl,
+    Max2xl,
+    Max3xl,
+    Max4xl,
+    Max5xl,
+    Max6xl,
+    Max7xl,
     Full
 }

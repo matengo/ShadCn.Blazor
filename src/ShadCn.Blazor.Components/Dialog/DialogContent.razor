@@ -47,9 +47,12 @@
         DialogSize.Md => "max-w-md",
         DialogSize.Lg => "max-w-lg",
         DialogSize.Xl => "max-w-xl",
-        DialogSize.Xxl => "max-w-2xl",
-        DialogSize.Xxxl => "max-w-3xl",
-        DialogSize.Xxxxl => "max-w-4xl",
+        DialogSize.Max2xl => "max-w-2xl",
+        DialogSize.Max3xl => "max-w-3xl",
+        DialogSize.Max4xl => "max-w-4xl",
+        DialogSize.Max5xl => "max-w-5xl",
+        DialogSize.Max6xl => "max-w-6xl",
+        DialogSize.Max7xl => "max-w-7xl",
         DialogSize.Full => "",
         _ => "max-w-lg"
     };
@@ -61,14 +64,14 @@
             if (IsFullScreen)
             {
                 var fullBase = IsExiting
-                    ? "relative flex flex-col w-full h-full border bg-background p-6 shadow-lg animate-out fade-out-0 zoom-out-95 duration-200"
-                    : "relative flex flex-col w-full h-full border bg-background p-6 shadow-lg animate-in fade-in-0 zoom-in-95 duration-200";
+                    ? "relative flex flex-col w-full h-full border bg-background shadow-lg animate-out fade-out-0 zoom-out-95 duration-200"
+                    : "relative flex flex-col w-full h-full border bg-background shadow-lg animate-in fade-in-0 zoom-in-95 duration-200";
                 return new ClassBuilder(fullBase).Add(Class).Build();
             }
 
             var baseClass = IsExiting
-                ? "relative grid w-full gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
-                : "relative grid w-full gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200";
+                ? "relative flex flex-col w-full max-h-[85vh] border bg-background shadow-lg sm:rounded-lg animate-out fade-out-0 zoom-out-95 duration-200"
+                : "relative flex flex-col w-full max-h-[85vh] border bg-background shadow-lg sm:rounded-lg animate-in fade-in-0 zoom-in-95 duration-200";
             return new ClassBuilder(baseClass).Add(SizeClass).Add(Class).Build();
         }
     }

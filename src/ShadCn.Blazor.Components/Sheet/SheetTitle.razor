@@ -11,7 +11,7 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComputedClass => new ClassBuilder(
-        "text-lg font-semibold text-foreground")
+        "text-lg font-semibold text-foreground border-b-0 pb-0")
         .Add(Class)
         .Build();
 }

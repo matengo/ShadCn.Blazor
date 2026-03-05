@@ -9,7 +9,7 @@
         This is sheet level @Data.Level. You can open another sheet on top of this one.
     </SheetDescription>
 </SheetHeader>
-<div class="py-4 flex-1">
+<SheetBody>
     <p class="text-sm text-muted-foreground mb-4">
         Click the button below to open another sheet stacked on top of this one.
     </p>
@@ -17,7 +17,7 @@
     {
         <p class="text-sm">Nested sheet returned: <strong>@_nestedResult</strong></p>
     }
-</div>
+</SheetBody>
 <SheetFooter>
     <Button Variant="ButtonVariant.Outline" OnClick="Cancel">Close</Button>
     <Button OnClick="OpenNested">Open Sheet @(Data.Level + 1)</Button>
