@@ -1,0 +1,29 @@
+@namespace ShadCn.Blazor.Components.Accordion
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@WrapperClass" role="region">
+    @if (IsOpen)
+    {
+        <div class="@ComputedClass" @attributes="AdditionalAttributes">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [CascadingParameter] public AccordionItem? Item { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsOpen => Item?.IsOpen ?? false;
+
+    private string WrapperClass => IsOpen
+        ? "overflow-hidden text-sm animate-in fade-in-0 duration-200"
+        : "overflow-hidden text-sm";
+
+    private string ComputedClass => new ClassBuilder("pb-4 pt-0")
+        .Add(Class)
+        .Build();
+}

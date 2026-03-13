@@ -1,0 +1,29 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+
+<div class="relative" @onmouseleave="HandleMouseLeave">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Open { get; set; }
+
+    internal void SetOpen(bool open)
+    {
+        Open = open;
+        StateHasChanged();
+    }
+
+    internal void Toggle()
+    {
+        Open = !Open;
+        StateHasChanged();
+    }
+
+    private void HandleMouseLeave()
+    {
+        SetOpen(false);
+    }
+}

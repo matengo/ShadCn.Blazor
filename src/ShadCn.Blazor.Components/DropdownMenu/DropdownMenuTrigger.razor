@@ -1,0 +1,16 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+
+<span @onclick="HandleClick" style="cursor: pointer;">
+    @ChildContent
+</span>
+
+@code {
+    [CascadingParameter] public DropdownMenu? Menu { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task HandleClick()
+    {
+        if (Menu != null)
+            await Menu.Toggle();
+    }
+}

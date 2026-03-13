@@ -1,0 +1,38 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (Menu?.Open == true)
+{
+    <div class="fixed inset-0 z-40" @onclick="Close" @onclick:stopPropagation></div>
+    <div class="@ComputedClass" role="menu" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter] public DropdownMenu? Menu { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public DropdownMenuAlign Align { get; set; } = DropdownMenuAlign.Start;
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string AlignClass => Align switch
+    {
+        DropdownMenuAlign.Center => "left-1/2 -translate-x-1/2",
+        DropdownMenuAlign.End => "right-0",
+        _ => "left-0"
+    };
+
+    private string ComputedClass => new ClassBuilder(
+        "absolute top-full mt-2 z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md " +
+        "animate-in fade-in-0 zoom-in-95")
+        .Add(AlignClass)
+        .Add(Class)
+        .Build();
+
+    private async Task Close()
+    {
+        if (Menu != null)
+            await Menu.SetOpen(false);
+    }
+}

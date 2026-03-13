@@ -1,0 +1,45 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div role="menuitemradio"
+     aria-checked="@IsSelected.ToString().ToLower()"
+     tabindex="-1"
+     class="@ComputedClass"
+     @onclick="HandleClick"
+     @attributes="AdditionalAttributes">
+    <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+        @if (IsSelected)
+        {
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="h-2 w-2 fill-current">
+                <circle cx="12" cy="12" r="10"/>
+            </svg>
+        }
+    </span>
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter] public DropdownMenuRadioGroup? RadioGroup { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsSelected => RadioGroup?.IsSelected(Value) ?? false;
+
+    private string ComputedClass => new ClassBuilder(
+        "relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors " +
+        "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground")
+        .Add(Disabled ? "pointer-events-none opacity-50" : "")
+        .Add(Class)
+        .Build();
+
+    private async Task HandleClick()
+    {
+        if (Disabled || RadioGroup == null) return;
+        await RadioGroup.Select(Value);
+    }
+}

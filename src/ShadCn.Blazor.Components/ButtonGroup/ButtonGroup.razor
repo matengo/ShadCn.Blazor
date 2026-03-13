@@ -1,0 +1,29 @@
+@namespace ShadCn.Blazor.Components.ButtonGroup
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div role="group" class="@ComputedClass" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public ButtonGroupOrientation Orientation { get; set; } = ButtonGroupOrientation.Horizontal;
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => Orientation switch
+    {
+        ButtonGroupOrientation.Vertical => new ClassBuilder(
+            "inline-flex flex-col " +
+            "[&>*]:rounded-none [&>*:first-child]:rounded-t-md [&>*:last-child]:rounded-b-md " +
+            "[&>*:not(:first-child)]:-mt-px")
+            .Add(Class)
+            .Build(),
+        _ => new ClassBuilder(
+            "inline-flex " +
+            "[&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md " +
+            "[&>*:not(:first-child)]:-ml-px")
+            .Add(Class)
+            .Build()
+    };
+}

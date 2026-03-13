@@ -43,8 +43,8 @@
 
     private string ButtonClass => new ClassBuilder(
         "inline-flex items-center justify-start rounded-md border border-input bg-background px-4 py-2 text-sm font-normal " +
-        "ring-offset-background hover:bg-accent hover:text-accent-foreground " +
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+        "hover:bg-accent hover:text-accent-foreground " +
+        "outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/20 " +
         "w-[280px]")
         .Add(Class)
         .Build();

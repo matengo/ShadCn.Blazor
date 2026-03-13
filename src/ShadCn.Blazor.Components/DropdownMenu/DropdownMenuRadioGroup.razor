@@ -1,0 +1,19 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    internal bool IsSelected(string? value) => Value == value;
+
+    internal async Task Select(string? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

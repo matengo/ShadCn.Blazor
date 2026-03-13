@@ -1,0 +1,22 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (Sub?.Open == true)
+{
+    <div class="@ComputedClass" role="menu" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter] public DropdownMenuSub? Sub { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "absolute left-full top-0 z-50 min-w-[8rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-lg " +
+        "animate-in fade-in-0 zoom-in-95")
+        .Add(Class)
+        .Build();
+}

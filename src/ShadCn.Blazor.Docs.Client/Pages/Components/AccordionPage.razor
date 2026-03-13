@@ -1,0 +1,195 @@
+@page "/components/accordion"
+@using ShadCn.Blazor.Components.Accordion
+
+<PageTitle>Accordion - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Accordion</h1>
+        <p class="text-lg text-muted-foreground">
+            A vertically stacked set of interactive headings that each reveal a section of content.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A basic accordion that shows one item at a time. The first item is open by default.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <Accordion Type="AccordionType.Single" DefaultValue="item-1" Class="w-full">
+                        <AccordionItem Value="item-1">
+                            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                            <AccordionContent>
+                                Yes. It adheres to the WAI-ARIA design pattern.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="item-2">
+                            <AccordionTrigger>Is it styled?</AccordionTrigger>
+                            <AccordionContent>
+                                Yes. It comes with default styles that match the other components. It's also easy to customize.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="item-3">
+                            <AccordionTrigger>Is it animated?</AccordionTrigger>
+                            <AccordionContent>
+                                Yes. It's animated by default, but you can disable it if you prefer.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Multiple" Description="Use AccordionType.Multiple to allow multiple items to be open at the same time.">
+            <ComponentExample Code="@MultipleCode">
+                <Preview>
+                    <Accordion Type="AccordionType.Multiple" Class="w-full">
+                        <AccordionItem Value="notifications">
+                            <AccordionTrigger>Notifications</AccordionTrigger>
+                            <AccordionContent>
+                                Manage how you receive notifications. You can enable email alerts for updates or push notifications for mobile devices.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="privacy">
+                            <AccordionTrigger>Privacy Settings</AccordionTrigger>
+                            <AccordionContent>
+                                Control who can see your profile, posts, and activity. You can also manage data sharing preferences with third-party services.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="account">
+                            <AccordionTrigger>Account Management</AccordionTrigger>
+                            <AccordionContent>
+                                Update your email, password, and security settings. You can also download your data or delete your account from this section.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Disabled" Description="Use the Disabled parameter on AccordionItem to disable individual items.">
+            <ComponentExample Code="@DisabledCode">
+                <Preview>
+                    <Accordion Type="AccordionType.Single" DefaultValue="item-1" Class="w-full">
+                        <AccordionItem Value="item-1">
+                            <AccordionTrigger>Available item</AccordionTrigger>
+                            <AccordionContent>
+                                This item is interactive and can be toggled.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="item-2" Disabled="true">
+                            <AccordionTrigger>Disabled item</AccordionTrigger>
+                            <AccordionContent>
+                                This content cannot be revealed because the item is disabled.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="item-3">
+                            <AccordionTrigger>Another available item</AccordionTrigger>
+                            <AccordionContent>
+                                This item is also interactive and can be toggled.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="FAQ Example" Description="A common use case for accordions is a FAQ section.">
+            <ComponentExample Code="@FaqCode">
+                <Preview>
+                    <Accordion Type="AccordionType.Single" Collapsible="true" Class="w-full">
+                        <AccordionItem Value="faq-1">
+                            <AccordionTrigger>How do I reset my password?</AccordionTrigger>
+                            <AccordionContent>
+                                Click on 'Forgot Password' on the login page, enter your email address, and we'll send you a link to reset your password. The link will expire in 24 hours.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="faq-2">
+                            <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
+                            <AccordionContent>
+                                We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers. For enterprise plans, we also offer invoicing.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="faq-3">
+                            <AccordionTrigger>Can I cancel my subscription?</AccordionTrigger>
+                            <AccordionContent>
+                                Yes, you can cancel your subscription at any time from your account settings. Your access will continue until the end of the current billing period.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem Value="faq-4">
+                            <AccordionTrigger>What are your shipping options?</AccordionTrigger>
+                            <AccordionContent>
+                                We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free shipping on international orders over $50.
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<Accordion Type=""AccordionType.Single"" DefaultValue=""item-1"" Class=""w-full"">
+    <AccordionItem Value=""item-1"">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+            Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem Value=""item-2"">
+        <AccordionTrigger>Is it styled?</AccordionTrigger>
+        <AccordionContent>
+            Yes. It comes with default styles that match the other components.
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem Value=""item-3"">
+        <AccordionTrigger>Is it animated?</AccordionTrigger>
+        <AccordionContent>
+            Yes. It's animated by default, but you can disable it if you prefer.
+        </AccordionContent>
+    </AccordionItem>
+</Accordion>";
+
+    private const string MultipleCode = @"<Accordion Type=""AccordionType.Multiple"" Class=""w-full"">
+    <AccordionItem Value=""notifications"">
+        <AccordionTrigger>Notifications</AccordionTrigger>
+        <AccordionContent>
+            Manage how you receive notifications.
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem Value=""privacy"">
+        <AccordionTrigger>Privacy Settings</AccordionTrigger>
+        <AccordionContent>
+            Control who can see your profile.
+        </AccordionContent>
+    </AccordionItem>
+</Accordion>";
+
+    private const string DisabledCode = @"<Accordion Type=""AccordionType.Single"" DefaultValue=""item-1"" Class=""w-full"">
+    <AccordionItem Value=""item-1"">
+        <AccordionTrigger>Available item</AccordionTrigger>
+        <AccordionContent>This item is interactive.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem Value=""item-2"" Disabled=""true"">
+        <AccordionTrigger>Disabled item</AccordionTrigger>
+        <AccordionContent>This content cannot be revealed.</AccordionContent>
+    </AccordionItem>
+</Accordion>";
+
+    private const string FaqCode = @"<Accordion Type=""AccordionType.Single"" Collapsible=""true"" Class=""w-full"">
+    <AccordionItem Value=""faq-1"">
+        <AccordionTrigger>How do I reset my password?</AccordionTrigger>
+        <AccordionContent>
+            Click on 'Forgot Password' on the login page...
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem Value=""faq-2"">
+        <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
+        <AccordionContent>
+            We accept all major credit cards...
+        </AccordionContent>
+    </AccordionItem>
+</Accordion>";
+}

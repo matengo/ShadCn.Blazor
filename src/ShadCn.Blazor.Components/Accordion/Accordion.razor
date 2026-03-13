@@ -1,0 +1,58 @@
+@namespace ShadCn.Blazor.Components.Accordion
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter] public AccordionType Type { get; set; } = AccordionType.Single;
+    [Parameter] public bool Collapsible { get; set; } = true;
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public List<string>? DefaultValues { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private HashSet<string> _openItems = new();
+
+    protected override void OnInitialized()
+    {
+        if (DefaultValue != null)
+            _openItems.Add(DefaultValue);
+
+        if (DefaultValues != null)
+        {
+            foreach (var v in DefaultValues)
+                _openItems.Add(v);
+        }
+    }
+
+    internal bool IsOpen(string value) => _openItems.Contains(value);
+
+    internal void Toggle(string value)
+    {
+        if (_openItems.Contains(value))
+        {
+            if (Type == AccordionType.Single && !Collapsible)
+                return;
+
+            _openItems.Remove(value);
+        }
+        else
+        {
+            if (Type == AccordionType.Single)
+                _openItems.Clear();
+
+            _openItems.Add(value);
+        }
+
+        StateHasChanged();
+    }
+
+    private string ComputedClass => new ClassBuilder()
+        .Add(Class)
+        .Build();
+}

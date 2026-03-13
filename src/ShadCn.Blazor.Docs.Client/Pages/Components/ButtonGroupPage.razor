@@ -1,0 +1,213 @@
+@page "/components/button-group"
+@using ShadCn.Blazor.Components.ButtonGroup
+
+<PageTitle>Button Group - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Button Group</h1>
+        <p class="text-lg text-muted-foreground">
+            A container that groups related buttons together with consistent styling.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="Group buttons together. Borders and rounded corners are merged automatically.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <ButtonGroup>
+                        <Button Variant="ButtonVariant.Outline">Left</Button>
+                        <Button Variant="ButtonVariant.Outline">Center</Button>
+                        <Button Variant="ButtonVariant.Outline">Right</Button>
+                    </ButtonGroup>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Variants" Description="ButtonGroup works with all button variants.">
+            <ComponentExample Code="@VariantsCode">
+                <Preview>
+                    <div class="flex flex-col gap-4">
+                        <ButtonGroup>
+                            <Button>Save</Button>
+                            <Button>Save & Close</Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Secondary">Draft</Button>
+                            <Button Variant="ButtonVariant.Secondary">Preview</Button>
+                            <Button Variant="ButtonVariant.Secondary">Publish</Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Outline">Copy</Button>
+                            <Button Variant="ButtonVariant.Outline">Cut</Button>
+                            <Button Variant="ButtonVariant.Outline">Paste</Button>
+                        </ButtonGroup>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Vertical" Description="Set Orientation to Vertical to stack buttons vertically.">
+            <ComponentExample Code="@VerticalCode">
+                <Preview>
+                    <ButtonGroup Orientation="ButtonGroupOrientation.Vertical">
+                        <Button Variant="ButtonVariant.Outline">Top</Button>
+                        <Button Variant="ButtonVariant.Outline">Middle</Button>
+                        <Button Variant="ButtonVariant.Outline">Bottom</Button>
+                    </ButtonGroup>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Separator" Description="Use ButtonGroupSeparator to visually divide buttons within a group. Useful for non-outline variants.">
+            <ComponentExample Code="@SeparatorCode">
+                <Preview>
+                    <div class="flex flex-col gap-4">
+                        <ButtonGroup>
+                            <Button>Save</Button>
+                            <ButtonGroupSeparator />
+                            <Button>Discard</Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Secondary">Copy</Button>
+                            <ButtonGroupSeparator />
+                            <Button Variant="ButtonVariant.Secondary">Cut</Button>
+                            <ButtonGroupSeparator />
+                            <Button Variant="ButtonVariant.Secondary">Paste</Button>
+                        </ButtonGroup>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Split Button" Description="Create a split button by combining a button with an icon button.">
+            <ComponentExample Code="@SplitCode">
+                <Preview>
+                    <ButtonGroup>
+                        <Button>Save changes</Button>
+                        <ButtonGroupSeparator />
+                        <Button Size="ButtonSize.Icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </Button>
+                    </ButtonGroup>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="With Input" Description="Combine buttons with an Input component.">
+            <ComponentExample Code="@InputCode">
+                <Preview>
+                    <ButtonGroup>
+                        <ButtonGroupText>https://</ButtonGroupText>
+                        <Input Placeholder="example.com" Class="rounded-none border-l-0 focus-visible:ring-0" />
+                        <Button Variant="ButtonVariant.Outline">Go</Button>
+                    </ButtonGroup>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Sizes" Description="Buttons within a group can have different sizes.">
+            <ComponentExample Code="@SizesCode">
+                <Preview>
+                    <div class="flex flex-col gap-4">
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Small</Button>
+                            <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Group</Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Outline">Default</Button>
+                            <Button Variant="ButtonVariant.Outline">Group</Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Lg">Large</Button>
+                            <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Lg">Group</Button>
+                        </ButtonGroup>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private const string BasicCode = @"<ButtonGroup>
+    <Button Variant=""ButtonVariant.Outline"">Left</Button>
+    <Button Variant=""ButtonVariant.Outline"">Center</Button>
+    <Button Variant=""ButtonVariant.Outline"">Right</Button>
+</ButtonGroup>";
+
+    private const string VariantsCode = @"@* Default variant *@
+<ButtonGroup>
+    <Button>Save</Button>
+    <Button>Save & Close</Button>
+</ButtonGroup>
+
+@* Secondary variant *@
+<ButtonGroup>
+    <Button Variant=""ButtonVariant.Secondary"">Draft</Button>
+    <Button Variant=""ButtonVariant.Secondary"">Preview</Button>
+    <Button Variant=""ButtonVariant.Secondary"">Publish</Button>
+</ButtonGroup>
+
+@* Outline variant *@
+<ButtonGroup>
+    <Button Variant=""ButtonVariant.Outline"">Copy</Button>
+    <Button Variant=""ButtonVariant.Outline"">Cut</Button>
+    <Button Variant=""ButtonVariant.Outline"">Paste</Button>
+</ButtonGroup>";
+
+    private const string VerticalCode = @"<ButtonGroup Orientation=""ButtonGroupOrientation.Vertical"">
+    <Button Variant=""ButtonVariant.Outline"">Top</Button>
+    <Button Variant=""ButtonVariant.Outline"">Middle</Button>
+    <Button Variant=""ButtonVariant.Outline"">Bottom</Button>
+</ButtonGroup>";
+
+    private const string SeparatorCode = @"<ButtonGroup>
+    <Button>Save</Button>
+    <ButtonGroupSeparator />
+    <Button>Discard</Button>
+</ButtonGroup>
+
+<ButtonGroup>
+    <Button Variant=""ButtonVariant.Secondary"">Copy</Button>
+    <ButtonGroupSeparator />
+    <Button Variant=""ButtonVariant.Secondary"">Cut</Button>
+    <ButtonGroupSeparator />
+    <Button Variant=""ButtonVariant.Secondary"">Paste</Button>
+</ButtonGroup>";
+
+    private const string SplitCode = @"<ButtonGroup>
+    <Button>Save changes</Button>
+    <ButtonGroupSeparator />
+    <Button Size=""ButtonSize.Icon"">
+        <svg xmlns=""http://www.w3.org/2000/svg"" width=""16"" height=""16"" viewBox=""0 0 24 24"" fill=""none"" stroke=""currentColor"" stroke-width=""2"">
+            <path d=""m6 9 6 6 6-6""/>
+        </svg>
+    </Button>
+</ButtonGroup>";
+
+    private const string InputCode = @"<ButtonGroup>
+    <ButtonGroupText>https://</ButtonGroupText>
+    <Input Placeholder=""example.com"" Class=""rounded-none border-l-0"" />
+    <Button Variant=""ButtonVariant.Outline"">Go</Button>
+</ButtonGroup>";
+
+    private const string SizesCode = @"<ButtonGroup>
+    <Button Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">Small</Button>
+    <Button Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">Group</Button>
+</ButtonGroup>
+
+<ButtonGroup>
+    <Button Variant=""ButtonVariant.Outline"">Default</Button>
+    <Button Variant=""ButtonVariant.Outline"">Group</Button>
+</ButtonGroup>
+
+<ButtonGroup>
+    <Button Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Lg"">Large</Button>
+    <Button Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Lg"">Group</Button>
+</ButtonGroup>";
+}

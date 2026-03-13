@@ -1,0 +1,32 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass"
+     @onclick="HandleClick"
+     @onmouseenter="HandleMouseEnter"
+     @onmouseleave="HandleMouseLeave"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         class="ml-auto h-4 w-4">
+        <path d="m9 18 6-6-6-6"/>
+    </svg>
+</div>
+
+@code {
+    [CascadingParameter] public DropdownMenuSub? Sub { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none " +
+        "hover:bg-accent hover:text-accent-foreground focus:bg-accent")
+        .Add(Class)
+        .Build();
+
+    private void HandleClick() => Sub?.Toggle();
+    private void HandleMouseEnter() => Sub?.SetOpen(true);
+    private void HandleMouseLeave() { /* Parent DropdownMenuSub handles close on mouseleave */ }
+}

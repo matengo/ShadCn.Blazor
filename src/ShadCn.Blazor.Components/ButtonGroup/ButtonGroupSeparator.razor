@@ -1,0 +1,20 @@
+@namespace ShadCn.Blazor.Components.ButtonGroup
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div role="separator" class="@ComputedClass" @attributes="AdditionalAttributes"></div>
+
+@code {
+    [Parameter] public ButtonGroupOrientation Orientation { get; set; } = ButtonGroupOrientation.Horizontal;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => Orientation switch
+    {
+        ButtonGroupOrientation.Vertical => new ClassBuilder("self-stretch border-t border-border")
+            .Add(Class)
+            .Build(),
+        _ => new ClassBuilder("self-stretch border-l border-border")
+            .Add(Class)
+            .Build()
+    };
+}

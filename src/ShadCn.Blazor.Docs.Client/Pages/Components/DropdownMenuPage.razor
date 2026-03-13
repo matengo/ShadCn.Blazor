@@ -1,0 +1,349 @@
+@page "/components/dropdown-menu"
+@using ShadCn.Blazor.Components.DropdownMenu
+
+<PageTitle>Dropdown Menu - ShadCn.Blazor</PageTitle>
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Dropdown Menu</h1>
+        <p class="text-lg text-muted-foreground">
+            Displays a menu of actions or options that the user can choose from, triggered by a button.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <ExampleSection Title="Basic" Description="A basic dropdown menu with labels, items, and separators.">
+            <ComponentExample Code="@BasicCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">Open Menu</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>Profile</DropdownMenuItem>
+                                <DropdownMenuItem>Billing</DropdownMenuItem>
+                                <DropdownMenuItem>Settings</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Log out</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Shortcuts" Description="Add DropdownMenuShortcut to show keyboard hints.">
+            <ComponentExample Code="@ShortcutsCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">Edit</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Class="w-56">
+                            <DropdownMenuLabel>Edit</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                Undo
+                                <DropdownMenuShortcut>⌘Z</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Redo
+                                <DropdownMenuShortcut>⇧⌘Z</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                Cut
+                                <DropdownMenuShortcut>⌘X</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Copy
+                                <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                Paste
+                                <DropdownMenuShortcut>⌘V</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Checkboxes" Description="Use DropdownMenuCheckboxItem for toggleable items.">
+            <ComponentExample Code="@CheckboxCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">View Options</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Class="w-56">
+                            <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem @bind-Checked="_showStatusBar">
+                                Status Bar
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem @bind-Checked="_showActivityBar">
+                                Activity Bar
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem @bind-Checked="_showPanel">
+                                Panel
+                            </DropdownMenuCheckboxItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Radio Group" Description="Use DropdownMenuRadioGroup for exclusive choices.">
+            <ComponentExample Code="@RadioCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">Sort By</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Class="w-56">
+                            <DropdownMenuLabel>Sort Order</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuRadioGroup @bind-Value="_sortValue">
+                                <DropdownMenuRadioItem Value="name">Name</DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem Value="date">Date Modified</DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem Value="size">Size</DropdownMenuRadioItem>
+                            </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Submenu" Description="Use DropdownMenuSub to nest secondary actions.">
+            <ComponentExample Code="@SubmenuCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">Options</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Class="w-56">
+                            <DropdownMenuItem>New File</DropdownMenuItem>
+                            <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuItem>Email</DropdownMenuItem>
+                                    <DropdownMenuItem>Message</DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>Copy Link</DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Destructive" Description="Use DropdownMenuItemVariant.Destructive for irreversible actions.">
+            <ComponentExample Code="@DestructiveCode">
+                <Preview>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button Variant="ButtonVariant.Outline">Actions</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent Class="w-56">
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Archive</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem Variant="DropdownMenuItemVariant.Destructive">
+                                Delete
+                                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <ExampleSection Title="Alignment" Description="Use the Align parameter on DropdownMenuContent to control positioning.">
+            <ComponentExample Code="@AlignCode">
+                <Preview>
+                    <div class="flex gap-4">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Start</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent Align="DropdownMenuAlign.Start">
+                                <DropdownMenuItem>Item 1</DropdownMenuItem>
+                                <DropdownMenuItem>Item 2</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Center</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent Align="DropdownMenuAlign.Center">
+                                <DropdownMenuItem>Item 1</DropdownMenuItem>
+                                <DropdownMenuItem>Item 2</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">End</Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent Align="DropdownMenuAlign.End">
+                                <DropdownMenuItem>Item 1</DropdownMenuItem>
+                                <DropdownMenuItem>Item 2</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool _showStatusBar = true;
+    private bool _showActivityBar = true;
+    private bool _showPanel;
+    private string? _sortValue = "name";
+
+    private const string BasicCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Open Menu</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Log out</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string ShortcutsCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Edit</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Class=""w-56"">
+        <DropdownMenuLabel>Edit</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+            Undo
+            <DropdownMenuShortcut>⌘Z</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+            Cut
+            <DropdownMenuShortcut>⌘X</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+            Copy
+            <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+            Paste
+            <DropdownMenuShortcut>⌘V</DropdownMenuShortcut>
+        </DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string CheckboxCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">View Options</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Class=""w-56"">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem @bind-Checked=""showStatusBar"">
+            Status Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem @bind-Checked=""showActivityBar"">
+            Activity Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem @bind-Checked=""showPanel"">
+            Panel
+        </DropdownMenuCheckboxItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string RadioCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Sort By</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Class=""w-56"">
+        <DropdownMenuLabel>Sort Order</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup @bind-Value=""sortValue"">
+            <DropdownMenuRadioItem Value=""name"">Name</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem Value=""date"">Date Modified</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem Value=""size"">Size</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string SubmenuCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Options</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Class=""w-56"">
+        <DropdownMenuItem>New File</DropdownMenuItem>
+        <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Share</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Message</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Copy Link</DropdownMenuItem>
+            </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string DestructiveCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Actions</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Class=""w-56"">
+        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem>Duplicate</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Archive</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem Variant=""DropdownMenuItemVariant.Destructive"">
+            Delete
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        </DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+
+    private const string AlignCode = @"<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">Start</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Align=""DropdownMenuAlign.Start"">
+        <DropdownMenuItem>Item 1</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>
+
+<DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button Variant=""ButtonVariant.Outline"">End</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent Align=""DropdownMenuAlign.End"">
+        <DropdownMenuItem>Item 1</DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>";
+}

@@ -1,0 +1,44 @@
+@namespace ShadCn.Blazor.Components.DropdownMenu
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div role="menuitem"
+     tabindex="-1"
+     class="@ComputedClass"
+     data-disabled="@(Disabled ? "true" : null)"
+     @onclick="HandleClick"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter] public DropdownMenu? Menu { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public DropdownMenuItemVariant Variant { get; set; } = DropdownMenuItemVariant.Default;
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsDestructive => Variant == DropdownMenuItemVariant.Destructive;
+
+    private string ComputedClass => new ClassBuilder(
+        "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors " +
+        "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0")
+        .Add(IsDestructive
+            ? "text-destructive focus:bg-destructive/10 focus:text-destructive hover:bg-destructive/10 hover:text-destructive"
+            : "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground")
+        .Add(Disabled ? "pointer-events-none opacity-50" : "cursor-pointer")
+        .Add(Class)
+        .Build();
+
+    private async Task HandleClick()
+    {
+        if (Disabled) return;
+
+        if (OnClick.HasDelegate)
+            await OnClick.InvokeAsync();
+
+        if (Menu != null)
+            await Menu.SetOpen(false);
+    }
+}
