@@ -13,8 +13,9 @@ public static class BadgeVariants
                   "transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2")
             .Variant(BadgeVariant.Default, "border-transparent bg-primary text-primary-foreground hover:bg-primary/80")
             .Variant(BadgeVariant.Secondary, "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80")
-            .Variant(BadgeVariant.Destructive, "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80")
+            .Variant(BadgeVariant.Destructive, "border-transparent bg-destructive/15 text-destructive hover:bg-destructive/25")
             .Variant(BadgeVariant.Outline, "text-foreground")
+            .Variant(BadgeVariant.Ghost, "border-transparent hover:bg-accent hover:text-accent-foreground")
             .DefaultVariant(BadgeVariant.Default);
 
     public static string GetClasses(BadgeVariant variant, string? additionalClasses = null)

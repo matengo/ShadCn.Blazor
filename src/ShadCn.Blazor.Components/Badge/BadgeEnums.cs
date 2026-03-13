@@ -8,5 +8,6 @@ public enum BadgeVariant
     Default,
     Secondary,
     Destructive,
-    Outline
+    Outline,
+    Ghost
 }

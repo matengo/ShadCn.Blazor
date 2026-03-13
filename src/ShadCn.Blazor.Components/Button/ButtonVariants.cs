@@ -14,7 +14,7 @@ public static class ButtonVariants
                   "focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 " +
                   "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0")
             .Variant(ButtonVariant.Default, "bg-primary text-primary-foreground hover:bg-primary/90")
-            .Variant(ButtonVariant.Destructive, "bg-destructive text-destructive-foreground hover:bg-destructive/90")
+            .Variant(ButtonVariant.Destructive, "bg-destructive/15 text-destructive hover:bg-destructive/25")
             .Variant(ButtonVariant.Outline, "border border-input bg-background hover:bg-accent hover:text-accent-foreground")
             .Variant(ButtonVariant.Secondary, "bg-secondary text-secondary-foreground hover:bg-secondary/80")
             .Variant(ButtonVariant.Ghost, "hover:bg-accent hover:text-accent-foreground")
