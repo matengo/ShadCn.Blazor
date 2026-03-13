@@ -98,6 +98,32 @@
             </ComponentExample>
         </ExampleSection>
 
+        <ExampleSection Title="Split Button with Dropdown" Description="Combine a split button with a DropdownMenu for additional actions.">
+            <ComponentExample Code="@SplitDropdownCode">
+                <Preview>
+                    <ButtonGroup>
+                        <Button>Save changes</Button>
+                        <ButtonGroupSeparator />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button Size="ButtonSize.Icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"/>
+                                    </svg>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent Align="DropdownMenuAlign.End" Class="w-48">
+                                <DropdownMenuItem>Save as Draft</DropdownMenuItem>
+                                <DropdownMenuItem>Save & Publish</DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>Save as Template</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </ButtonGroup>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
         <ExampleSection Title="With Input" Description="Combine buttons with an Input component.">
             <ComponentExample Code="@InputCode">
                 <Preview>
@@ -188,6 +214,24 @@
             <path d=""m6 9 6 6 6-6""/>
         </svg>
     </Button>
+</ButtonGroup>";
+
+    private const string SplitDropdownCode = @"<ButtonGroup>
+    <Button>Save changes</Button>
+    <ButtonGroupSeparator />
+    <DropdownMenu>
+        <DropdownMenuTrigger>
+            <Button Size=""ButtonSize.Icon"">
+                <ChevronDownIcon />
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent Align=""DropdownMenuAlign.End"" Class=""w-48"">
+            <DropdownMenuItem>Save as Draft</DropdownMenuItem>
+            <DropdownMenuItem>Save & Publish</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Save as Template</DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
 </ButtonGroup>";
 
     private const string InputCode = @"<ButtonGroup>

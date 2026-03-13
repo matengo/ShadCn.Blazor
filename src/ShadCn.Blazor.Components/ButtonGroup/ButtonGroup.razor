@@ -16,13 +16,15 @@
         ButtonGroupOrientation.Vertical => new ClassBuilder(
             "inline-flex flex-col " +
             "[&>*]:rounded-none [&>*:first-child]:rounded-t-md [&>*:last-child]:rounded-b-md " +
-            "[&>*:not(:first-child)]:-mt-px")
+            "[&>*:not(:first-child)]:-mt-px " +
+            "[&>*_button]:rounded-none [&>*:first-child_button]:rounded-t-md [&>*:last-child_button]:rounded-b-md")
             .Add(Class)
             .Build(),
         _ => new ClassBuilder(
             "inline-flex " +
             "[&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md " +
-            "[&>*:not(:first-child)]:-ml-px")
+            "[&>*:not(:first-child)]:-ml-px " +
+            "[&>*_button]:rounded-none [&>*:first-child_button]:rounded-l-md [&>*:last-child_button]:rounded-r-md")
             .Add(Class)
             .Build()
     };
