@@ -99,24 +99,43 @@ All components accept a `Class` parameter for additional Tailwind CSS classes:
 <Card Class="max-w-md mx-auto">...</Card>
 ```
 
-The default theme uses Geist font (same as shadcn/ui). Override fonts in your CSS:
-
-```css
-@theme {
-  --font-sans: "Your Font", system-ui, sans-serif;
-  --font-mono: "Your Mono Font", monospace;
-}
-```
-
-Adjust component rounding with `--radius`:
+Override colors by redefining the CSS variables in your own stylesheet (loaded after `theme.css`). Values use HSL format without the `hsl()` wrapper:
 
 ```css
 :root {
-  --radius: 0.25rem;  /* Smaller, more subtle */
-  --radius: 0.5rem;   /* Default */
-  --radius: 0.75rem;  /* Larger, more rounded */
-  --radius: 1rem;     /* Very rounded */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+
+  /* Sidebar (defaults inherit from the above) */
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 ```
+
+Override dark mode with `.dark { ... }`. Override fonts with `@theme { --font-sans: ...; }`.
 
 Tip: use https://ui.shadcn.com/themes to generate color palettes, then copy the CSS variables into your project.
