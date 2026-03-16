@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /_framework/
+Disallow: /_blazor/
+
+Sitemap: https://www.shadcn-blazor.dev/sitemap.xml

@@ -1,0 +1,46 @@
+<HeadContent>
+    <meta name="description" content="@Description" />
+
+    @if (!string.IsNullOrEmpty(Keywords))
+    {
+        <meta name="keywords" content="@Keywords" />
+    }
+
+    @if (!string.IsNullOrEmpty(Canonical))
+    {
+        <link rel="canonical" href="@Canonical" />
+    }
+
+    <meta property="og:title" content="@(OgTitle ?? string.Empty)" />
+    <meta property="og:description" content="@(OgDescription ?? Description)" />
+    <meta property="og:type" content="@OgType" />
+
+    @if (!string.IsNullOrEmpty(Canonical))
+    {
+        <meta property="og:url" content="@Canonical" />
+    }
+
+    @if (!string.IsNullOrEmpty(OgImage))
+    {
+        <meta property="og:image" content="@OgImage" />
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@(OgTitle ?? string.Empty)" />
+    <meta name="twitter:description" content="@(OgDescription ?? Description)" />
+
+    @if (!string.IsNullOrEmpty(OgImage))
+    {
+        <meta name="twitter:image" content="@OgImage" />
+    }
+</HeadContent>
+
+@code {
+    [Parameter] public string Description { get; set; } = string.Empty;
+    [Parameter] public string? Keywords { get; set; }
+    [Parameter] public string? Canonical { get; set; }
+    [Parameter] public string? OgTitle { get; set; }
+    [Parameter] public string? OgDescription { get; set; }
+    [Parameter] public string? OgType { get; set; } = "website";
+    [Parameter] public string? OgImage { get; set; }
+}
