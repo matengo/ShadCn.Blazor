@@ -5,26 +5,26 @@
 <div class="@ComputedClass" style="@ComputedStyle" @attributes="AdditionalAttributes">
     <CascadingValue Value="Context" IsFixed="false">
         @ChildContent
-    </CascadingValue>
 
-    @* Tooltip rendered outside the SVG so it's valid HTML *@
-    @if (Context.TooltipEnabled && Context.ActiveIndex >= 0 && Context.ActiveIndex < Context.Data.Count)
-    {
-        <div class="@TooltipClass" style="@TooltipPositionStyle">
-            @if (Context.TooltipCustomContent != null)
-            {
-                @Context.TooltipCustomContent
-            }
-            else
-            {
-                <ChartTooltipContent HideLabel="Context.TooltipHideLabel"
-                                     HideIndicator="Context.TooltipHideIndicator"
-                                     Indicator="Context.TooltipIndicator"
-                                     LabelKey="@Context.TooltipLabelKey"
-                                     NameKey="@Context.TooltipNameKey" />
-            }
-        </div>
-    }
+        @* Tooltip rendered inside CascadingValue (for context access) but outside the SVG *@
+        @if (Context.TooltipEnabled && Context.ActiveIndex >= 0 && Context.ActiveIndex < Context.Data.Count)
+        {
+            <div class="@TooltipClass" style="@TooltipPositionStyle">
+                @if (Context.TooltipCustomContent != null)
+                {
+                    @Context.TooltipCustomContent
+                }
+                else
+                {
+                    <ChartTooltipContent HideLabel="Context.TooltipHideLabel"
+                                         HideIndicator="Context.TooltipHideIndicator"
+                                         Indicator="Context.TooltipIndicator"
+                                         LabelKey="@Context.TooltipLabelKey"
+                                         NameKey="@Context.TooltipNameKey" />
+                }
+            </div>
+        }
+    </CascadingValue>
 </div>
 
 @code {
