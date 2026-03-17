@@ -9,6 +9,9 @@
             var cx = context.Width / 2;
             var cy = context.Height / 2;
             var segments = BuildSegments();
+            context.IsPieStyle = true;
+            context.ValueDataKey = DataKey;
+            context.NameDataKey = NameKey ?? context.XDataKey ?? "name";
         }
 
         @* Background track *@
@@ -36,13 +39,17 @@
             var animDelay = Animate ? $"animation-delay: {seg.Index * 0.15}s;" : "";
             var originStyle = $"transform-origin: {F(cx)}px {F(cy)}px;";
 
+            // Tooltip position at the centroid of this segment
+            var (centX, centY) = ArcGenerator.Centroid(cx, cy, seg.OuterR, seg.InnerR,
+                startRad, endRad);
+
             <path d="@pathD"
                   fill="@seg.Fill"
                   stroke="none"
                   opacity="@(isActive ? "1" : "0.9")"
                   class="@($"transition-opacity duration-200 {animClass}")"
                   style="@($"{originStyle}{animDelay}")"
-                  @onmouseenter="() => context.SetActiveIndex(seg.Index, 0, 0)"
+                  @onmouseenter="() => context.SetActiveIndex(seg.Index, centX, centY)"
                   @onmouseleave="() => context.ClearActiveIndex()" />
         }
 

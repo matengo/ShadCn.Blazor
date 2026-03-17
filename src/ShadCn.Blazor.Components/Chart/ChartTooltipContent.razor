@@ -5,46 +5,73 @@
 @if (context != null && context.ActiveIndex >= 0 && context.ActiveIndex < context.Data.Count)
 {
     var item = context.Data[context.ActiveIndex];
-    var xKey = context.XDataKey ?? "name";
-    var label = !string.IsNullOrEmpty(LabelKey)
-        ? DataAccessor.GetString(item, LabelKey)
-        : DataAccessor.GetString(item, xKey);
 
-    <div class="space-y-1">
-        @if (!HideLabel)
-        {
-            <p class="font-medium">@label</p>
-        }
+    @if (context.IsPieStyle)
+    {
+        @* Pie/Radial: each data item is a category with one value *@
+        var nameKey = context.NameDataKey ?? "name";
+        var valueKey = context.ValueDataKey ?? "value";
+        var name = DataAccessor.GetString(item, nameKey);
+        var value = DataAccessor.GetDouble(item, valueKey);
 
-        @foreach (var (key, entry) in context.Config)
-        {
-            var value = DataAccessor.GetDouble(item, key);
-            var name = !string.IsNullOrEmpty(NameKey) && context.Config.TryGetValue(key, out var nEntry)
-                ? nEntry.Label ?? key
-                : entry.Label ?? key;
-            var color = entry.Color ?? $"var(--color-{key})";
+        var displayName = context.Config.TryGetValue(name, out var cfgEntry)
+            ? cfgEntry.Label ?? name
+            : name;
+        var color = cfgEntry?.Color ?? DataAccessor.GetString(item, "fill") ?? $"var(--color-{name})";
 
+        <div class="space-y-1">
             <div class="flex items-center gap-2 text-sm">
                 @if (!HideIndicator)
                 {
-                    @switch (Indicator)
-                    {
-                        case TooltipIndicator.Dot:
-                            <div class="h-2.5 w-2.5 shrink-0 rounded-full" style="background: @color"></div>
-                            break;
-                        case TooltipIndicator.Line:
-                            <div class="w-2.5 h-0.5 shrink-0 rounded-full" style="background: @color"></div>
-                            break;
-                        case TooltipIndicator.Dashed:
-                            <div class="w-2.5 h-0.5 shrink-0 rounded-full border-t-2 border-dashed" style="border-color: @color"></div>
-                            break;
-                    }
+                    <div class="h-2.5 w-2.5 shrink-0 rounded-full" style="background: @color"></div>
                 }
-                <span class="text-muted-foreground">@name</span>
+                <span class="text-muted-foreground">@displayName</span>
                 <span class="font-medium ml-auto tabular-nums">@value.ToString("N0", CultureInfo.InvariantCulture)</span>
             </div>
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        @* Cartesian: each data item has multiple series values *@
+        var xKey = context.XDataKey ?? "name";
+        var label = !string.IsNullOrEmpty(LabelKey)
+            ? DataAccessor.GetString(item, LabelKey)
+            : DataAccessor.GetString(item, xKey);
+
+        <div class="space-y-1">
+            @if (!HideLabel)
+            {
+                <p class="font-medium">@label</p>
+            }
+
+            @foreach (var (key, entry) in context.Config)
+            {
+                var value = DataAccessor.GetDouble(item, key);
+                var name = entry.Label ?? key;
+                var color = entry.Color ?? $"var(--color-{key})";
+
+                <div class="flex items-center gap-2 text-sm">
+                    @if (!HideIndicator)
+                    {
+                        @switch (Indicator)
+                        {
+                            case TooltipIndicator.Dot:
+                                <div class="h-2.5 w-2.5 shrink-0 rounded-full" style="background: @color"></div>
+                                break;
+                            case TooltipIndicator.Line:
+                                <div class="w-2.5 h-0.5 shrink-0 rounded-full" style="background: @color"></div>
+                                break;
+                            case TooltipIndicator.Dashed:
+                                <div class="w-2.5 h-0.5 shrink-0 rounded-full border-t-2 border-dashed" style="border-color: @color"></div>
+                                break;
+                        }
+                    }
+                    <span class="text-muted-foreground">@name</span>
+                    <span class="font-medium ml-auto tabular-nums">@value.ToString("N0", CultureInfo.InvariantCulture)</span>
+                </div>
+            }
+        </div>
+    }
 }
 
 @code {

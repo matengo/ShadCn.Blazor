@@ -29,6 +29,7 @@
                         <ChartContainer Config="@config" Class="h-[250px] w-[250px]">
                             <PieChart Data="@pieData">
                                 <Pie DataKey="visitors" NameKey="browser" OuterRadius="100" />
+                                <ChartTooltip />
                             </PieChart>
                         </ChartContainer>
                     </CardContent>
@@ -50,6 +51,7 @@
                             <PieChart Data="@pieData">
                                 <Pie DataKey="visitors" NameKey="browser"
                                      OuterRadius="100" InnerRadius="60" PaddingAngle="2" />
+                                <ChartTooltip />
                             </PieChart>
                         </ChartContainer>
                     </CardContent>
@@ -71,6 +73,7 @@
                             <PieChart Data="@pieData">
                                 <Pie DataKey="visitors" NameKey="browser"
                                      OuterRadius="100" Label="true" />
+                                <ChartTooltip />
                             </PieChart>
                         </ChartContainer>
                     </CardContent>

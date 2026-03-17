@@ -62,6 +62,21 @@ public class ChartContext
     public RenderFragment? TooltipCustomContent { get; set; }
     public string? TooltipClass { get; set; }
 
+    /// <summary>
+    /// True for pie/radial charts where each data item is a category (not a series).
+    /// </summary>
+    public bool IsPieStyle { get; set; }
+
+    /// <summary>
+    /// The data key for numeric values in pie/radial charts (e.g., "visitors").
+    /// </summary>
+    public string? ValueDataKey { get; set; }
+
+    /// <summary>
+    /// The data key for category names in pie/radial charts (e.g., "browser").
+    /// </summary>
+    public string? NameDataKey { get; set; }
+
     public Action? OnStateChanged { get; set; }
 
     /// <summary>
