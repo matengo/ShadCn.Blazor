@@ -1,0 +1,83 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using System.Globalization
+
+@if (context?.XBandScale != null && context.YScale != null)
+{
+    <g class="chart-bar-series">
+        @{
+            var data = context.Data;
+            var bandScale = context.XBandScale;
+            var yScale = context.YScale;
+            var xKey = context.XDataKey ?? "name";
+
+            // Count how many Bar series exist (for grouped bars)
+            var allDataKeys = context.Config.Keys.ToList();
+            var seriesIndex = allDataKeys.IndexOf(DataKey);
+            var seriesCount = allDataKeys.Count;
+            if (seriesCount == 0) seriesCount = 1;
+            if (seriesIndex < 0) seriesIndex = 0;
+
+            var bandWidth = bandScale.Bandwidth;
+            var barWidth = bandWidth / seriesCount;
+        }
+
+        @for (int i = 0; i < data.Count; i++)
+        {
+            var item = data[i];
+            var cat = DataAccessor.GetString(item, xKey);
+            var value = DataAccessor.GetDouble(item, DataKey);
+
+            var bandX = bandScale.Scale(cat);
+            var barX = bandX + seriesIndex * barWidth;
+            var barY = yScale.Scale(value);
+            var baseline = yScale.Scale(0);
+            var barH = Math.Abs(baseline - barY);
+            var barTop = value >= 0 ? barY : baseline;
+
+            var fillColor = !string.IsNullOrEmpty(Fill) ? Fill : $"var(--color-{DataKey})";
+            var isActive = context.ActiveIndex == i;
+            var opacity = context.ActiveIndex >= 0 ? (isActive ? "1" : "0.6") : "1";
+
+            <rect x="@F(barX)"
+                  y="@F(barTop)"
+                  width="@F(Math.Max(barWidth - 1, 1))"
+                  height="@F(barH)"
+                  rx="@F(Radius)"
+                  fill="@fillColor"
+                  opacity="@opacity"
+                  class="transition-opacity duration-200" />
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// The data key mapping to numeric values in the data.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string DataKey { get; set; } = "";
+
+    /// <summary>
+    /// Fill color. Defaults to var(--color-{DataKey}).
+    /// </summary>
+    [Parameter]
+    public string? Fill { get; set; }
+
+    /// <summary>
+    /// Border radius for rounded bars.
+    /// </summary>
+    [Parameter]
+    public double Radius { get; set; } = 0;
+
+    /// <summary>
+    /// Stack ID for stacked bars. Bars with the same StackId are stacked.
+    /// </summary>
+    [Parameter]
+    public string? StackId { get; set; }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

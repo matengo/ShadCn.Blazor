@@ -1,0 +1,124 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using System.Globalization
+
+@if (context?.XBandScale != null && context.YScale != null)
+{
+    <g class="chart-area-series">
+        @{
+            var points = BuildPoints();
+            var baseline = context.YScale.Scale(0);
+            var areaPathD = CurveFactory.AreaPath(points, baseline, Type);
+            var linePathD = CurveFactory.LinePath(points, Type);
+            var fillColor = !string.IsNullOrEmpty(Fill) ? Fill : $"var(--color-{DataKey})";
+            var strokeColor = !string.IsNullOrEmpty(Stroke) ? Stroke : fillColor;
+            var gradientId = $"area-gradient-{DataKey}";
+        }
+
+        @if (Gradient)
+        {
+            <defs>
+                <linearGradient id="@gradientId" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="@fillColor" stop-opacity="0.8" />
+                    <stop offset="95%" stop-color="@fillColor" stop-opacity="0.1" />
+                </linearGradient>
+            </defs>
+        }
+
+        <path d="@areaPathD"
+              fill="@(Gradient ? $"url(#{gradientId})" : fillColor)"
+              fill-opacity="@F(FillOpacity)"
+              stroke="none" />
+
+        @if (ShowLine)
+        {
+            <path d="@linePathD"
+                  fill="none"
+                  stroke="@strokeColor"
+                  stroke-width="@F(StrokeWidth)"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+        }
+
+        @if (Dot)
+        {
+            @for (int i = 0; i < points.Count; i++)
+            {
+                var p = points[i];
+                var isActive = context.ActiveIndex == i;
+                var r = isActive ? DotRadius * 1.5 : DotRadius;
+
+                <circle cx="@F(p.X)"
+                        cy="@F(p.Y)"
+                        r="@F(r)"
+                        fill="@strokeColor"
+                        stroke="hsl(var(--background))"
+                        stroke-width="2"
+                        class="transition-all duration-200" />
+            }
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    [Parameter, EditorRequired]
+    public string DataKey { get; set; } = "";
+
+    [Parameter]
+    public CurveType Type { get; set; } = CurveType.Monotone;
+
+    [Parameter]
+    public string? Fill { get; set; }
+
+    [Parameter]
+    public string? Stroke { get; set; }
+
+    [Parameter]
+    public double StrokeWidth { get; set; } = 2;
+
+    [Parameter]
+    public double FillOpacity { get; set; } = 0.4;
+
+    /// <summary>
+    /// Use gradient fill from top to bottom.
+    /// </summary>
+    [Parameter]
+    public bool Gradient { get; set; } = false;
+
+    /// <summary>
+    /// Show the line on top of the area.
+    /// </summary>
+    [Parameter]
+    public bool ShowLine { get; set; } = true;
+
+    [Parameter]
+    public bool Dot { get; set; } = false;
+
+    [Parameter]
+    public double DotRadius { get; set; } = 4;
+
+    private List<(double X, double Y)> BuildPoints()
+    {
+        if (context?.XBandScale == null || context.YScale == null) return [];
+
+        var data = context.Data;
+        var xKey = context.XDataKey ?? "name";
+        var points = new List<(double X, double Y)>();
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            var cat = DataAccessor.GetString(data[i], xKey);
+            var value = DataAccessor.GetDouble(data[i], DataKey);
+            var x = context.XBandScale.ScaleCenter(cat);
+            var y = context.YScale.Scale(value);
+            points.Add((x, y));
+        }
+
+        return points;
+    }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

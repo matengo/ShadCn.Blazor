@@ -1,0 +1,116 @@
+@page "/charts/line"
+
+<PageTitle>Line Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Line chart components with smooth curves and data point markers. Built with pure Blazor SVG."
+    Keywords="Line Chart, Blazor, SVG, ShadCn.Blazor"
+    Canonical="https://www.shadcn-blazor.dev/charts/line"
+    OgTitle="Line Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Line Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            Line chart components with support for smooth curves, dots, and multiple series.
+        </p>
+    </div>
+
+    <Separator />
+
+    <ExampleSection Title="Default" Description="A basic line chart with smooth monotone curves.">
+        <ComponentExample Code="@DefaultCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Line Chart</CardTitle>
+                        <CardDescription>January - June 2024</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@config" Class="h-[300px]">
+                            <LineChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Line DataKey="desktop" Stroke="var(--color-desktop)" />
+                                <Line DataKey="mobile" Stroke="var(--color-mobile)" />
+                                <ChartTooltip />
+                            </LineChart>
+                            <ChartLegend />
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Linear" Description="A line chart with linear interpolation and no dots.">
+        <ComponentExample Code="@LinearCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Line Chart - Linear</CardTitle>
+                        <CardDescription>Using linear curve type</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@singleConfig" Class="h-[300px]">
+                            <LineChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <YAxis TickLine="false" AxisLine="false" />
+                                <Line DataKey="desktop" Type="CurveType.Linear"
+                                      Stroke="var(--color-desktop)" Dot="false" />
+                                <ChartTooltip />
+                            </LineChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig config = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" },
+        ["mobile"] = new ChartConfigEntry { Label = "Mobile", Color = "hsl(var(--chart-2))" }
+    };
+
+    private static readonly ChartConfig singleConfig = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" }
+    };
+
+    private static readonly IReadOnlyList<object> data = new List<Dictionary<string, object>>
+    {
+        new() { ["month"] = "January", ["desktop"] = 186, ["mobile"] = 80 },
+        new() { ["month"] = "February", ["desktop"] = 305, ["mobile"] = 200 },
+        new() { ["month"] = "March", ["desktop"] = 237, ["mobile"] = 120 },
+        new() { ["month"] = "April", ["desktop"] = 73, ["mobile"] = 190 },
+        new() { ["month"] = "May", ["desktop"] = 209, ["mobile"] = 130 },
+        new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
+    }.Cast<object>().ToList();
+
+    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <LineChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <Line DataKey=""desktop"" Stroke=""var(--color-desktop)"" />
+        <Line DataKey=""mobile"" Stroke=""var(--color-mobile)"" />
+        <ChartTooltip />
+    </LineChart>
+    <ChartLegend />
+</ChartContainer>";
+
+    private const string LinearCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <LineChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <YAxis TickLine=""false"" AxisLine=""false"" />
+        <Line DataKey=""desktop"" Type=""CurveType.Linear""
+              Stroke=""var(--color-desktop)"" Dot=""false"" />
+        <ChartTooltip />
+    </LineChart>
+</ChartContainer>";
+}

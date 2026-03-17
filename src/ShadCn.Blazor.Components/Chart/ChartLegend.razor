@@ -1,0 +1,43 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" @attributes="AdditionalAttributes">
+    @if (Content != null)
+    {
+        @Content
+    }
+    else
+    {
+        <ChartLegendContent NameKey="@NameKey" />
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Custom legend content.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    /// <summary>
+    /// Key for series names.
+    /// </summary>
+    [Parameter]
+    public string? NameKey { get; set; }
+
+    /// <summary>
+    /// Vertical alignment of the legend.
+    /// </summary>
+    [Parameter]
+    public LegendAlign Align { get; set; } = LegendAlign.Bottom;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder("flex items-center justify-center gap-4 pt-3")
+        .Add(Class)
+        .Build();
+}

@@ -1,0 +1,89 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using System.Globalization
+
+@if (context != null)
+{
+    <g class="chart-grid">
+        @if (Horizontal)
+        {
+            @if (context.YScale != null)
+            {
+                var ticks = context.YScale.Ticks(TickCount);
+                @foreach (var tick in ticks)
+                {
+                    var y = context.YScale.Scale(tick);
+                    <line x1="@F(context.PlotLeft)"
+                          y1="@F(y)"
+                          x2="@F(context.PlotRight)"
+                          y2="@F(y)"
+                          stroke="currentColor"
+                          stroke-opacity="0.1"
+                          stroke-dasharray="@StrokeDasharray" />
+                }
+            }
+        }
+        @if (Vertical)
+        {
+            @if (context.XBandScale != null)
+            {
+                @foreach (var cat in context.XBandScale.Domain)
+                {
+                    var x = context.XBandScale.ScaleCenter(cat);
+                    <line x1="@F(x)"
+                          y1="@F(context.PlotTop)"
+                          x2="@F(x)"
+                          y2="@F(context.PlotBottom)"
+                          stroke="currentColor"
+                          stroke-opacity="0.1"
+                          stroke-dasharray="@StrokeDasharray" />
+                }
+            }
+            else if (context.XLinearScale != null)
+            {
+                var ticks = context.XLinearScale.Ticks(TickCount);
+                @foreach (var tick in ticks)
+                {
+                    var x = context.XLinearScale.Scale(tick);
+                    <line x1="@F(x)"
+                          y1="@F(context.PlotTop)"
+                          x2="@F(x)"
+                          y2="@F(context.PlotBottom)"
+                          stroke="currentColor"
+                          stroke-opacity="0.1"
+                          stroke-dasharray="@StrokeDasharray" />
+                }
+            }
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Show horizontal grid lines.
+    /// </summary>
+    [Parameter]
+    public bool Horizontal { get; set; } = true;
+
+    /// <summary>
+    /// Show vertical grid lines.
+    /// </summary>
+    [Parameter]
+    public bool Vertical { get; set; } = false;
+
+    /// <summary>
+    /// SVG stroke-dasharray for dashed grid lines.
+    /// </summary>
+    [Parameter]
+    public string? StrokeDasharray { get; set; }
+
+    /// <summary>
+    /// Number of ticks to generate.
+    /// </summary>
+    [Parameter]
+    public int TickCount { get; set; } = 5;
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

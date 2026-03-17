@@ -1,0 +1,106 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using System.Globalization
+@using Microsoft.AspNetCore.Components
+
+@if (context != null)
+{
+    <g class="chart-xaxis">
+        @if (AxisLine)
+        {
+            <line x1="@F(context.PlotLeft)"
+                  y1="@F(context.PlotBottom)"
+                  x2="@F(context.PlotRight)"
+                  y2="@F(context.PlotBottom)"
+                  stroke="currentColor"
+                  stroke-opacity="0.2" />
+        }
+
+        @if (context.XBandScale != null)
+        {
+            @foreach (var cat in context.XBandScale.Domain)
+            {
+                var x = context.XBandScale.ScaleCenter(cat);
+                var label = TickFormatter != null ? TickFormatter(cat) : cat;
+
+                @if (TickLine)
+                {
+                    <line x1="@F(x)"
+                          y1="@F(context.PlotBottom)"
+                          x2="@F(x)"
+                          y2="@F(context.PlotBottom + 6)"
+                          stroke="currentColor"
+                          stroke-opacity="0.2" />
+                }
+
+                @SvgText(F(x), F(context.PlotBottom + TickMargin), "middle", "hanging", label)
+            }
+        }
+        else if (context.XLinearScale != null)
+        {
+            var ticks = context.XLinearScale.Ticks(TickCount);
+            @foreach (var tick in ticks)
+            {
+                var x = context.XLinearScale.Scale(tick);
+                var label = TickFormatter != null ? TickFormatter(tick.ToString(CultureInfo.InvariantCulture)) : tick.ToString("G", CultureInfo.InvariantCulture);
+
+                @if (TickLine)
+                {
+                    <line x1="@F(x)"
+                          y1="@F(context.PlotBottom)"
+                          x2="@F(x)"
+                          y2="@F(context.PlotBottom + 6)"
+                          stroke="currentColor"
+                          stroke-opacity="0.2" />
+                }
+
+                @SvgText(F(x), F(context.PlotBottom + TickMargin), "middle", "hanging", label)
+            }
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// The data key for X-axis categories. Applied to the parent chart's XDataKey.
+    /// </summary>
+    [Parameter]
+    public string? DataKey { get; set; }
+
+    /// <summary>
+    /// Show tick lines.
+    /// </summary>
+    [Parameter]
+    public bool TickLine { get; set; } = true;
+
+    /// <summary>
+    /// Show axis line.
+    /// </summary>
+    [Parameter]
+    public bool AxisLine { get; set; } = true;
+
+    /// <summary>
+    /// Margin between axis and tick labels (pixels).
+    /// </summary>
+    [Parameter]
+    public double TickMargin { get; set; } = 10;
+
+    /// <summary>
+    /// Number of ticks for numeric axes.
+    /// </summary>
+    [Parameter]
+    public int TickCount { get; set; } = 5;
+
+    /// <summary>
+    /// Custom tick label formatter.
+    /// </summary>
+    [Parameter]
+    public Func<string, string>? TickFormatter { get; set; }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+
+    private static MarkupString SvgText(string x, string y, string anchor, string baseline, string content) =>
+        new($"<text x=\"{x}\" y=\"{y}\" text-anchor=\"{anchor}\" dominant-baseline=\"{baseline}\" fill=\"currentColor\" opacity=\"0.5\" font-size=\"12\">{System.Net.WebUtility.HtmlEncode(content)}</text>");
+}

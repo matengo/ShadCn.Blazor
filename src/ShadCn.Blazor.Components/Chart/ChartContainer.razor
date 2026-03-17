@@ -1,0 +1,60 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div class="@ComputedClass" style="@ComputedStyle" @attributes="AdditionalAttributes">
+    <CascadingValue Value="Context" IsFixed="false">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    /// <summary>
+    /// Chart configuration mapping data keys to labels and colors.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public ChartConfig Config { get; set; } = new();
+
+    /// <summary>
+    /// Additional CSS classes.
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    internal ChartContext Context { get; set; } = new();
+
+    private string ComputedClass => new ClassBuilder("relative")
+        .Add(Class)
+        .Build();
+
+    private string ComputedStyle
+    {
+        get
+        {
+            var styles = new List<string>();
+            foreach (var (key, entry) in Config)
+            {
+                var color = entry.Color;
+                if (!string.IsNullOrEmpty(color))
+                {
+                    styles.Add($"--color-{key}: {color}");
+                }
+            }
+            return string.Join("; ", styles);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        Context = new ChartContext
+        {
+            Config = Config
+        };
+        Context.OnStateChanged = () => InvokeAsync(StateHasChanged);
+    }
+}

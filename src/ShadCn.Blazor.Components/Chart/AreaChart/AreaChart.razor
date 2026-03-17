@@ -1,0 +1,108 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using ShadCn.Blazor.Primitives.Utilities
+@using System.Globalization
+
+@if (context != null)
+{
+    <svg viewBox="@ViewBox"
+         class="@ComputedClass"
+         preserveAspectRatio="xMidYMid meet"
+         @onmousemove="HandleMouseMove"
+         @onmouseleave="HandleMouseLeave"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </svg>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<object> Data { get; set; } = [];
+
+    [Parameter]
+    public double Width { get; set; } = 500;
+
+    [Parameter]
+    public double Height { get; set; } = 300;
+
+    [Parameter]
+    public ChartMargin? Margin { get; set; }
+
+    [Parameter]
+    public string? XDataKey { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ViewBox => $"0 0 {F(Width)} {F(Height)}";
+
+    private string ComputedClass => new ClassBuilder("w-full h-full")
+        .Add(Class)
+        .Build();
+
+    protected override void OnParametersSet()
+    {
+        if (context == null) return;
+
+        var margin = Margin ?? new ChartMargin();
+        context.Width = Width;
+        context.Height = Height;
+        context.Margin = margin;
+        context.Data = Data;
+        context.XDataKey = XDataKey;
+
+        BuildScales();
+    }
+
+    private void BuildScales()
+    {
+        if (context == null || Data.Count == 0) return;
+
+        var xKey = context.XDataKey ?? XDataKey ?? "name";
+        var categories = DataAccessor.GetAllStrings(Data, xKey);
+        context.XBandScale = new ScaleBand(categories, context.PlotLeft, context.PlotRight, 0, 0);
+        context.XDataKey = xKey;
+
+        double yMin = 0, yMax = 0;
+        foreach (var key in context.Config.Keys)
+        {
+            var values = DataAccessor.GetAllDoubles(Data, key);
+            foreach (var v in values)
+            {
+                if (v > yMax) yMax = v;
+                if (v < yMin) yMin = v;
+            }
+        }
+
+        var (niceMin, niceMax) = ChartMath.NiceExtent(yMin, yMax);
+        context.YScale = new ScaleLinear(niceMin, niceMax, context.PlotBottom, context.PlotTop);
+    }
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        if (context?.XBandScale == null) return;
+        var categories = context.XBandScale.Domain;
+        int bestIndex = -1;
+        double bestDist = double.MaxValue;
+        for (int i = 0; i < categories.Count; i++)
+        {
+            var cx = context.XBandScale.ScaleCenter(categories[i]);
+            var dist = Math.Abs(e.OffsetX - cx);
+            if (dist < bestDist) { bestDist = dist; bestIndex = i; }
+        }
+        context.SetActiveIndex(bestIndex, e.OffsetX, e.OffsetY);
+    }
+
+    private void HandleMouseLeave(MouseEventArgs e) => context?.ClearActiveIndex();
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

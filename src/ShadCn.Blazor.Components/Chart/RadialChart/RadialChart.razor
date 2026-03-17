@@ -1,0 +1,53 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using ShadCn.Blazor.Primitives.Utilities
+@using System.Globalization
+
+@if (context != null)
+{
+    <svg viewBox="@ViewBox"
+         class="@ComputedClass"
+         preserveAspectRatio="xMidYMid meet"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </svg>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<object> Data { get; set; } = [];
+
+    [Parameter]
+    public double Width { get; set; } = 300;
+
+    [Parameter]
+    public double Height { get; set; } = 300;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ViewBox => $"0 0 {F(Width)} {F(Height)}";
+
+    private string ComputedClass => new ClassBuilder("w-full h-full")
+        .Add(Class)
+        .Build();
+
+    protected override void OnParametersSet()
+    {
+        if (context == null) return;
+        context.Width = Width;
+        context.Height = Height;
+        context.Data = Data;
+    }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

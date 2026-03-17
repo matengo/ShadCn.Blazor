@@ -1,0 +1,28 @@
+@namespace ShadCn.Blazor.Components.Chart
+
+@if (context != null)
+{
+    <div class="flex flex-wrap items-center gap-4 text-sm">
+        @foreach (var (key, entry) in context.Config)
+        {
+            var label = entry.Label ?? key;
+            var color = entry.Color ?? $"var(--color-{key})";
+
+            <div class="flex items-center gap-1.5">
+                <div class="h-3 w-3 shrink-0 rounded-sm" style="background: @color"></div>
+                <span class="text-muted-foreground">@label</span>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Custom key for series names.
+    /// </summary>
+    [Parameter]
+    public string? NameKey { get; set; }
+}

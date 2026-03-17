@@ -1,0 +1,86 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using ShadCn.Blazor.Primitives.Utilities
+
+@if (context != null && context.ActiveIndex >= 0 && context.ActiveIndex < context.Data.Count)
+{
+    <div class="@ComputedClass"
+         style="@PositionStyle"
+         @attributes="AdditionalAttributes">
+        @if (Content != null)
+        {
+            @Content
+        }
+        else
+        {
+            <ChartTooltipContent HideLabel="HideLabel"
+                                 HideIndicator="HideIndicator"
+                                 Indicator="Indicator"
+                                 LabelKey="LabelKey"
+                                 NameKey="NameKey" />
+        }
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Custom tooltip content. If not provided, uses default ChartTooltipContent.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    /// <summary>
+    /// Hide the tooltip label.
+    /// </summary>
+    [Parameter]
+    public bool HideLabel { get; set; } = false;
+
+    /// <summary>
+    /// Hide the color indicator.
+    /// </summary>
+    [Parameter]
+    public bool HideIndicator { get; set; } = false;
+
+    /// <summary>
+    /// Indicator style.
+    /// </summary>
+    [Parameter]
+    public TooltipIndicator Indicator { get; set; } = TooltipIndicator.Dot;
+
+    /// <summary>
+    /// Config or data key to use for the label.
+    /// </summary>
+    [Parameter]
+    public string? LabelKey { get; set; }
+
+    /// <summary>
+    /// Config or data key to use for the name.
+    /// </summary>
+    [Parameter]
+    public string? NameKey { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(
+        "absolute z-50 pointer-events-none rounded-lg border bg-background px-3 py-1.5 text-sm shadow-md")
+        .Add(Class)
+        .Build();
+
+    private string PositionStyle
+    {
+        get
+        {
+            if (context == null) return "";
+            var x = context.MouseX;
+            var y = context.MouseY;
+            return $"left: {x + 12}px; top: {y - 12}px;";
+        }
+    }
+}

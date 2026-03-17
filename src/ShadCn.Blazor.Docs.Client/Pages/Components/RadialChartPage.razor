@@ -1,0 +1,117 @@
+@page "/charts/radial"
+
+<PageTitle>Radial Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Radial and gauge chart components with progress indicators. Built with pure Blazor SVG."
+    Keywords="Radial Chart, Gauge, Blazor, SVG, ShadCn.Blazor"
+    Canonical="https://www.shadcn-blazor.dev/charts/radial"
+    OgTitle="Radial Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Radial Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            Radial chart components for gauges, progress indicators, and radial bar charts.
+        </p>
+    </div>
+
+    <Separator />
+
+    <ExampleSection Title="Default" Description="A basic radial chart with multiple segments.">
+        <ComponentExample Code="@DefaultCode">
+            <Preview>
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Radial Chart</CardTitle>
+                        <CardDescription>Browser usage</CardDescription>
+                    </CardHeader>
+                    <CardContent Class="flex justify-center">
+                        <ChartContainer Config="@config" Class="h-[250px] w-[250px]">
+                            <RadialChart Data="@radialData">
+                                <Radial DataKey="visitors" NameKey="browser"
+                                        OuterRadius="110" InnerRadius="50" MaxValue="300" />
+                            </RadialChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="With Center Text" Description="A radial chart with content in the center.">
+        <ComponentExample Code="@CenterCode">
+            <Preview>
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Radial Chart - Gauge</CardTitle>
+                        <CardDescription>Progress indicator</CardDescription>
+                    </CardHeader>
+                    <CardContent Class="flex justify-center">
+                        <ChartContainer Config="@gaugeConfig" Class="h-[250px] w-[250px]">
+                            <RadialChart Data="@gaugeData">
+                                <Radial DataKey="value" NameKey="name"
+                                        OuterRadius="110" InnerRadius="80"
+                                        MaxValue="100" StartAngle="-90" EndAngle="270">
+                                    <CenterContent>
+                                        <div class="flex flex-col">
+                                            <span class="text-3xl font-bold">75%</span>
+                                            <span class="text-xs text-muted-foreground">Complete</span>
+                                        </div>
+                                    </CenterContent>
+                                </Radial>
+                            </RadialChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig config = new()
+    {
+        ["chrome"] = new ChartConfigEntry { Label = "Chrome", Color = "hsl(var(--chart-1))" },
+        ["safari"] = new ChartConfigEntry { Label = "Safari", Color = "hsl(var(--chart-2))" },
+        ["firefox"] = new ChartConfigEntry { Label = "Firefox", Color = "hsl(var(--chart-3))" }
+    };
+
+    private static readonly ChartConfig gaugeConfig = new()
+    {
+        ["progress"] = new ChartConfigEntry { Label = "Progress", Color = "hsl(var(--chart-1))" }
+    };
+
+    private static readonly IReadOnlyList<object> radialData = new List<Dictionary<string, object>>
+    {
+        new() { ["browser"] = "chrome", ["visitors"] = 275, ["fill"] = "var(--color-chrome)" },
+        new() { ["browser"] = "safari", ["visitors"] = 200, ["fill"] = "var(--color-safari)" },
+        new() { ["browser"] = "firefox", ["visitors"] = 187, ["fill"] = "var(--color-firefox)" },
+    }.Cast<object>().ToList();
+
+    private static readonly IReadOnlyList<object> gaugeData = new List<Dictionary<string, object>>
+    {
+        new() { ["name"] = "progress", ["value"] = 75, ["fill"] = "var(--color-progress)" },
+    }.Cast<object>().ToList();
+
+    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    <RadialChart Data=""@radialData"">
+        <Radial DataKey=""visitors"" NameKey=""browser""
+                OuterRadius=""110"" InnerRadius=""50"" MaxValue=""300"" />
+    </RadialChart>
+</ChartContainer>";
+
+    private const string CenterCode = @"<ChartContainer Config=""@gaugeConfig"" Class=""h-[250px] w-[250px]"">
+    <RadialChart Data=""@gaugeData"">
+        <Radial DataKey=""value"" NameKey=""name""
+                OuterRadius=""110"" InnerRadius=""80""
+                MaxValue=""100"" StartAngle=""-90"" EndAngle=""270"">
+            <CenterContent>
+                <div class=""flex flex-col"">
+                    <span class=""text-3xl font-bold"">75%</span>
+                    <span class=""text-xs text-muted-foreground"">Complete</span>
+                </div>
+            </CenterContent>
+        </Radial>
+    </RadialChart>
+</ChartContainer>";
+}

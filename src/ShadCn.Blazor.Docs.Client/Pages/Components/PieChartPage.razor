@@ -1,0 +1,121 @@
+@page "/charts/pie"
+
+<PageTitle>Pie Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Pie and donut chart components with labels and interactive slices. Built with pure Blazor SVG."
+    Keywords="Pie Chart, Donut Chart, Blazor, SVG, ShadCn.Blazor"
+    Canonical="https://www.shadcn-blazor.dev/charts/pie"
+    OgTitle="Pie Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Pie Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            Pie chart components with support for donut charts, labels, and interactive slices.
+        </p>
+    </div>
+
+    <Separator />
+
+    <ExampleSection Title="Default" Description="A basic pie chart.">
+        <ComponentExample Code="@DefaultCode">
+            <Preview>
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Pie Chart</CardTitle>
+                        <CardDescription>Browser usage share</CardDescription>
+                    </CardHeader>
+                    <CardContent Class="flex justify-center">
+                        <ChartContainer Config="@config" Class="h-[250px] w-[250px]">
+                            <PieChart Data="@pieData">
+                                <Pie DataKey="visitors" NameKey="browser" OuterRadius="100" />
+                            </PieChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Donut" Description="A donut chart with inner radius.">
+        <ComponentExample Code="@DonutCode">
+            <Preview>
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Pie Chart - Donut</CardTitle>
+                        <CardDescription>With inner radius for donut style</CardDescription>
+                    </CardHeader>
+                    <CardContent Class="flex justify-center">
+                        <ChartContainer Config="@config" Class="h-[250px] w-[250px]">
+                            <PieChart Data="@pieData">
+                                <Pie DataKey="visitors" NameKey="browser"
+                                     OuterRadius="100" InnerRadius="60" PaddingAngle="2" />
+                            </PieChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="With Labels" Description="A pie chart with value labels on slices.">
+        <ComponentExample Code="@LabelCode">
+            <Preview>
+                <Card Class="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle>Pie Chart - Labels</CardTitle>
+                        <CardDescription>Showing values on each slice</CardDescription>
+                    </CardHeader>
+                    <CardContent Class="flex justify-center">
+                        <ChartContainer Config="@config" Class="h-[250px] w-[250px]">
+                            <PieChart Data="@pieData">
+                                <Pie DataKey="visitors" NameKey="browser"
+                                     OuterRadius="100" Label="true" />
+                            </PieChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig config = new()
+    {
+        ["chrome"] = new ChartConfigEntry { Label = "Chrome", Color = "hsl(var(--chart-1))" },
+        ["safari"] = new ChartConfigEntry { Label = "Safari", Color = "hsl(var(--chart-2))" },
+        ["firefox"] = new ChartConfigEntry { Label = "Firefox", Color = "hsl(var(--chart-3))" },
+        ["edge"] = new ChartConfigEntry { Label = "Edge", Color = "hsl(var(--chart-4))" },
+        ["other"] = new ChartConfigEntry { Label = "Other", Color = "hsl(var(--chart-5))" }
+    };
+
+    private static readonly IReadOnlyList<object> pieData = new List<Dictionary<string, object>>
+    {
+        new() { ["browser"] = "chrome", ["visitors"] = 275, ["fill"] = "var(--color-chrome)" },
+        new() { ["browser"] = "safari", ["visitors"] = 200, ["fill"] = "var(--color-safari)" },
+        new() { ["browser"] = "firefox", ["visitors"] = 187, ["fill"] = "var(--color-firefox)" },
+        new() { ["browser"] = "edge", ["visitors"] = 173, ["fill"] = "var(--color-edge)" },
+        new() { ["browser"] = "other", ["visitors"] = 90, ["fill"] = "var(--color-other)" },
+    }.Cast<object>().ToList();
+
+    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    <PieChart Data=""@pieData"">
+        <Pie DataKey=""visitors"" NameKey=""browser"" OuterRadius=""100"" />
+    </PieChart>
+</ChartContainer>";
+
+    private const string DonutCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    <PieChart Data=""@pieData"">
+        <Pie DataKey=""visitors"" NameKey=""browser""
+             OuterRadius=""100"" InnerRadius=""60"" PaddingAngle=""2"" />
+    </PieChart>
+</ChartContainer>";
+
+    private const string LabelCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    <PieChart Data=""@pieData"">
+        <Pie DataKey=""visitors"" NameKey=""browser""
+             OuterRadius=""100"" Label=""true"" />
+    </PieChart>
+</ChartContainer>";
+}

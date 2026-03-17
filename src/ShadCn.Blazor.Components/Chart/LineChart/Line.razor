@@ -1,0 +1,110 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using System.Globalization
+
+@if (context?.XBandScale != null && context.YScale != null)
+{
+    <g class="chart-line-series">
+        @{
+            var points = BuildPoints();
+            var pathD = CurveFactory.LinePath(points, Type);
+            var strokeColor = !string.IsNullOrEmpty(Stroke) ? Stroke : $"var(--color-{DataKey})";
+        }
+
+        <path d="@pathD"
+              fill="none"
+              stroke="@strokeColor"
+              stroke-width="@F(StrokeWidth)"
+              stroke-dasharray="@StrokeDasharray"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+
+        @if (Dot)
+        {
+            @for (int i = 0; i < points.Count; i++)
+            {
+                var p = points[i];
+                var isActive = context.ActiveIndex == i;
+                var r = isActive ? DotRadius * 1.5 : DotRadius;
+
+                <circle cx="@F(p.X)"
+                        cy="@F(p.Y)"
+                        r="@F(r)"
+                        fill="@strokeColor"
+                        stroke="hsl(var(--background))"
+                        stroke-width="2"
+                        class="transition-all duration-200" />
+            }
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Data key for the Y values.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string DataKey { get; set; } = "";
+
+    /// <summary>
+    /// Curve interpolation type.
+    /// </summary>
+    [Parameter]
+    public CurveType Type { get; set; } = CurveType.Monotone;
+
+    /// <summary>
+    /// Stroke color. Defaults to var(--color-{DataKey}).
+    /// </summary>
+    [Parameter]
+    public string? Stroke { get; set; }
+
+    /// <summary>
+    /// Stroke width.
+    /// </summary>
+    [Parameter]
+    public double StrokeWidth { get; set; } = 2;
+
+    /// <summary>
+    /// Stroke dash array for dashed lines.
+    /// </summary>
+    [Parameter]
+    public string? StrokeDasharray { get; set; }
+
+    /// <summary>
+    /// Show dots at data points.
+    /// </summary>
+    [Parameter]
+    public bool Dot { get; set; } = true;
+
+    /// <summary>
+    /// Dot radius.
+    /// </summary>
+    [Parameter]
+    public double DotRadius { get; set; } = 4;
+
+    private List<(double X, double Y)> BuildPoints()
+    {
+        if (context?.XBandScale == null || context.YScale == null) return [];
+
+        var data = context.Data;
+        var xKey = context.XDataKey ?? "name";
+        var points = new List<(double X, double Y)>();
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            var item = data[i];
+            var cat = DataAccessor.GetString(item, xKey);
+            var value = DataAccessor.GetDouble(item, DataKey);
+            var x = context.XBandScale.ScaleCenter(cat);
+            var y = context.YScale.Scale(value);
+            points.Add((x, y));
+        }
+
+        return points;
+    }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+}

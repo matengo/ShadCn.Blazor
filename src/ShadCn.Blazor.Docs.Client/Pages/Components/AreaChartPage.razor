@@ -1,0 +1,116 @@
+@page "/charts/area"
+
+<PageTitle>Area Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Area chart components with gradient fills and smooth curves. Built with pure Blazor SVG."
+    Keywords="Area Chart, Blazor, SVG, ShadCn.Blazor"
+    Canonical="https://www.shadcn-blazor.dev/charts/area"
+    OgTitle="Area Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Area Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            Area chart components with support for gradient fills, smooth curves, and multiple series.
+        </p>
+    </div>
+
+    <Separator />
+
+    <ExampleSection Title="Default" Description="A basic area chart with gradient fill.">
+        <ComponentExample Code="@DefaultCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Area Chart</CardTitle>
+                        <CardDescription>Showing total visitors over time</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@config" Class="h-[300px]">
+                            <AreaChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Area DataKey="desktop" Fill="var(--color-desktop)" Gradient="true" />
+                                <Area DataKey="mobile" Fill="var(--color-mobile)" Gradient="true" />
+                                <ChartTooltip />
+                            </AreaChart>
+                            <ChartLegend />
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Linear Curve" Description="An area chart with linear interpolation.">
+        <ComponentExample Code="@LinearCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Area Chart - Linear</CardTitle>
+                        <CardDescription>Using linear curve type</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@singleConfig" Class="h-[300px]">
+                            <AreaChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Area DataKey="desktop" Type="CurveType.Linear"
+                                      Fill="var(--color-desktop)" Gradient="true"
+                                      Dot="true" />
+                                <ChartTooltip />
+                            </AreaChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig config = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" },
+        ["mobile"] = new ChartConfigEntry { Label = "Mobile", Color = "hsl(var(--chart-2))" }
+    };
+
+    private static readonly ChartConfig singleConfig = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" }
+    };
+
+    private static readonly IReadOnlyList<object> data = new List<Dictionary<string, object>>
+    {
+        new() { ["month"] = "January", ["desktop"] = 186, ["mobile"] = 80 },
+        new() { ["month"] = "February", ["desktop"] = 305, ["mobile"] = 200 },
+        new() { ["month"] = "March", ["desktop"] = 237, ["mobile"] = 120 },
+        new() { ["month"] = "April", ["desktop"] = 73, ["mobile"] = 190 },
+        new() { ["month"] = "May", ["desktop"] = 209, ["mobile"] = 130 },
+        new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
+    }.Cast<object>().ToList();
+
+    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <AreaChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <Area DataKey=""desktop"" Fill=""var(--color-desktop)"" Gradient=""true"" />
+        <Area DataKey=""mobile"" Fill=""var(--color-mobile)"" Gradient=""true"" />
+        <ChartTooltip />
+    </AreaChart>
+    <ChartLegend />
+</ChartContainer>";
+
+    private const string LinearCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <AreaChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <Area DataKey=""desktop"" Type=""CurveType.Linear""
+              Fill=""var(--color-desktop)"" Gradient=""true""
+              Dot=""true"" />
+        <ChartTooltip />
+    </AreaChart>
+</ChartContainer>";
+}

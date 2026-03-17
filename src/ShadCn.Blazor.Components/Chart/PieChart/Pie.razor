@@ -1,0 +1,180 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using System.Globalization
+@using Microsoft.AspNetCore.Components
+
+@if (context != null && context.Data.Count > 0)
+{
+    <g class="chart-pie-series">
+        @{
+            var slices = BuildSlices();
+            var cx = context.Width / 2;
+            var cy = context.Height / 2;
+        }
+
+        @foreach (var slice in slices)
+        {
+            var pathD = ArcGenerator.Arc(cx, cy, OuterRadius, InnerRadius,
+                slice.StartAngle, slice.EndAngle);
+            var isActive = context.ActiveIndex == slice.Index;
+            var transform = isActive ? $"translate({F(ActiveOffset(slice, cx, cy).dx)},{F(ActiveOffset(slice, cx, cy).dy)})" : "";
+
+            <path d="@pathD"
+                  fill="@slice.Fill"
+                  stroke="@(Stroke ?? "hsl(var(--background))")"
+                  stroke-width="@F(StrokeWidth)"
+                  transform="@transform"
+                  class="transition-transform duration-200"
+                  @onmouseenter="() => context.SetActiveIndex(slice.Index, 0, 0)"
+                  @onmouseleave="() => context.ClearActiveIndex()" />
+
+            @if (Label)
+            {
+                var (lx, ly) = ArcGenerator.Centroid(cx, cy, OuterRadius, InnerRadius,
+                    slice.StartAngle, slice.EndAngle);
+                @PieLabelText(F(lx), F(ly), slice.Label ?? "")
+            }
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Data key for the numeric values.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public string DataKey { get; set; } = "";
+
+    /// <summary>
+    /// Data key for category names (used for fill colors via config).
+    /// </summary>
+    [Parameter]
+    public string? NameKey { get; set; }
+
+    /// <summary>
+    /// Outer radius of the pie.
+    /// </summary>
+    [Parameter]
+    public double OuterRadius { get; set; } = 120;
+
+    /// <summary>
+    /// Inner radius (> 0 creates a donut chart).
+    /// </summary>
+    [Parameter]
+    public double InnerRadius { get; set; } = 0;
+
+    /// <summary>
+    /// Start angle in degrees (0 = top).
+    /// </summary>
+    [Parameter]
+    public double StartAngle { get; set; } = 0;
+
+    /// <summary>
+    /// End angle in degrees.
+    /// </summary>
+    [Parameter]
+    public double EndAngle { get; set; } = 360;
+
+    /// <summary>
+    /// Show labels on slices.
+    /// </summary>
+    [Parameter]
+    public bool Label { get; set; } = false;
+
+    /// <summary>
+    /// Stroke color between slices.
+    /// </summary>
+    [Parameter]
+    public string? Stroke { get; set; }
+
+    /// <summary>
+    /// Stroke width between slices.
+    /// </summary>
+    [Parameter]
+    public double StrokeWidth { get; set; } = 2;
+
+    /// <summary>
+    /// Distance to push active slice outward.
+    /// </summary>
+    [Parameter]
+    public double ActivePush { get; set; } = 6;
+
+    /// <summary>
+    /// Padding angle between slices in degrees.
+    /// </summary>
+    [Parameter]
+    public double PaddingAngle { get; set; } = 0;
+
+    private List<PieSlice> BuildSlices()
+    {
+        if (context == null) return [];
+
+        var data = context.Data;
+        var nameKey = NameKey ?? context.XDataKey ?? "name";
+
+        var values = DataAccessor.GetAllDoubles(data, DataKey);
+        var total = values.Sum();
+        if (total == 0) return [];
+
+        var slices = new List<PieSlice>();
+        var startRad = ChartMath.ToRadians(StartAngle);
+        var totalRad = ChartMath.ToRadians(EndAngle - StartAngle);
+        var padRad = ChartMath.ToRadians(PaddingAngle);
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            var name = DataAccessor.GetString(data[i], nameKey);
+            var value = values[i];
+            var sweepAngle = (value / total) * totalRad;
+
+            // Try fill from data item, then from config
+            var fill = DataAccessor.GetString(data[i], "fill");
+            if (string.IsNullOrEmpty(fill))
+            {
+                fill = context.Config.TryGetValue(name, out var entry) && entry.Color != null
+                    ? entry.Color
+                    : $"var(--color-{name})";
+            }
+
+            slices.Add(new PieSlice
+            {
+                Index = i,
+                Name = name,
+                Value = value,
+                StartAngle = startRad + padRad / 2,
+                EndAngle = startRad + sweepAngle - padRad / 2,
+                Fill = fill,
+                Label = Label ? value.ToString("G", CultureInfo.InvariantCulture) : null
+            });
+
+            startRad += sweepAngle;
+        }
+
+        return slices;
+    }
+
+    private (double dx, double dy) ActiveOffset(PieSlice slice, double cx, double cy)
+    {
+        var midAngle = (slice.StartAngle + slice.EndAngle) / 2;
+        return (ActivePush * Math.Sin(midAngle), -ActivePush * Math.Cos(midAngle));
+    }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+
+    private static MarkupString PieLabelText(string x, string y, string content) =>
+        new($"<text x=\"{x}\" y=\"{y}\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"hsl(var(--background))\" font-size=\"12\" font-weight=\"600\" pointer-events=\"none\">{System.Net.WebUtility.HtmlEncode(content)}</text>");
+
+    private class PieSlice
+    {
+        public int Index { get; init; }
+        public string Name { get; init; } = "";
+        public double Value { get; init; }
+        public double StartAngle { get; init; }
+        public double EndAngle { get; init; }
+        public string Fill { get; init; } = "";
+        public string? Label { get; init; }
+    }
+}

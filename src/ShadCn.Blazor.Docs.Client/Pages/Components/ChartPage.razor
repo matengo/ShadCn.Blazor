@@ -1,0 +1,138 @@
+@page "/charts"
+
+<PageTitle>Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Beautiful chart components built with pure Blazor SVG rendering. No JavaScript required. Area, Bar, Line, Pie, and Radial charts."
+    Keywords="Charts, Blazor, UI component, ShadCn.Blazor, SVG, area chart, bar chart, line chart, pie chart, radial chart"
+    Canonical="https://www.shadcn-blazor.dev/charts"
+    OgTitle="Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            A collection of chart components built with pure Blazor SVG rendering. No JavaScript required.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-4">
+        <p class="text-sm text-muted-foreground">
+            Charts are designed to look great out of the box. They work with the existing theme system
+            using CSS variables for colors, and are fully customizable.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="/charts/area" class="group">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Area Charts</CardTitle>
+                        <CardDescription>Charts with filled areas below lines.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </a>
+            <a href="/charts/bar" class="group">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Bar Charts</CardTitle>
+                        <CardDescription>Vertical and horizontal bar charts.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </a>
+            <a href="/charts/line" class="group">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Line Charts</CardTitle>
+                        <CardDescription>Line charts with various curve types.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </a>
+            <a href="/charts/pie" class="group">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Pie Charts</CardTitle>
+                        <CardDescription>Pie and donut charts.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </a>
+            <a href="/charts/radial" class="group">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Radial Charts</CardTitle>
+                        <CardDescription>Radial and gauge charts.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </a>
+        </div>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-4">
+        <h2 class="text-2xl font-bold">Getting Started</h2>
+        <p class="text-sm text-muted-foreground">
+            Charts use a composition pattern. You build your chart from components like
+            <code class="text-sm bg-muted px-1.5 py-0.5 rounded">ChartContainer</code>,
+            <code class="text-sm bg-muted px-1.5 py-0.5 rounded">BarChart</code>,
+            <code class="text-sm bg-muted px-1.5 py-0.5 rounded">Bar</code>, etc.
+        </p>
+    </div>
+
+    <ExampleSection Title="Quick Example" Description="A simple bar chart with two series.">
+        <ComponentExample Code="@QuickExampleCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Monthly Visitors</CardTitle>
+                        <CardDescription>Desktop vs Mobile</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@exampleConfig" Class="h-[300px]">
+                            <BarChart Data="@exampleData" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis DataKey="month" TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <YAxis TickLine="false" AxisLine="false" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="4" />
+                                <Bar DataKey="mobile" Fill="var(--color-mobile)" Radius="4" />
+                                <ChartTooltip />
+                            </BarChart>
+                            <ChartLegend />
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig exampleConfig = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" },
+        ["mobile"] = new ChartConfigEntry { Label = "Mobile", Color = "hsl(var(--chart-2))" }
+    };
+
+    private static readonly IReadOnlyList<object> exampleData = new List<Dictionary<string, object>>
+    {
+        new() { ["month"] = "January", ["desktop"] = 186, ["mobile"] = 80 },
+        new() { ["month"] = "February", ["desktop"] = 305, ["mobile"] = 200 },
+        new() { ["month"] = "March", ["desktop"] = 237, ["mobile"] = 120 },
+        new() { ["month"] = "April", ["desktop"] = 73, ["mobile"] = 190 },
+        new() { ["month"] = "May", ["desktop"] = 209, ["mobile"] = 130 },
+        new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
+    }.Cast<object>().ToList();
+
+    private const string QuickExampleCode = @"<ChartContainer Config=""@chartConfig"" Class=""h-[300px]"">
+    <BarChart Data=""@chartData"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <YAxis TickLine=""false"" AxisLine=""false"" />
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""4"" />
+        <Bar DataKey=""mobile"" Fill=""var(--color-mobile)"" Radius=""4"" />
+        <ChartTooltip />
+    </BarChart>
+    <ChartLegend />
+</ChartContainer>";
+}

@@ -1,0 +1,81 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using System.Globalization
+@using Microsoft.AspNetCore.Components
+
+@if (context?.YScale != null)
+{
+    <g class="chart-yaxis">
+        @if (AxisLine)
+        {
+            <line x1="@F(context.PlotLeft)"
+                  y1="@F(context.PlotTop)"
+                  x2="@F(context.PlotLeft)"
+                  y2="@F(context.PlotBottom)"
+                  stroke="currentColor"
+                  stroke-opacity="0.2" />
+        }
+
+        @{
+            var ticks = context.YScale.Ticks(TickCount);
+        }
+        @foreach (var tick in ticks)
+        {
+            var y = context.YScale.Scale(tick);
+            var label = TickFormatter != null
+                ? TickFormatter(tick.ToString(CultureInfo.InvariantCulture))
+                : tick.ToString("G", CultureInfo.InvariantCulture);
+
+            @if (TickLine)
+            {
+                <line x1="@F(context.PlotLeft - 6)"
+                      y1="@F(y)"
+                      x2="@F(context.PlotLeft)"
+                      y2="@F(y)"
+                      stroke="currentColor"
+                      stroke-opacity="0.2" />
+            }
+
+            @SvgText(F(context.PlotLeft - TickMargin), F(y), label)
+        }
+    </g>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    /// <summary>
+    /// Show tick lines.
+    /// </summary>
+    [Parameter]
+    public bool TickLine { get; set; } = true;
+
+    /// <summary>
+    /// Show axis line.
+    /// </summary>
+    [Parameter]
+    public bool AxisLine { get; set; } = true;
+
+    /// <summary>
+    /// Margin between axis and tick labels (pixels).
+    /// </summary>
+    [Parameter]
+    public double TickMargin { get; set; } = 10;
+
+    /// <summary>
+    /// Number of ticks.
+    /// </summary>
+    [Parameter]
+    public int TickCount { get; set; } = 5;
+
+    /// <summary>
+    /// Custom tick label formatter.
+    /// </summary>
+    [Parameter]
+    public Func<string, string>? TickFormatter { get; set; }
+
+    private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
+
+    private static MarkupString SvgText(string x, string y, string content) =>
+        new($"<text x=\"{x}\" y=\"{y}\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"currentColor\" opacity=\"0.5\" font-size=\"12\">{System.Net.WebUtility.HtmlEncode(content)}</text>");
+}

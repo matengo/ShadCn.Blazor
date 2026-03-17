@@ -1,0 +1,114 @@
+@page "/charts/bar"
+
+<PageTitle>Bar Charts - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Bar chart components with grouped, stacked, and horizontal layouts. Built with pure Blazor SVG."
+    Keywords="Bar Chart, Blazor, SVG, ShadCn.Blazor"
+    Canonical="https://www.shadcn-blazor.dev/charts/bar"
+    OgTitle="Bar Charts - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Bar Charts</h1>
+        <p class="text-lg text-muted-foreground">
+            Bar chart components with support for grouped bars, rounded corners, and tooltips.
+        </p>
+    </div>
+
+    <Separator />
+
+    <ExampleSection Title="Default" Description="A basic bar chart with two series.">
+        <ComponentExample Code="@DefaultCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Bar Chart</CardTitle>
+                        <CardDescription>January - June 2024</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@config" Class="h-[300px]">
+                            <BarChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="4" />
+                                <Bar DataKey="mobile" Fill="var(--color-mobile)" Radius="4" />
+                                <ChartTooltip />
+                            </BarChart>
+                            <ChartLegend />
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Single Series" Description="A bar chart with a single data series.">
+        <ComponentExample Code="@SingleCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Bar Chart - Single</CardTitle>
+                        <CardDescription>Showing desktop visitors only</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@singleConfig" Class="h-[300px]">
+                            <BarChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <YAxis TickLine="false" AxisLine="false" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="6" />
+                                <ChartTooltip />
+                            </BarChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+</div>
+
+@code {
+    private static readonly ChartConfig config = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" },
+        ["mobile"] = new ChartConfigEntry { Label = "Mobile", Color = "hsl(var(--chart-2))" }
+    };
+
+    private static readonly ChartConfig singleConfig = new()
+    {
+        ["desktop"] = new ChartConfigEntry { Label = "Desktop", Color = "hsl(var(--chart-1))" }
+    };
+
+    private static readonly IReadOnlyList<object> data = new List<Dictionary<string, object>>
+    {
+        new() { ["month"] = "January", ["desktop"] = 186, ["mobile"] = 80 },
+        new() { ["month"] = "February", ["desktop"] = 305, ["mobile"] = 200 },
+        new() { ["month"] = "March", ["desktop"] = 237, ["mobile"] = 120 },
+        new() { ["month"] = "April", ["desktop"] = 73, ["mobile"] = 190 },
+        new() { ["month"] = "May", ["desktop"] = 209, ["mobile"] = 130 },
+        new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
+    }.Cast<object>().ToList();
+
+    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <BarChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""4"" />
+        <Bar DataKey=""mobile"" Fill=""var(--color-mobile)"" Radius=""4"" />
+        <ChartTooltip />
+    </BarChart>
+    <ChartLegend />
+</ChartContainer>";
+
+    private const string SingleCode = @"<ChartContainer Config=""@singleConfig"" Class=""h-[300px]"">
+    <BarChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <YAxis TickLine=""false"" AxisLine=""false"" />
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""6"" />
+        <ChartTooltip />
+    </BarChart>
+</ChartContainer>";
+}

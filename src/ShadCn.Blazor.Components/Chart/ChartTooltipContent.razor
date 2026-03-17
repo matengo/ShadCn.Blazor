@@ -1,0 +1,68 @@
+@namespace ShadCn.Blazor.Components.Chart
+@using ShadCn.Blazor.Components.Chart.Internal
+@using System.Globalization
+
+@if (context != null && context.ActiveIndex >= 0 && context.ActiveIndex < context.Data.Count)
+{
+    var item = context.Data[context.ActiveIndex];
+    var xKey = context.XDataKey ?? "name";
+    var label = !string.IsNullOrEmpty(LabelKey)
+        ? DataAccessor.GetString(item, LabelKey)
+        : DataAccessor.GetString(item, xKey);
+
+    <div class="space-y-1">
+        @if (!HideLabel)
+        {
+            <p class="font-medium">@label</p>
+        }
+
+        @foreach (var (key, entry) in context.Config)
+        {
+            var value = DataAccessor.GetDouble(item, key);
+            var name = !string.IsNullOrEmpty(NameKey) && context.Config.TryGetValue(key, out var nEntry)
+                ? nEntry.Label ?? key
+                : entry.Label ?? key;
+            var color = entry.Color ?? $"var(--color-{key})";
+
+            <div class="flex items-center gap-2 text-sm">
+                @if (!HideIndicator)
+                {
+                    @switch (Indicator)
+                    {
+                        case TooltipIndicator.Dot:
+                            <div class="h-2.5 w-2.5 shrink-0 rounded-full" style="background: @color"></div>
+                            break;
+                        case TooltipIndicator.Line:
+                            <div class="w-2.5 h-0.5 shrink-0 rounded-full" style="background: @color"></div>
+                            break;
+                        case TooltipIndicator.Dashed:
+                            <div class="w-2.5 h-0.5 shrink-0 rounded-full border-t-2 border-dashed" style="border-color: @color"></div>
+                            break;
+                    }
+                }
+                <span class="text-muted-foreground">@name</span>
+                <span class="font-medium ml-auto tabular-nums">@value.ToString("N0", CultureInfo.InvariantCulture)</span>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    private ChartContext? context { get; set; }
+
+    [Parameter]
+    public bool HideLabel { get; set; } = false;
+
+    [Parameter]
+    public bool HideIndicator { get; set; } = false;
+
+    [Parameter]
+    public TooltipIndicator Indicator { get; set; } = TooltipIndicator.Dot;
+
+    [Parameter]
+    public string? LabelKey { get; set; }
+
+    [Parameter]
+    public string? NameKey { get; set; }
+}
