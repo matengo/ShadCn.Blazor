@@ -5,7 +5,7 @@
 
 @if (context != null && context.Data.Count > 0)
 {
-    <g class="chart-pie-series">
+    <g class="chart-pie-series" @key="@($"pie-{DataKey}-{context.DataVersion}")">
         @{
             var slices = BuildSlices();
             var cx = context.Width / 2;
@@ -18,13 +18,17 @@
                 slice.StartAngle, slice.EndAngle);
             var isActive = context.ActiveIndex == slice.Index;
             var transform = isActive ? $"translate({F(ActiveOffset(slice, cx, cy).dx)},{F(ActiveOffset(slice, cx, cy).dy)})" : "";
+            var animClass = Animate ? "chart-pie-animate" : "";
+            var animDelay = Animate ? $"animation-delay: {slice.Index * 0.1}s;" : "";
+            var originStyle = $"transform-origin: {F(cx)}px {F(cy)}px;";
 
             <path d="@pathD"
                   fill="@slice.Fill"
                   stroke="@(Stroke ?? "hsl(var(--background))")"
                   stroke-width="@F(StrokeWidth)"
                   transform="@transform"
-                  class="transition-transform duration-200"
+                  class="@($"transition-transform duration-200 {animClass}")"
+                  style="@($"{originStyle}{animDelay}")"
                   @onmouseenter="() => context.SetActiveIndex(slice.Index, 0, 0)"
                   @onmouseleave="() => context.ClearActiveIndex()" />
 
@@ -107,6 +111,12 @@
     /// </summary>
     [Parameter]
     public double PaddingAngle { get; set; } = 0;
+
+    /// <summary>
+    /// Enable enter animation.
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
 
     private List<PieSlice> BuildSlices()
     {

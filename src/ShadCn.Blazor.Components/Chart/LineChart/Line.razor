@@ -4,20 +4,25 @@
 
 @if (context?.XBandScale != null && context.YScale != null)
 {
-    <g class="chart-line-series">
+    <g class="chart-line-series" @key="@($"line-{DataKey}-{context.DataVersion}")">
         @{
             var points = BuildPoints();
             var pathD = CurveFactory.LinePath(points, Type);
             var strokeColor = !string.IsNullOrEmpty(Stroke) ? Stroke : $"var(--color-{DataKey})";
+            var pathLength = EstimatePathLength(points);
+            var animClass = Animate ? "chart-line-animate" : "";
+            var animStyle = Animate ? $"--path-length: {F(pathLength)};" : "";
         }
 
         <path d="@pathD"
               fill="none"
               stroke="@strokeColor"
               stroke-width="@F(StrokeWidth)"
-              stroke-dasharray="@StrokeDasharray"
+              stroke-dasharray="@(Animate ? null : StrokeDasharray)"
               stroke-linecap="round"
-              stroke-linejoin="round" />
+              stroke-linejoin="round"
+              class="@animClass"
+              style="@animStyle" />
 
         @if (Dot)
         {
@@ -26,6 +31,7 @@
                 var p = points[i];
                 var isActive = context.ActiveIndex == i;
                 var r = isActive ? DotRadius * 1.5 : DotRadius;
+                var dotDelay = Animate ? $"animation-delay: {0.3 + i * 0.08}s;" : "";
 
                 <circle cx="@F(p.X)"
                         cy="@F(p.Y)"
@@ -33,7 +39,8 @@
                         fill="@strokeColor"
                         stroke="hsl(var(--background))"
                         stroke-width="2"
-                        class="transition-all duration-200" />
+                        class="@($"transition-all duration-200 {(Animate ? "chart-fade-animate" : "")}")"
+                        style="@dotDelay" />
             }
         }
     </g>
@@ -85,6 +92,12 @@
     [Parameter]
     public double DotRadius { get; set; } = 4;
 
+    /// <summary>
+    /// Enable enter animation.
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
+
     private List<(double X, double Y)> BuildPoints()
     {
         if (context?.XBandScale == null || context.YScale == null) return [];
@@ -104,6 +117,19 @@
         }
 
         return points;
+    }
+
+    private static double EstimatePathLength(List<(double X, double Y)> points)
+    {
+        double length = 0;
+        for (int i = 1; i < points.Count; i++)
+        {
+            var dx = points[i].X - points[i - 1].X;
+            var dy = points[i].Y - points[i - 1].Y;
+            length += Math.Sqrt(dx * dx + dy * dy);
+        }
+        // Add some extra for curves
+        return length * 1.2;
     }
 
     private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);

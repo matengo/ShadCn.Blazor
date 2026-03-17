@@ -33,6 +33,11 @@ public class ChartContext
     /// </summary>
     public string? XDataKey { get; set; }
 
+    /// <summary>
+    /// Incremented when data changes, used with @key to re-trigger animations.
+    /// </summary>
+    public int DataVersion { get; set; }
+
     // Tooltip state
     public int ActiveIndex { get; set; } = -1;
     public double MouseX { get; set; }

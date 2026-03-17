@@ -39,14 +39,20 @@
             var isActive = context.ActiveIndex == i;
             var opacity = context.ActiveIndex >= 0 ? (isActive ? "1" : "0.6") : "1";
 
-            <rect x="@F(barX)"
+            var animDelay = Animate ? $"animation-delay: {i * 0.05}s;" : "";
+            var animClass = Animate ? "chart-bar-animate" : "";
+            var originStyle = $"transform-origin: {F(barX + (barWidth - 1) / 2)}px {F(baseline)}px;";
+
+            <rect @key="@($"{DataKey}-{i}-{context.DataVersion}")"
+                  x="@F(barX)"
                   y="@F(barTop)"
                   width="@F(Math.Max(barWidth - 1, 1))"
                   height="@F(barH)"
                   rx="@F(Radius)"
                   fill="@fillColor"
                   opacity="@opacity"
-                  class="transition-opacity duration-200" />
+                  class="@($"transition-opacity duration-200 {animClass}")"
+                  style="@($"{originStyle}{animDelay}")" />
         }
     </g>
 }
@@ -78,6 +84,12 @@
     /// </summary>
     [Parameter]
     public string? StackId { get; set; }
+
+    /// <summary>
+    /// Enable enter animation.
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
 
     private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
 }

@@ -124,7 +124,34 @@
         new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
     }.Cast<object>().ToList();
 
-    private const string QuickExampleCode = @"<ChartContainer Config=""@chartConfig"" Class=""h-[300px]"">
+    private const string QuickExampleCode = @"// 1. Define the chart config — maps data keys to labels and colors
+var chartConfig = new ChartConfig
+{
+    [""desktop""] = new ChartConfigEntry
+    {
+        Label = ""Desktop"",
+        Color = ""hsl(var(--chart-1))""
+    },
+    [""mobile""] = new ChartConfigEntry
+    {
+        Label = ""Mobile"",
+        Color = ""hsl(var(--chart-2))""
+    }
+};
+
+// 2. Define the data — any IReadOnlyList<object> (Dictionary or POCO)
+var chartData = new List<Dictionary<string, object>>
+{
+    new() { [""month""] = ""January"",  [""desktop""] = 186, [""mobile""] = 80 },
+    new() { [""month""] = ""February"", [""desktop""] = 305, [""mobile""] = 200 },
+    new() { [""month""] = ""March"",    [""desktop""] = 237, [""mobile""] = 120 },
+    new() { [""month""] = ""April"",    [""desktop""] = 73,  [""mobile""] = 190 },
+    new() { [""month""] = ""May"",      [""desktop""] = 209, [""mobile""] = 130 },
+    new() { [""month""] = ""June"",     [""desktop""] = 214, [""mobile""] = 140 },
+}.Cast<object>().ToList();
+
+// 3. Use in your Razor template
+<ChartContainer Config=""@chartConfig"" Class=""h-[300px]"">
     <BarChart Data=""@chartData"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />

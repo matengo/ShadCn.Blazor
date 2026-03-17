@@ -49,9 +49,17 @@
         .Add(Class)
         .Build();
 
+    private IReadOnlyList<object>? _previousData;
+
     protected override void OnParametersSet()
     {
         if (context == null) return;
+
+        if (_previousData != Data)
+        {
+            context.DataVersion++;
+            _previousData = Data;
+        }
 
         var margin = Margin ?? new ChartMargin();
         context.Width = Width;

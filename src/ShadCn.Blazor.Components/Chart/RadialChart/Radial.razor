@@ -4,7 +4,7 @@
 
 @if (context != null && context.Data.Count > 0)
 {
-    <g class="chart-radial-series">
+    <g class="chart-radial-series" @key="@($"radial-{DataKey}-{context.DataVersion}")">
         @{
             var cx = context.Width / 2;
             var cy = context.Height / 2;
@@ -32,12 +32,16 @@
 
             var pathD = ArcGenerator.Arc(cx, cy, seg.OuterR, seg.InnerR, startRad, endRad);
             var isActive = context.ActiveIndex == seg.Index;
+            var animClass = Animate ? "chart-pie-animate" : "";
+            var animDelay = Animate ? $"animation-delay: {seg.Index * 0.15}s;" : "";
+            var originStyle = $"transform-origin: {F(cx)}px {F(cy)}px;";
 
             <path d="@pathD"
                   fill="@seg.Fill"
                   stroke="none"
                   opacity="@(isActive ? "1" : "0.9")"
-                  class="transition-opacity duration-200"
+                  class="@($"transition-opacity duration-200 {animClass}")"
+                  style="@($"{originStyle}{animDelay}")"
                   @onmouseenter="() => context.SetActiveIndex(seg.Index, 0, 0)"
                   @onmouseleave="() => context.ClearActiveIndex()" />
         }
@@ -106,6 +110,12 @@
     /// </summary>
     [Parameter]
     public RenderFragment? CenterContent { get; set; }
+
+    /// <summary>
+    /// Enable enter animation.
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
 
     private List<RadialSegment> BuildSegments()
     {

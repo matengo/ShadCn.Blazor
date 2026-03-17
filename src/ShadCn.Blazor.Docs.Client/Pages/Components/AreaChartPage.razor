@@ -92,7 +92,16 @@
         new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
     }.Cast<object>().ToList();
 
-    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    private const string DefaultCode = @"// Config
+var config = new ChartConfig
+{
+    [""desktop""] = new ChartConfigEntry { Label = ""Desktop"", Color = ""hsl(var(--chart-1))"" },
+    [""mobile""]  = new ChartConfigEntry { Label = ""Mobile"",  Color = ""hsl(var(--chart-2))"" }
+};
+
+// Areas animate in: line draws in, then the fill fades in.
+// Use Gradient=""true"" for a top-to-bottom gradient fill.
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
     <AreaChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />
@@ -103,7 +112,9 @@
     <ChartLegend />
 </ChartContainer>";
 
-    private const string LinearCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    private const string LinearCode = @"// Type=""CurveType.Linear"" for straight segments.
+// Dot=""true"" to show data point markers.
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
     <AreaChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />

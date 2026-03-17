@@ -11,13 +11,13 @@
     <div class="space-y-4">
         <h1 class="text-3xl font-bold">Bar Charts</h1>
         <p class="text-lg text-muted-foreground">
-            Bar chart components with support for grouped bars, rounded corners, and tooltips.
+            Bar chart components with support for grouped bars, rounded corners, tooltips, and enter animations.
         </p>
     </div>
 
     <Separator />
 
-    <ExampleSection Title="Default" Description="A basic bar chart with two series.">
+    <ExampleSection Title="Default" Description="A basic bar chart with two series. Bars animate in on first render.">
         <ComponentExample Code="@DefaultCode">
             <Preview>
                 <Card Class="w-full max-w-lg">
@@ -43,7 +43,7 @@
         </ComponentExample>
     </ExampleSection>
 
-    <ExampleSection Title="Single Series" Description="A bar chart with a single data series.">
+    <ExampleSection Title="Single Series" Description="A bar chart with a single data series and Y-axis.">
         <ComponentExample Code="@SingleCode">
             <Preview>
                 <Card Class="w-full max-w-lg">
@@ -63,6 +63,50 @@
                             </BarChart>
                         </ChartContainer>
                     </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Dynamic Data (Animation)" Description="Click the button to randomize data — the bars animate in each time.">
+        <ComponentExample Code="@AnimationCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Bar Chart - Animated</CardTitle>
+                        <CardDescription>Data updates trigger re-animation</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@singleConfig" Class="h-[300px]">
+                            <BarChart Data="@dynamicData" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="6" />
+                            </BarChart>
+                        </ChartContainer>
+                    </CardContent>
+                    <CardFooter>
+                        <Button @onclick="RandomizeData">Randomize Data</Button>
+                    </CardFooter>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Chart Config" Description="How to define the ChartConfig for your chart.">
+        <ComponentExample Code="@ConfigCode">
+            <Preview>
+                <Card Class="w-full max-w-lg p-6">
+                    <div class="space-y-3 text-sm">
+                        <p class="font-medium">ChartConfig maps data keys to labels and colors:</p>
+                        <ul class="list-disc pl-5 space-y-1 text-muted-foreground">
+                            <li><strong>Key</strong> — matches the data property name (e.g., "desktop")</li>
+                            <li><strong>Label</strong> — human-readable name shown in tooltips/legends</li>
+                            <li><strong>Color</strong> — any CSS color or <code class="bg-muted px-1 rounded">var(--chart-N)</code></li>
+                        </ul>
+                        <p class="text-muted-foreground">Colors are injected as <code class="bg-muted px-1 rounded">--color-{key}</code> CSS variables, referenced via <code class="bg-muted px-1 rounded">var(--color-desktop)</code> in Fill/Stroke.</p>
+                    </div>
                 </Card>
             </Preview>
         </ComponentExample>
@@ -91,7 +135,36 @@
         new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
     }.Cast<object>().ToList();
 
-    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    private IReadOnlyList<object> dynamicData = new List<Dictionary<string, object>>
+    {
+        new() { ["month"] = "January", ["desktop"] = 186 },
+        new() { ["month"] = "February", ["desktop"] = 305 },
+        new() { ["month"] = "March", ["desktop"] = 237 },
+        new() { ["month"] = "April", ["desktop"] = 73 },
+        new() { ["month"] = "May", ["desktop"] = 209 },
+        new() { ["month"] = "June", ["desktop"] = 214 },
+    }.Cast<object>().ToList();
+
+    private readonly Random rng = new();
+
+    private void RandomizeData()
+    {
+        var months = new[] { "January", "February", "March", "April", "May", "June" };
+        dynamicData = months.Select(m => (object)new Dictionary<string, object>
+        {
+            ["month"] = m,
+            ["desktop"] = rng.Next(50, 350)
+        }).ToList();
+    }
+
+    private const string DefaultCode = @"// Config — two series
+var config = new ChartConfig
+{
+    [""desktop""] = new ChartConfigEntry { Label = ""Desktop"", Color = ""hsl(var(--chart-1))"" },
+    [""mobile""]  = new ChartConfigEntry { Label = ""Mobile"",  Color = ""hsl(var(--chart-2))"" }
+};
+
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
     <BarChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />
@@ -102,7 +175,13 @@
     <ChartLegend />
 </ChartContainer>";
 
-    private const string SingleCode = @"<ChartContainer Config=""@singleConfig"" Class=""h-[300px]"">
+    private const string SingleCode = @"// Config — single series
+var singleConfig = new ChartConfig
+{
+    [""desktop""] = new ChartConfigEntry { Label = ""Desktop"", Color = ""hsl(var(--chart-1))"" }
+};
+
+<ChartContainer Config=""@singleConfig"" Class=""h-[300px]"">
     <BarChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />
@@ -111,4 +190,64 @@
         <ChartTooltip />
     </BarChart>
 </ChartContainer>";
+
+    private const string AnimationCode = @"// Animations are enabled by default (Animate=""true"").
+// When Data changes, bars re-animate with staggered delays.
+// Set Animate=""false"" to disable.
+
+private void RandomizeData()
+{
+    // Create new data list — the BarChart detects the reference change
+    // and increments DataVersion, which re-triggers @key and CSS animations
+    dynamicData = months.Select(m => new Dictionary<string, object>
+    {
+        [""month""] = m, [""desktop""] = rng.Next(50, 350)
+    }).Cast<object>().ToList();
+}
+
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <BarChart Data=""@dynamicData"" XDataKey=""month"">
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""6"" />
+    </BarChart>
+</ChartContainer>
+<Button @onclick=""RandomizeData"">Randomize Data</Button>";
+
+    private const string ConfigCode = @"// The ChartConfig maps data keys to display properties.
+// Keys must match the property names in your data objects.
+
+var chartConfig = new ChartConfig
+{
+    // Key ""desktop"" matches data[""desktop""] = 186
+    [""desktop""] = new ChartConfigEntry
+    {
+        Label = ""Desktop"",                    // Shown in tooltips & legend
+        Color = ""hsl(var(--chart-1))""         // Uses theme CSS variable
+    },
+    [""mobile""] = new ChartConfigEntry
+    {
+        Label = ""Mobile"",
+        Color = ""#60a5fa""                     // Or use any CSS color directly
+    },
+    [""tablet""] = new ChartConfigEntry
+    {
+        Label = ""Tablet"",
+        Color = ""oklch(0.6 0.15 250)""         // oklch, hsl, hex all work
+    }
+};
+
+// Colors are injected as CSS variables:
+//   --color-desktop: hsl(var(--chart-1))
+//   --color-mobile: #60a5fa
+//
+// Reference them in Fill/Stroke:
+//   Fill=""var(--color-desktop)""
+
+// For pie/radial charts, colors can also come from the data itself:
+var pieData = new List<Dictionary<string, object>>
+{
+    new() { [""browser""] = ""chrome"",  [""visitors""] = 275,
+            [""fill""] = ""var(--color-chrome)"" },
+    new() { [""browser""] = ""safari"",  [""visitors""] = 200,
+            [""fill""] = ""var(--color-safari)"" },
+};";
 }

@@ -93,14 +93,35 @@
         new() { ["name"] = "progress", ["value"] = 75, ["fill"] = "var(--color-progress)" },
     }.Cast<object>().ToList();
 
-    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    private const string DefaultCode = @"// Config for radial bars
+var config = new ChartConfig
+{
+    [""chrome""]  = new ChartConfigEntry { Label = ""Chrome"",  Color = ""hsl(var(--chart-1))"" },
+    [""safari""]  = new ChartConfigEntry { Label = ""Safari"",  Color = ""hsl(var(--chart-2))"" },
+    [""firefox""] = new ChartConfigEntry { Label = ""Firefox"", Color = ""hsl(var(--chart-3))"" }
+};
+
+// Each data item becomes a radial bar. MaxValue sets the scale.
+// Segments animate in with staggered scale effects.
+<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
     <RadialChart Data=""@radialData"">
         <Radial DataKey=""visitors"" NameKey=""browser""
                 OuterRadius=""110"" InnerRadius=""50"" MaxValue=""300"" />
     </RadialChart>
 </ChartContainer>";
 
-    private const string CenterCode = @"<ChartContainer Config=""@gaugeConfig"" Class=""h-[250px] w-[250px]"">
+    private const string CenterCode = @"// For gauge/progress, use a single data item with CenterContent.
+var gaugeConfig = new ChartConfig
+{
+    [""progress""] = new ChartConfigEntry { Label = ""Progress"", Color = ""hsl(var(--chart-1))"" }
+};
+
+var gaugeData = new List<Dictionary<string, object>>
+{
+    new() { [""name""] = ""progress"", [""value""] = 75, [""fill""] = ""var(--color-progress)"" }
+};
+
+<ChartContainer Config=""@gaugeConfig"" Class=""h-[250px] w-[250px]"">
     <RadialChart Data=""@gaugeData"">
         <Radial DataKey=""value"" NameKey=""name""
                 OuterRadius=""110"" InnerRadius=""80""

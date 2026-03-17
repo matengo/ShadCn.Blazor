@@ -99,20 +99,43 @@
         new() { ["browser"] = "other", ["visitors"] = 90, ["fill"] = "var(--color-other)" },
     }.Cast<object>().ToList();
 
-    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    private const string DefaultCode = @"// For pie charts, config maps category names to colors.
+// The data needs a ""fill"" property pointing to var(--color-{name}).
+var config = new ChartConfig
+{
+    [""chrome""]  = new ChartConfigEntry { Label = ""Chrome"",  Color = ""hsl(var(--chart-1))"" },
+    [""safari""]  = new ChartConfigEntry { Label = ""Safari"",  Color = ""hsl(var(--chart-2))"" },
+    [""firefox""] = new ChartConfigEntry { Label = ""Firefox"", Color = ""hsl(var(--chart-3))"" },
+    [""edge""]    = new ChartConfigEntry { Label = ""Edge"",    Color = ""hsl(var(--chart-4))"" },
+    [""other""]   = new ChartConfigEntry { Label = ""Other"",   Color = ""hsl(var(--chart-5))"" }
+};
+
+var pieData = new List<Dictionary<string, object>>
+{
+    new() { [""browser""] = ""chrome"",  [""visitors""] = 275, [""fill""] = ""var(--color-chrome)"" },
+    new() { [""browser""] = ""safari"",  [""visitors""] = 200, [""fill""] = ""var(--color-safari)"" },
+    new() { [""browser""] = ""firefox"", [""visitors""] = 187, [""fill""] = ""var(--color-firefox)"" },
+    new() { [""browser""] = ""edge"",    [""visitors""] = 173, [""fill""] = ""var(--color-edge)"" },
+    new() { [""browser""] = ""other"",   [""visitors""] = 90,  [""fill""] = ""var(--color-other)"" },
+};
+
+// Pie slices animate in with a scale effect.
+<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
     <PieChart Data=""@pieData"">
         <Pie DataKey=""visitors"" NameKey=""browser"" OuterRadius=""100"" />
     </PieChart>
 </ChartContainer>";
 
-    private const string DonutCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    private const string DonutCode = @"// InnerRadius creates a donut. PaddingAngle adds gaps between slices.
+<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
     <PieChart Data=""@pieData"">
         <Pie DataKey=""visitors"" NameKey=""browser""
              OuterRadius=""100"" InnerRadius=""60"" PaddingAngle=""2"" />
     </PieChart>
 </ChartContainer>";
 
-    private const string LabelCode = @"<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
+    private const string LabelCode = @"// Label=""true"" renders the value on each slice.
+<ChartContainer Config=""@config"" Class=""h-[250px] w-[250px]"">
     <PieChart Data=""@pieData"">
         <Pie DataKey=""visitors"" NameKey=""browser""
              OuterRadius=""100"" Label=""true"" />

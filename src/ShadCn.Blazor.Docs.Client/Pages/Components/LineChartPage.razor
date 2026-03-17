@@ -92,7 +92,23 @@
         new() { ["month"] = "June", ["desktop"] = 214, ["mobile"] = 140 },
     }.Cast<object>().ToList();
 
-    private const string DefaultCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    private const string DefaultCode = @"// Config
+var config = new ChartConfig
+{
+    [""desktop""] = new ChartConfigEntry { Label = ""Desktop"", Color = ""hsl(var(--chart-1))"" },
+    [""mobile""]  = new ChartConfigEntry { Label = ""Mobile"",  Color = ""hsl(var(--chart-2))"" }
+};
+
+// Data
+var data = new List<Dictionary<string, object>>
+{
+    new() { [""month""] = ""January"",  [""desktop""] = 186, [""mobile""] = 80 },
+    new() { [""month""] = ""February"", [""desktop""] = 305, [""mobile""] = 200 },
+    // ...
+}.Cast<object>().ToList();
+
+// Lines animate in with a draw effect by default (Animate=""true"").
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
     <LineChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />
@@ -103,7 +119,9 @@
     <ChartLegend />
 </ChartContainer>";
 
-    private const string LinearCode = @"<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    private const string LinearCode = @"// Use Type=""CurveType.Linear"" for straight line segments.
+// Dot=""false"" hides the data point markers.
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
     <LineChart Data=""@data"" XDataKey=""month"">
         <CartesianGrid Vertical=""false"" />
         <XAxis TickLine=""false"" AxisLine=""false"" />
