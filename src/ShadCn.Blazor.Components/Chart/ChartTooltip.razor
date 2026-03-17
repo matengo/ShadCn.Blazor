@@ -78,9 +78,9 @@
         get
         {
             if (context == null) return "";
-            var x = context.MouseX;
-            var y = context.MouseY;
-            return $"left: {x + 12}px; top: {y - 12}px;";
+            var left = context.TooltipLeftPct.ToString("F1", System.Globalization.CultureInfo.InvariantCulture);
+            var top = context.TooltipTopPct.ToString("F1", System.Globalization.CultureInfo.InvariantCulture);
+            return $"left: {left}%; top: {top}%; transform: translateX(-50%) translateY(-100%) translateY(-8px);";
         }
     }
 }

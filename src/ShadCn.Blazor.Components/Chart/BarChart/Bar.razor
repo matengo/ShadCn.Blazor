@@ -11,7 +11,6 @@
             var yScale = context.YScale;
             var xKey = context.XDataKey ?? "name";
 
-            // Count how many Bar series exist (for grouped bars)
             var allDataKeys = context.Config.Keys.ToList();
             var seriesIndex = allDataKeys.IndexOf(DataKey);
             var seriesCount = allDataKeys.Count;
@@ -37,7 +36,7 @@
 
             var fillColor = !string.IsNullOrEmpty(Fill) ? Fill : $"var(--color-{DataKey})";
             var isActive = context.ActiveIndex == i;
-            var opacity = context.ActiveIndex >= 0 ? (isActive ? "1" : "0.6") : "1";
+            var opacity = context.ActiveIndex >= 0 ? (isActive ? "1" : "0.3") : "1";
 
             var animDelay = Animate ? $"animation-delay: {i * 0.05}s;" : "";
             var animClass = Animate ? "chart-bar-animate" : "";
@@ -53,6 +52,13 @@
                   opacity="@opacity"
                   class="@($"transition-opacity duration-200 {animClass}")"
                   style="@($"{originStyle}{animDelay}")" />
+
+            @if (Label && barH > 0)
+            {
+                var labelX = barX + (barWidth - 1) / 2;
+                var labelY = barTop - 6;
+                @(RenderLabelText(labelX, labelY, value.ToString("N0", CultureInfo.InvariantCulture), context.DataVersion, i))
+            }
         }
     </g>
 }
@@ -86,10 +92,27 @@
     public string? StackId { get; set; }
 
     /// <summary>
+    /// Show value labels above each bar.
+    /// </summary>
+    [Parameter]
+    public bool Label { get; set; } = false;
+
+    /// <summary>
     /// Enable enter animation.
     /// </summary>
     [Parameter]
     public bool Animate { get; set; } = true;
+
+    private static MarkupString RenderLabelText(double x, double y, string content, int dataVersion, int index)
+    {
+        var xStr = x.ToString("G6", CultureInfo.InvariantCulture);
+        var yStr = y.ToString("G6", CultureInfo.InvariantCulture);
+        var encoded = System.Net.WebUtility.HtmlEncode(content);
+        return new MarkupString(
+            $"<text x=\"{xStr}\" y=\"{yStr}\" text-anchor=\"middle\" " +
+            $"font-size=\"12\" fill=\"currentColor\" class=\"chart-fade-animate\" " +
+            $"style=\"animation-delay: {index * 0.05}s;\">{encoded}</text>");
+    }
 
     private static string F(double v) => v.ToString("G6", CultureInfo.InvariantCulture);
 }

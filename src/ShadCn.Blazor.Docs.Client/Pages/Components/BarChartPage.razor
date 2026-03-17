@@ -68,6 +68,57 @@
         </ComponentExample>
     </ExampleSection>
 
+    <ExampleSection Title="With Labels" Description="Show data values above each bar using Label=true.">
+        <ComponentExample Code="@LabelCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Bar Chart - Labels</CardTitle>
+                        <CardDescription>Values displayed above bars</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@singleConfig" Class="h-[300px]">
+                            <BarChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <YAxis TickLine="false" AxisLine="false" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="6" Label="true" />
+                                <ChartTooltip />
+                            </BarChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
+    <ExampleSection Title="Tooltip" Description="Hover over bars to see a tooltip with data values. Non-active bars dim to highlight the hovered group.">
+        <ComponentExample Code="@TooltipCode">
+            <Preview>
+                <Card Class="w-full max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Bar Chart - Tooltip</CardTitle>
+                        <CardDescription>Hover to see values</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer Config="@config" Class="h-[300px]">
+                            <BarChart Data="@data" XDataKey="month">
+                                <CartesianGrid Vertical="false" />
+                                <XAxis TickLine="false" AxisLine="false"
+                                       TickFormatter="@(v => v.Length > 3 ? v[..3] : v)" />
+                                <Bar DataKey="desktop" Fill="var(--color-desktop)" Radius="4" />
+                                <Bar DataKey="mobile" Fill="var(--color-mobile)" Radius="4" />
+                                <ChartTooltip />
+                            </BarChart>
+                            <ChartLegend />
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </Preview>
+        </ComponentExample>
+    </ExampleSection>
+
     <ExampleSection Title="Dynamic Data (Animation)" Description="Click the button to randomize data — the bars animate in each time.">
         <ComponentExample Code="@AnimationCode">
             <Preview>
@@ -189,6 +240,31 @@ var singleConfig = new ChartConfig
         <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""6"" />
         <ChartTooltip />
     </BarChart>
+</ChartContainer>";
+
+    private const string LabelCode = @"// Use Label=""true"" to display values above each bar.
+<ChartContainer Config=""@singleConfig"" Class=""h-[300px]"">
+    <BarChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <YAxis TickLine=""false"" AxisLine=""false"" />
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""6"" Label=""true"" />
+        <ChartTooltip />
+    </BarChart>
+</ChartContainer>";
+
+    private const string TooltipCode = @"// Add <ChartTooltip /> inside the chart to show data on hover.
+// Non-hovered bars dim automatically (opacity transition).
+// Use <ChartLegend /> for a color legend below the chart.
+<ChartContainer Config=""@config"" Class=""h-[300px]"">
+    <BarChart Data=""@data"" XDataKey=""month"">
+        <CartesianGrid Vertical=""false"" />
+        <XAxis TickLine=""false"" AxisLine=""false"" />
+        <Bar DataKey=""desktop"" Fill=""var(--color-desktop)"" Radius=""4"" />
+        <Bar DataKey=""mobile"" Fill=""var(--color-mobile)"" Radius=""4"" />
+        <ChartTooltip />
+    </BarChart>
+    <ChartLegend />
 </ChartContainer>";
 
     private const string AnimationCode = @"// Animations are enabled by default (Animate=""true"").

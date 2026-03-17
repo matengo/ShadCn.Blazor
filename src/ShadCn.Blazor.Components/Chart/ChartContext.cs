@@ -40,23 +40,37 @@ public class ChartContext
 
     // Tooltip state
     public int ActiveIndex { get; set; } = -1;
-    public double MouseX { get; set; }
-    public double MouseY { get; set; }
+
+    /// <summary>
+    /// Tooltip left position as percentage of chart width (0-100).
+    /// </summary>
+    public double TooltipLeftPct { get; set; }
+
+    /// <summary>
+    /// Tooltip top position as percentage of chart height (0-100).
+    /// </summary>
+    public double TooltipTopPct { get; set; }
 
     public Action? OnStateChanged { get; set; }
 
-    public void SetActiveIndex(int index, double mouseX, double mouseY)
+    /// <summary>
+    /// Set the active data point index and tooltip position using SVG viewBox coordinates.
+    /// </summary>
+    public void SetActiveIndex(int index, double svgX, double svgY)
     {
         ActiveIndex = index;
-        MouseX = mouseX;
-        MouseY = mouseY;
+        if (Width > 0) TooltipLeftPct = (svgX / Width) * 100;
+        if (Height > 0) TooltipTopPct = (svgY / Height) * 100;
         OnStateChanged?.Invoke();
     }
 
     public void ClearActiveIndex()
     {
-        ActiveIndex = -1;
-        OnStateChanged?.Invoke();
+        if (ActiveIndex != -1)
+        {
+            ActiveIndex = -1;
+            OnStateChanged?.Invoke();
+        }
     }
 }
 

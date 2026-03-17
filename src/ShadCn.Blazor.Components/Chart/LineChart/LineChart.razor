@@ -8,10 +8,45 @@
     <svg viewBox="@ViewBox"
          class="@ComputedClass"
          preserveAspectRatio="xMidYMid meet"
-         @onmousemove="HandleMouseMove"
          @onmouseleave="HandleMouseLeave"
          @attributes="AdditionalAttributes">
         @ChildContent
+
+        @* Transparent hover zones for each data point *@
+        @if (context.XBandScale != null && context.YScale != null)
+        {
+            var categories = context.XBandScale.Domain;
+            var halfBand = categories.Count > 1
+                ? (context.PlotRight - context.PlotLeft) / categories.Count / 2.0
+                : (context.PlotRight - context.PlotLeft) / 2.0;
+
+            @for (int i = 0; i < categories.Count; i++)
+            {
+                var idx = i;
+                var cat = categories[i];
+                var cx = context.XBandScale.ScaleCenter(cat);
+                var zoneX = cx - halfBand;
+                var zoneW = halfBand * 2;
+
+                double topY = context.PlotBottom;
+                if (idx < context.Data.Count)
+                {
+                    foreach (var key in context.Config.Keys)
+                    {
+                        var val = DataAccessor.GetDouble(context.Data[idx], key);
+                        var y = context.YScale.Scale(val);
+                        if (y < topY) topY = y;
+                    }
+                }
+
+                <rect x="@F(Math.Max(zoneX, context.PlotLeft))"
+                      y="@F(context.PlotTop)"
+                      width="@F(Math.Min(zoneW, context.PlotRight - Math.Max(zoneX, context.PlotLeft)))"
+                      height="@F(context.PlotHeight)"
+                      fill="transparent"
+                      @onmouseenter="@(() => context.SetActiveIndex(idx, cx, topY))" />
+            }
+        }
     </svg>
 }
 
@@ -93,21 +128,6 @@
 
         var (niceMin, niceMax) = ChartMath.NiceExtent(yMin, yMax);
         context.YScale = new ScaleLinear(niceMin, niceMax, context.PlotBottom, context.PlotTop);
-    }
-
-    private void HandleMouseMove(MouseEventArgs e)
-    {
-        if (context?.XBandScale == null) return;
-        var categories = context.XBandScale.Domain;
-        int bestIndex = -1;
-        double bestDist = double.MaxValue;
-        for (int i = 0; i < categories.Count; i++)
-        {
-            var cx = context.XBandScale.ScaleCenter(categories[i]);
-            var dist = Math.Abs(e.OffsetX - cx);
-            if (dist < bestDist) { bestDist = dist; bestIndex = i; }
-        }
-        context.SetActiveIndex(bestIndex, e.OffsetX, e.OffsetY);
     }
 
     private void HandleMouseLeave(MouseEventArgs e) => context?.ClearActiveIndex();

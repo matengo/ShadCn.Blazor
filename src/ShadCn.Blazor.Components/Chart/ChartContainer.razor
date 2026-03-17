@@ -51,10 +51,7 @@
 
     protected override void OnParametersSet()
     {
-        Context = new ChartContext
-        {
-            Config = Config
-        };
+        Context.Config = Config;
         Context.OnStateChanged = () => InvokeAsync(StateHasChanged);
     }
 }
