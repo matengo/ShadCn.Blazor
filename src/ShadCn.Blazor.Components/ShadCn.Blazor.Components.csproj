@@ -5,8 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://shadcnblazordocs.ashymoss-4232cb31.swedencentral.azurecontainerapps.io</PackageProjectUrl>
+    <PackageProjectUrl>https://www.shadcn-blazor.dev</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matengo/ShadCn.Blazor</RepositoryUrl>
+    <Description>
+		Blazor component library inspired by shadcn/ui. Accessible. Customizable. Open Source. 
+	    All components are built as pure Blazor components and require no JavaScript or JS interop at runtime.
+	</Description>
     <RepositoryType>git</RepositoryType>
     <Version>1.0.0</Version>
   </PropertyGroup>
