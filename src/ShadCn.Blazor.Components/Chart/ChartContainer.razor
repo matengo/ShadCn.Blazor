@@ -1,10 +1,30 @@
 @namespace ShadCn.Blazor.Components.Chart
 @using ShadCn.Blazor.Primitives.Utilities
+@using System.Globalization
 
 <div class="@ComputedClass" style="@ComputedStyle" @attributes="AdditionalAttributes">
     <CascadingValue Value="Context" IsFixed="false">
         @ChildContent
     </CascadingValue>
+
+    @* Tooltip rendered outside the SVG so it's valid HTML *@
+    @if (Context.TooltipEnabled && Context.ActiveIndex >= 0 && Context.ActiveIndex < Context.Data.Count)
+    {
+        <div class="@TooltipClass" style="@TooltipPositionStyle">
+            @if (Context.TooltipCustomContent != null)
+            {
+                @Context.TooltipCustomContent
+            }
+            else
+            {
+                <ChartTooltipContent HideLabel="Context.TooltipHideLabel"
+                                     HideIndicator="Context.TooltipHideIndicator"
+                                     Indicator="Context.TooltipIndicator"
+                                     LabelKey="@Context.TooltipLabelKey"
+                                     NameKey="@Context.TooltipNameKey" />
+            }
+        </div>
+    }
 </div>
 
 @code {
@@ -46,6 +66,21 @@
                 }
             }
             return string.Join("; ", styles);
+        }
+    }
+
+    private string TooltipClass => new ClassBuilder(
+        "absolute z-50 pointer-events-none rounded-lg border bg-background px-3 py-1.5 text-sm shadow-md")
+        .Add(Context.TooltipClass)
+        .Build();
+
+    private string TooltipPositionStyle
+    {
+        get
+        {
+            var left = Context.TooltipLeftPct.ToString("F1", CultureInfo.InvariantCulture);
+            var top = Context.TooltipTopPct.ToString("F1", CultureInfo.InvariantCulture);
+            return $"left: {left}%; top: {top}%; transform: translateX(-50%) translateY(-100%) translateY(-8px);";
         }
     }
 

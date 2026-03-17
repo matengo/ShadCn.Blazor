@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using ShadCn.Blazor.Components.Chart.Internal;
 
 namespace ShadCn.Blazor.Components.Chart;
@@ -50,6 +51,16 @@ public class ChartContext
     /// Tooltip top position as percentage of chart height (0-100).
     /// </summary>
     public double TooltipTopPct { get; set; }
+
+    // Tooltip configuration (set by ChartTooltip registration component)
+    public bool TooltipEnabled { get; set; }
+    public bool TooltipHideLabel { get; set; }
+    public bool TooltipHideIndicator { get; set; }
+    public TooltipIndicator TooltipIndicator { get; set; } = TooltipIndicator.Dot;
+    public string? TooltipLabelKey { get; set; }
+    public string? TooltipNameKey { get; set; }
+    public RenderFragment? TooltipCustomContent { get; set; }
+    public string? TooltipClass { get; set; }
 
     public Action? OnStateChanged { get; set; }
 

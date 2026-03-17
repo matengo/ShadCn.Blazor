@@ -1,26 +1,7 @@
 @namespace ShadCn.Blazor.Components.Chart
-@using ShadCn.Blazor.Components.Chart.Internal
-@using ShadCn.Blazor.Primitives.Utilities
 
-@if (context != null && context.ActiveIndex >= 0 && context.ActiveIndex < context.Data.Count)
-{
-    <div class="@ComputedClass"
-         style="@PositionStyle"
-         @attributes="AdditionalAttributes">
-        @if (Content != null)
-        {
-            @Content
-        }
-        else
-        {
-            <ChartTooltipContent HideLabel="HideLabel"
-                                 HideIndicator="HideIndicator"
-                                 Indicator="Indicator"
-                                 LabelKey="LabelKey"
-                                 NameKey="NameKey" />
-        }
-    </div>
-}
+@* Registration-only component: configures tooltip on ChartContext.
+   The actual tooltip HTML is rendered by ChartContainer (outside the SVG). *@
 
 @code {
     [CascadingParameter]
@@ -68,19 +49,16 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string ComputedClass => new ClassBuilder(
-        "absolute z-50 pointer-events-none rounded-lg border bg-background px-3 py-1.5 text-sm shadow-md")
-        .Add(Class)
-        .Build();
-
-    private string PositionStyle
+    protected override void OnParametersSet()
     {
-        get
-        {
-            if (context == null) return "";
-            var left = context.TooltipLeftPct.ToString("F1", System.Globalization.CultureInfo.InvariantCulture);
-            var top = context.TooltipTopPct.ToString("F1", System.Globalization.CultureInfo.InvariantCulture);
-            return $"left: {left}%; top: {top}%; transform: translateX(-50%) translateY(-100%) translateY(-8px);";
-        }
+        if (context == null) return;
+        context.TooltipEnabled = true;
+        context.TooltipHideLabel = HideLabel;
+        context.TooltipHideIndicator = HideIndicator;
+        context.TooltipIndicator = Indicator;
+        context.TooltipLabelKey = LabelKey;
+        context.TooltipNameKey = NameKey;
+        context.TooltipCustomContent = Content;
+        context.TooltipClass = Class;
     }
 }
