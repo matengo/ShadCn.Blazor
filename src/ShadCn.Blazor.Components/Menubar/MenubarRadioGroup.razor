@@ -1,22 +1,23 @@
 @namespace ShadCn.Blazor.Components.Menubar
 
-<DropdownMenuRadioGroup Value="Value" ValueChanged="OnValueChanged">
+<CascadingValue Value="this">
     @ChildContent
-</DropdownMenuRadioGroup>
+</CascadingValue>
 
 @code {
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
 
-    [Parameter]
-    public string? Value { get; set; }
+    internal bool IsSelected(string? value) => Value == value;
 
-    [Parameter]
-    public EventCallback<string?> ValueChanged { get; set; }
-
-    private async Task OnValueChanged(string? value)
+    internal async Task Select(string? value)
     {
-        Value = value;
-        await ValueChanged.InvokeAsync(value);
+        if (Value != value)
+        {
+            Value = value;
+            await ValueChanged.InvokeAsync(Value);
+            StateHasChanged();
+        }
     }
 }
