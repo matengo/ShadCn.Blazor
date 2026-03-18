@@ -19,11 +19,9 @@
 
     <div class="space-y-8">
         <!-- Default -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Default</h2>
-            <p class="text-sm text-muted-foreground">A basic input group with a search icon.</p>
-            <Card>
-                <CardContent Class="pt-6">
+        <ExampleSection Title="Default" Description="A basic input group with a search icon addon.">
+            <ComponentExample Code="@DefaultCode">
+                <Preview>
                     <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Search..." />
@@ -34,20 +32,15 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Inline Start (icon before input) -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Addon — Inline Start</h2>
-            <p class="text-sm text-muted-foreground">
-                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">Align="InputGroupAlign.InlineStart"</code> (default)
-                to place the addon before the input.
-            </p>
-            <Card>
-                <CardContent Class="pt-6">
-                    <div class="max-w-sm space-y-4">
+        <!-- Inline Start -->
+        <ExampleSection Title="Addon — Inline Start" Description="Use Align=&quot;InputGroupAlign.InlineStart&quot; (default) to position the addon before the input.">
+            <ComponentExample Code="@InlineStartCode">
+                <Preview>
+                    <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Email address" Type="email" />
                             <InputGroupAddon Align="InputGroupAlign.InlineStart">
@@ -57,20 +50,15 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
         <!-- Inline End -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Addon — Inline End</h2>
-            <p class="text-sm text-muted-foreground">
-                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">Align="InputGroupAlign.InlineEnd"</code>
-                to place the addon after the input.
-            </p>
-            <Card>
-                <CardContent Class="pt-6">
-                    <div class="max-w-sm space-y-4">
+        <ExampleSection Title="Addon — Inline End" Description="Use Align=&quot;InputGroupAlign.InlineEnd&quot; to position the addon after the input.">
+            <ComponentExample Code="@InlineEndCode">
+                <Preview>
+                    <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Enter amount" Type="number" />
                             <InputGroupAddon Align="InputGroupAlign.InlineEnd">
@@ -78,19 +66,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Both sides -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Addon — Both Sides</h2>
-            <p class="text-sm text-muted-foreground">
-                Combine <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InlineStart</code> and
-                <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InlineEnd</code> addons.
-            </p>
-            <Card>
-                <CardContent Class="pt-6">
+        <!-- Both Sides -->
+        <ExampleSection Title="Addon — Both Sides" Description="Combine InlineStart and InlineEnd addons on the same input.">
+            <ComponentExample Code="@BothSidesCode">
+                <Preview>
                     <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="https://example.com" />
@@ -107,17 +90,15 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- With button -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">With Button</h2>
-            <p class="text-sm text-muted-foreground">Use buttons inside addons for actions.</p>
-            <Card>
-                <CardContent Class="pt-6">
-                    <div class="max-w-sm space-y-4">
+        <!-- With Button (password toggle) -->
+        <ExampleSection Title="With Button" Description="Use InputGroupButton inside addons for interactive actions like password visibility toggle.">
+            <ComponentExample Code="@ButtonCode">
+                <Preview>
+                    <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Enter password" Type="@(showPassword ? "text" : "password")" />
                             <InputGroupAddon Align="InputGroupAlign.InlineEnd">
@@ -134,16 +115,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
         <!-- With Text -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">With Text</h2>
-            <p class="text-sm text-muted-foreground">Display static text alongside the input.</p>
-            <Card>
-                <CardContent Class="pt-6">
+        <ExampleSection Title="With Text" Description="Display static text like currency symbols or prefixes alongside the input.">
+            <ComponentExample Code="@TextCode">
+                <Preview>
                     <div class="max-w-sm space-y-4">
                         <InputGroup>
                             <InputGroupInput Placeholder="0.00" Type="number" />
@@ -161,16 +140,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
         <!-- With Kbd -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">With Kbd</h2>
-            <p class="text-sm text-muted-foreground">Show keyboard shortcuts inside the input.</p>
-            <Card>
-                <CardContent Class="pt-6">
+        <ExampleSection Title="With Kbd" Description="Show keyboard shortcuts inside the input group.">
+            <ComponentExample Code="@KbdCode">
+                <Preview>
                     <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Search documentation..." />
@@ -186,19 +163,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Block Alignment (Textarea) -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Textarea with Block Addon</h2>
-            <p class="text-sm text-muted-foreground">
-                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InputGroupTextarea</code> with
-                <code class="text-xs bg-muted px-1.5 py-0.5 rounded">block-end</code> alignment for message inputs.
-            </p>
-            <Card>
-                <CardContent Class="pt-6">
+        <!-- Textarea with Block End -->
+        <ExampleSection Title="Textarea — Block End" Description="Use InputGroupTextarea with block-end alignment for message inputs with action buttons.">
+            <ComponentExample Code="@TextareaBlockEndCode">
+                <Preview>
                     <div class="max-w-md">
                         <InputGroup>
                             <InputGroupTextarea Placeholder="Type your message..." Rows="3" />
@@ -210,18 +182,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Block Start -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Textarea with Block Start Addon</h2>
-            <p class="text-sm text-muted-foreground">
-                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">block-start</code> to place the addon above the textarea.
-            </p>
-            <Card>
-                <CardContent Class="pt-6">
+        <!-- Textarea with Block Start -->
+        <ExampleSection Title="Textarea — Block Start" Description="Use block-start to position the addon above the textarea.">
+            <ComponentExample Code="@TextareaBlockStartCode">
+                <Preview>
                     <div class="max-w-md">
                         <InputGroup>
                             <InputGroupTextarea Placeholder="Write a comment..." Rows="3" />
@@ -233,16 +201,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
         <!-- Disabled -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Disabled</h2>
-            <p class="text-sm text-muted-foreground">Disable the entire input group.</p>
-            <Card>
-                <CardContent Class="pt-6">
+        <ExampleSection Title="Disabled" Description="Disable the input to apply disabled styling to the entire group.">
+            <ComponentExample Code="@DisabledCode">
+                <Preview>
                     <div class="max-w-sm">
                         <InputGroup>
                             <InputGroupInput Placeholder="Disabled input" Disabled="true" />
@@ -253,16 +219,14 @@
                             </InputGroupAddon>
                         </InputGroup>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
 
-        <!-- Two-way binding -->
-        <section class="space-y-4">
-            <h2 class="text-xl font-semibold">Two-way Binding</h2>
-            <p class="text-sm text-muted-foreground">InputGroupInput supports two-way binding.</p>
-            <Card>
-                <CardContent Class="pt-6">
+        <!-- Two-way Binding -->
+        <ExampleSection Title="Two-way Binding" Description="InputGroupInput supports two-way data binding.">
+            <ComponentExample Code="@BindingCode">
+                <Preview>
                     <div class="max-w-sm space-y-4">
                         <InputGroup>
                             <InputGroupInput Placeholder="Type something..." @bind-Value="bindingValue" />
@@ -276,9 +240,9 @@
                             Value: <strong>@bindingValue</strong>
                         </p>
                     </div>
-                </CardContent>
-            </Card>
-        </section>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
     </div>
 </div>
 
@@ -290,4 +254,161 @@
     {
         showPassword = !showPassword;
     }
+
+    private const string DefaultCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Search..."" />
+    <InputGroupAddon>
+        <InputGroupText>
+            <!-- Search icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string InlineStartCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Email address"" Type=""email"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>
+            <!-- Mail icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string InlineEndCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Enter amount"" Type=""number"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineEnd"">
+        <InputGroupText>USD</InputGroupText>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string BothSidesCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""https://example.com"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>
+            <!-- Globe icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+    <InputGroupAddon Align=""InputGroupAlign.InlineEnd"">
+        <InputGroupButton>
+            <!-- Copy icon -->
+            <svg>...</svg>
+            Copy
+        </InputGroupButton>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string ButtonCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Enter password""
+                     Type=""@(showPassword ? ""text"" : ""password"")"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineEnd"">
+        <InputGroupButton Size=""InputGroupButtonSize.IconXs""
+                          @@onclick=""TogglePassword"">
+            <!-- Eye / EyeOff icon -->
+            <svg>...</svg>
+        </InputGroupButton>
+    </InputGroupAddon>
+</InputGroup>
+
+@code {
+    private bool showPassword = false;
+
+    private void TogglePassword()
+    {
+        showPassword = !showPassword;
+    }
+}";
+
+    private const string TextCode =
+@"<!-- Currency input -->
+<InputGroup>
+    <InputGroupInput Placeholder=""0.00"" Type=""number"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>$</InputGroupText>
+    </InputGroupAddon>
+    <InputGroupAddon Align=""InputGroupAlign.InlineEnd"">
+        <InputGroupText>.00</InputGroupText>
+    </InputGroupAddon>
+</InputGroup>
+
+<!-- Username input -->
+<InputGroup>
+    <InputGroupInput Placeholder=""username"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>@@</InputGroupText>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string KbdCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Search documentation..."" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>
+            <!-- Search icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+    <InputGroupAddon Align=""InputGroupAlign.InlineEnd"">
+        <kbd class=""pointer-events-none inline-flex h-5 ...""
+             >⌘K</kbd>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string TextareaBlockEndCode =
+@"<InputGroup>
+    <InputGroupTextarea Placeholder=""Type your message..."" Rows=""3"" />
+    <InputGroupAddon Align=""InputGroupAlign.BlockEnd"">
+        <InputGroupText>
+            <!-- Paperclip icon -->
+            <svg>...</svg>
+        </InputGroupText>
+        <InputGroupButton>Send</InputGroupButton>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string TextareaBlockStartCode =
+@"<InputGroup>
+    <InputGroupTextarea Placeholder=""Write a comment..."" Rows=""3"" />
+    <InputGroupAddon Align=""InputGroupAlign.BlockStart"">
+        <InputGroupText>
+            <!-- MessageSquare icon -->
+            <svg>...</svg>
+        </InputGroupText>
+        <span class=""text-xs"">Comment</span>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string DisabledCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Disabled input"" Disabled=""true"" />
+    <InputGroupAddon>
+        <InputGroupText>
+            <!-- Lock icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+</InputGroup>";
+
+    private const string BindingCode =
+@"<InputGroup>
+    <InputGroupInput Placeholder=""Type something...""
+                     @@bind-Value=""bindingValue"" />
+    <InputGroupAddon Align=""InputGroupAlign.InlineStart"">
+        <InputGroupText>
+            <!-- Edit icon -->
+            <svg>...</svg>
+        </InputGroupText>
+    </InputGroupAddon>
+</InputGroup>
+<p>Value: <strong>@@bindingValue</strong></p>
+
+@code {
+    private string bindingValue = """";
+}";
 }
