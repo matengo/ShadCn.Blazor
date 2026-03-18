@@ -1,0 +1,55 @@
+@namespace ShadCn.Blazor.Components.InputGroup
+@using ShadCn.Blazor.Primitives.Utilities
+
+<div @attributes="AdditionalAttributes"
+     role="group"
+     data-slot="input-group-addon"
+     data-align="@AlignValue"
+     class="@ComputedClass">
+    @ChildContent
+</div>
+
+@code {
+    private static readonly string BaseClasses =
+        "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium " +
+        "text-muted-foreground select-none " +
+        "[&>svg:not([class*='size-'])]:size-4";
+
+    /// <summary>
+    /// Position of the addon relative to the input.
+    /// </summary>
+    [Parameter]
+    public InputGroupAlign Align { get; set; } = InputGroupAlign.InlineStart;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string AlignValue => Align switch
+    {
+        InputGroupAlign.InlineStart => "inline-start",
+        InputGroupAlign.InlineEnd => "inline-end",
+        InputGroupAlign.BlockStart => "block-start",
+        InputGroupAlign.BlockEnd => "block-end",
+        _ => "inline-start"
+    };
+
+    private string AlignClasses => Align switch
+    {
+        InputGroupAlign.InlineStart => "order-first pl-2 has-[>button]:ml-[-0.3rem]",
+        InputGroupAlign.InlineEnd => "order-last pr-2 has-[>button]:mr-[-0.3rem]",
+        InputGroupAlign.BlockStart => "order-first w-full justify-start px-2.5 pt-2",
+        InputGroupAlign.BlockEnd => "order-last w-full justify-start px-2.5 pb-2",
+        _ => "order-first pl-2 has-[>button]:ml-[-0.3rem]"
+    };
+
+    private string ComputedClass => new ClassBuilder(BaseClasses)
+        .Add(AlignClasses)
+        .Add(Class)
+        .Build();
+}

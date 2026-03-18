@@ -1,0 +1,73 @@
+@namespace ShadCn.Blazor.Components.InputGroup
+@using ShadCn.Blazor.Primitives.Utilities
+
+<button @attributes="AdditionalAttributes"
+        type="@Type"
+        class="@ComputedClass"
+        disabled="@Disabled"
+        @onclick="OnClick">
+    @ChildContent
+</button>
+
+@code {
+    private static readonly string ButtonBase =
+        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium " +
+        "transition-colors cursor-pointer disabled:pointer-events-none disabled:opacity-50 " +
+        "shadow-none";
+
+    /// <summary>
+    /// Button size variant.
+    /// </summary>
+    [Parameter]
+    public InputGroupButtonSize Size { get; set; } = InputGroupButtonSize.Xs;
+
+    /// <summary>
+    /// Button visual variant.
+    /// </summary>
+    [Parameter]
+    public string Variant { get; set; } = "ghost";
+
+    [Parameter]
+    public string Type { get; set; } = "button";
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string VariantClasses => Variant switch
+    {
+        "default" => "bg-primary text-primary-foreground hover:bg-primary/90",
+        "destructive" => "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        "outline" => "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        "secondary" => "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        "ghost" => "hover:bg-accent hover:text-accent-foreground",
+        "link" => "text-primary underline-offset-4 hover:underline",
+        _ => "hover:bg-accent hover:text-accent-foreground"
+    };
+
+    private string SizeClasses => Size switch
+    {
+        InputGroupButtonSize.Xs => "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
+        InputGroupButtonSize.Sm => "h-8 rounded-md px-3",
+        InputGroupButtonSize.IconXs => "size-6 rounded-[calc(var(--radius)-3px)] p-0",
+        InputGroupButtonSize.IconSm => "size-8 p-0",
+        _ => "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5"
+    };
+
+    private string ComputedClass => new ClassBuilder(ButtonBase)
+        .Add(VariantClasses)
+        .Add(SizeClasses)
+        .Add(Class)
+        .Build();
+}

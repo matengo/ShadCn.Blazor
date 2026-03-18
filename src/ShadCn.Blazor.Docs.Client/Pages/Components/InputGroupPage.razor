@@ -1,0 +1,293 @@
+@page "/components/input-group"
+
+<PageTitle>Input Group Component - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="Input group component for combining inputs with icons, text, buttons, and other addons. Supports inline and block alignment."
+    Keywords="InputGroup, Blazor, UI component, ShadCn.Blazor, input group, addon, form, CSS variables"
+    Canonical="https://www.shadcn-blazor.dev/components/input-group"
+    OgTitle="Input Group Component - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Input Group</h1>
+        <p class="text-lg text-muted-foreground">
+            Combine inputs with icons, text, buttons, and other addons.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Default -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Default</h2>
+            <p class="text-sm text-muted-foreground">A basic input group with a search icon.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Search..." />
+                            <InputGroupAddon>
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Inline Start (icon before input) -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Addon — Inline Start</h2>
+            <p class="text-sm text-muted-foreground">
+                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">Align="InputGroupAlign.InlineStart"</code> (default)
+                to place the addon before the input.
+            </p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Email address" Type="email" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Inline End -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Addon — Inline End</h2>
+            <p class="text-sm text-muted-foreground">
+                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">Align="InputGroupAlign.InlineEnd"</code>
+                to place the addon after the input.
+            </p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Enter amount" Type="number" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                                <InputGroupText>USD</InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Both sides -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Addon — Both Sides</h2>
+            <p class="text-sm text-muted-foreground">
+                Combine <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InlineStart</code> and
+                <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InlineEnd</code> addons.
+            </p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="https://example.com" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                            <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                                <InputGroupButton>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                                    Copy
+                                </InputGroupButton>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- With button -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">With Button</h2>
+            <p class="text-sm text-muted-foreground">Use buttons inside addons for actions.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Enter password" Type="@(showPassword ? "text" : "password")" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                                <InputGroupButton Size="InputGroupButtonSize.IconXs" @onclick="TogglePassword">
+                                    @if (showPassword)
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" x2="23" y1="1" y2="23"/></svg>
+                                    }
+                                    else
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    }
+                                </InputGroupButton>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- With Text -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">With Text</h2>
+            <p class="text-sm text-muted-foreground">Display static text alongside the input.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="0.00" Type="number" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>$</InputGroupText>
+                            </InputGroupAddon>
+                            <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                                <InputGroupText>.00</InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                        <InputGroup>
+                            <InputGroupInput Placeholder="username" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>@@</InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- With Kbd -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">With Kbd</h2>
+            <p class="text-sm text-muted-foreground">Show keyboard shortcuts inside the input.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Search documentation..." />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                            <InputGroupAddon Align="InputGroupAlign.InlineEnd">
+                                <kbd class="pointer-events-none inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                                    <span class="text-xs">⌘</span>K
+                                </kbd>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Block Alignment (Textarea) -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Textarea with Block Addon</h2>
+            <p class="text-sm text-muted-foreground">
+                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">InputGroupTextarea</code> with
+                <code class="text-xs bg-muted px-1.5 py-0.5 rounded">block-end</code> alignment for message inputs.
+            </p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-md">
+                        <InputGroup>
+                            <InputGroupTextarea Placeholder="Type your message..." Rows="3" />
+                            <InputGroupAddon Align="InputGroupAlign.BlockEnd">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                                </InputGroupText>
+                                <InputGroupButton>Send</InputGroupButton>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Block Start -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Textarea with Block Start Addon</h2>
+            <p class="text-sm text-muted-foreground">
+                Use <code class="text-xs bg-muted px-1.5 py-0.5 rounded">block-start</code> to place the addon above the textarea.
+            </p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-md">
+                        <InputGroup>
+                            <InputGroupTextarea Placeholder="Write a comment..." Rows="3" />
+                            <InputGroupAddon Align="InputGroupAlign.BlockStart">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                </InputGroupText>
+                                <span class="text-xs">Comment</span>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Disabled -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Disabled</h2>
+            <p class="text-sm text-muted-foreground">Disable the entire input group.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Disabled input" Disabled="true" />
+                            <InputGroupAddon>
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+
+        <!-- Two-way binding -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-semibold">Two-way Binding</h2>
+            <p class="text-sm text-muted-foreground">InputGroupInput supports two-way binding.</p>
+            <Card>
+                <CardContent Class="pt-6">
+                    <div class="max-w-sm space-y-4">
+                        <InputGroup>
+                            <InputGroupInput Placeholder="Type something..." @bind-Value="bindingValue" />
+                            <InputGroupAddon Align="InputGroupAlign.InlineStart">
+                                <InputGroupText>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.855z"/></svg>
+                                </InputGroupText>
+                            </InputGroupAddon>
+                        </InputGroup>
+                        <p class="text-sm text-muted-foreground">
+                            Value: <strong>@bindingValue</strong>
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+    </div>
+</div>
+
+@code {
+    private bool showPassword = false;
+    private string bindingValue = "";
+
+    private void TogglePassword()
+    {
+        showPassword = !showPassword;
+    }
+}
