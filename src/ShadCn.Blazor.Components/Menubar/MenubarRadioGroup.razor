@@ -1,6 +1,6 @@
 @namespace ShadCn.Blazor.Components.Menubar
 
-<DropdownMenuRadioGroup @bind-Value="Value">
+<DropdownMenuRadioGroup Value="Value" ValueChanged="OnValueChanged">
     @ChildContent
 </DropdownMenuRadioGroup>
 
@@ -13,4 +13,10 @@
 
     [Parameter]
     public EventCallback<string?> ValueChanged { get; set; }
+
+    private async Task OnValueChanged(string? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+    }
 }

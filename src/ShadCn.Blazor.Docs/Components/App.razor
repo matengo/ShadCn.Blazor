@@ -5,8 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <link rel="stylesheet" href="_content/ShadCn.Blazor.Theme.Default/theme.css" />
-    <link rel="stylesheet" href="css/app.css" />
+    <ResourcePreloader />
+    <link rel="stylesheet" href="@Assets["_content/ShadCn.Blazor.Theme.Default/theme.css"]" />
+    <link rel="stylesheet" href="@Assets["css/app.css"]" />
     <link rel="icon" type="image/png" href="favicon.png" />
     @* <link href="ShadCn.Blazor.Docs.Client.styles.css" rel="stylesheet" /> *@
     <meta name="author" content="ShadCn.Blazor" />
@@ -14,6 +15,7 @@
     <meta property="og:site_name" content="ShadCn.Blazor" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:site" content="ShadCn.Blazor" />
+    <ImportMap />
     <HeadOutlet @rendermode="InteractiveWebAssembly" />
     <script type="application/ld+json">
     {
@@ -53,7 +55,7 @@
             }
         };
     </script>
-    <script src="_framework/blazor.web.js"></script>
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 
 </html>
