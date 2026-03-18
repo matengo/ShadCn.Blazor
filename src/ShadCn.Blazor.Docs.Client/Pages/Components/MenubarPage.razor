@@ -1,0 +1,360 @@
+@page "/components/menubar"
+
+<PageTitle>Menubar Component - ShadCn.Blazor | Blazor UI</PageTitle>
+<SeoHead
+    Description="A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands."
+    Keywords="Menubar, Blazor, UI component, ShadCn.Blazor, menu, navigation, desktop, commands"
+    Canonical="https://www.shadcn-blazor.dev/components/menubar"
+    OgTitle="Menubar Component - ShadCn.Blazor | Blazor UI" />
+
+<div class="space-y-8">
+    <div class="space-y-4">
+        <h1 class="text-3xl font-bold">Menubar</h1>
+        <p class="text-lg text-muted-foreground">
+            A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+        </p>
+    </div>
+
+    <Separator />
+
+    <div class="space-y-8">
+        <!-- Default -->
+        <ExampleSection Title="Default" Description="A standard menubar with File, Edit, View, and Help menus.">
+            <ComponentExample Code="@DefaultCode">
+                <Preview>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger>File</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarGroup>
+                                    <MenubarItem>
+                                        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+                                    </MenubarItem>
+                                    <MenubarItem>
+                                        New Window <MenubarShortcut>⌘N</MenubarShortcut>
+                                    </MenubarItem>
+                                    <MenubarItem Disabled="true">New Incognito Window</MenubarItem>
+                                </MenubarGroup>
+                                <MenubarSeparator />
+                                <MenubarGroup>
+                                    <MenubarItem>
+                                        Share <MenubarShortcut>⌘S</MenubarShortcut>
+                                    </MenubarItem>
+                                    <MenubarItem>
+                                        Print <MenubarShortcut>⌘P</MenubarShortcut>
+                                    </MenubarItem>
+                                </MenubarGroup>
+                            </MenubarContent>
+                        </MenubarMenu>
+                        <MenubarMenu>
+                            <MenubarTrigger>Edit</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>
+                                    Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarSeparator />
+                                <MenubarItem>
+                                    Cut <MenubarShortcut>⌘X</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    Copy <MenubarShortcut>⌘C</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    Paste <MenubarShortcut>⌘V</MenubarShortcut>
+                                </MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                        <MenubarMenu>
+                            <MenubarTrigger>View</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>
+                                    Zoom In <MenubarShortcut>⌘+</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    Zoom Out <MenubarShortcut>⌘-</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarSeparator />
+                                <MenubarItem>
+                                    Toggle Fullscreen <MenubarShortcut>F11</MenubarShortcut>
+                                </MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                        <MenubarMenu>
+                            <MenubarTrigger>Help</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>Documentation</MenubarItem>
+                                <MenubarItem>Release Notes</MenubarItem>
+                                <MenubarSeparator />
+                                <MenubarItem>About</MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Checkbox -->
+        <ExampleSection Title="Checkbox Items" Description="Use MenubarCheckboxItem for toggleable options.">
+            <ComponentExample Code="@CheckboxCode">
+                <Preview>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger>View</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarCheckboxItem @bind-Checked="showStatusBar">
+                                    Status Bar
+                                </MenubarCheckboxItem>
+                                <MenubarCheckboxItem @bind-Checked="showActivityBar">
+                                    Activity Bar
+                                </MenubarCheckboxItem>
+                                <MenubarCheckboxItem @bind-Checked="showPanel">
+                                    Panel
+                                </MenubarCheckboxItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
+                    <p class="mt-4 text-sm text-muted-foreground">
+                        Status Bar: @showStatusBar | Activity Bar: @showActivityBar | Panel: @showPanel
+                    </p>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Radio -->
+        <ExampleSection Title="Radio Items" Description="Use MenubarRadioGroup and MenubarRadioItem for single-select options.">
+            <ComponentExample Code="@RadioCode">
+                <Preview>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger>View</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarLabel>Layout</MenubarLabel>
+                                <MenubarSeparator />
+                                <MenubarRadioGroup @bind-Value="layout">
+                                    <MenubarRadioItem Value="single">Single</MenubarRadioItem>
+                                    <MenubarRadioItem Value="split">Split</MenubarRadioItem>
+                                    <MenubarRadioItem Value="grid">Grid</MenubarRadioItem>
+                                </MenubarRadioGroup>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
+                    <p class="mt-4 text-sm text-muted-foreground">
+                        Selected layout: @(layout)
+                    </p>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- Submenu -->
+        <ExampleSection Title="Submenu" Description="Use MenubarSub, MenubarSubTrigger, and MenubarSubContent for nested menus.">
+            <ComponentExample Code="@SubmenuCode">
+                <Preview>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger>File</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>New File</MenubarItem>
+                                <MenubarItem>Open File</MenubarItem>
+                                <MenubarSeparator />
+                                <MenubarSub>
+                                    <MenubarSubTrigger>Share</MenubarSubTrigger>
+                                    <MenubarSubContent>
+                                        <MenubarItem>Email Link</MenubarItem>
+                                        <MenubarItem>Messages</MenubarItem>
+                                        <MenubarItem>Airdrop</MenubarItem>
+                                    </MenubarSubContent>
+                                </MenubarSub>
+                                <MenubarSeparator />
+                                <MenubarItem>Print</MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+
+        <!-- With Icons -->
+        <ExampleSection Title="With Icons" Description="Add SVG icons alongside menu items.">
+            <ComponentExample Code="@IconsCode">
+                <Preview>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger>File</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                                    New File
+                                    <MenubarShortcut>⌘N</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                                    Open Folder
+                                    <MenubarShortcut>⌘O</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarSeparator />
+                                <MenubarItem>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                    Save
+                                    <MenubarShortcut>⌘S</MenubarShortcut>
+                                </MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                        <MenubarMenu>
+                            <MenubarTrigger>Edit</MenubarTrigger>
+                            <MenubarContent>
+                                <MenubarItem>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                    Undo
+                                    <MenubarShortcut>⌘Z</MenubarShortcut>
+                                </MenubarItem>
+                                <MenubarItem>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                                    Redo
+                                    <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+                                </MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
+                </Preview>
+            </ComponentExample>
+        </ExampleSection>
+    </div>
+</div>
+
+@code {
+    private bool showStatusBar = true;
+    private bool showActivityBar = false;
+    private bool showPanel = true;
+    private string? layout = "single";
+
+    private const string DefaultCode =
+@"<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+            <MenubarGroup>
+                <MenubarItem>
+                    New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+                </MenubarItem>
+                <MenubarItem>
+                    New Window <MenubarShortcut>⌘N</MenubarShortcut>
+                </MenubarItem>
+                <MenubarItem Disabled=""true"">New Incognito Window</MenubarItem>
+            </MenubarGroup>
+            <MenubarSeparator />
+            <MenubarGroup>
+                <MenubarItem>Share</MenubarItem>
+                <MenubarItem>Print</MenubarItem>
+            </MenubarGroup>
+        </MenubarContent>
+    </MenubarMenu>
+    <MenubarMenu>
+        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>Undo <MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+            <MenubarItem>Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>Cut <MenubarShortcut>⌘X</MenubarShortcut></MenubarItem>
+            <MenubarItem>Copy <MenubarShortcut>⌘C</MenubarShortcut></MenubarItem>
+            <MenubarItem>Paste <MenubarShortcut>⌘V</MenubarShortcut></MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>";
+
+    private const string CheckboxCode =
+@"<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarContent>
+            <MenubarCheckboxItem @@bind-Checked=""showStatusBar"">
+                Status Bar
+            </MenubarCheckboxItem>
+            <MenubarCheckboxItem @@bind-Checked=""showActivityBar"">
+                Activity Bar
+            </MenubarCheckboxItem>
+            <MenubarCheckboxItem @@bind-Checked=""showPanel"">
+                Panel
+            </MenubarCheckboxItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>
+
+@code {
+    private bool showStatusBar = true;
+    private bool showActivityBar = false;
+    private bool showPanel = true;
+}";
+
+    private const string RadioCode =
+@"<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarContent>
+            <MenubarLabel>Layout</MenubarLabel>
+            <MenubarSeparator />
+            <MenubarRadioGroup @@bind-Value=""layout"">
+                <MenubarRadioItem Value=""single"">Single</MenubarRadioItem>
+                <MenubarRadioItem Value=""split"">Split</MenubarRadioItem>
+                <MenubarRadioItem Value=""grid"">Grid</MenubarRadioItem>
+            </MenubarRadioGroup>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>
+
+@code {
+    private string? layout = ""single"";
+}";
+
+    private const string SubmenuCode =
+@"<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>New File</MenubarItem>
+            <MenubarItem>Open File</MenubarItem>
+            <MenubarSeparator />
+            <MenubarSub>
+                <MenubarSubTrigger>Share</MenubarSubTrigger>
+                <MenubarSubContent>
+                    <MenubarItem>Email Link</MenubarItem>
+                    <MenubarItem>Messages</MenubarItem>
+                    <MenubarItem>Airdrop</MenubarItem>
+                </MenubarSubContent>
+            </MenubarSub>
+            <MenubarSeparator />
+            <MenubarItem>Print</MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>";
+
+    private const string IconsCode =
+@"<Menubar>
+    <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+            <MenubarItem>
+                <!-- File icon -->
+                <svg>...</svg>
+                New File
+                <MenubarShortcut>⌘N</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+                <!-- Folder icon -->
+                <svg>...</svg>
+                Open Folder
+                <MenubarShortcut>⌘O</MenubarShortcut>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem>
+                <!-- Save icon -->
+                <svg>...</svg>
+                Save
+                <MenubarShortcut>⌘S</MenubarShortcut>
+            </MenubarItem>
+        </MenubarContent>
+    </MenubarMenu>
+</Menubar>";
+}

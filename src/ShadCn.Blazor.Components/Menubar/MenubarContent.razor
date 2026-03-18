@@ -1,0 +1,27 @@
+@namespace ShadCn.Blazor.Components.Menubar
+@using ShadCn.Blazor.Primitives.Utilities
+
+<DropdownMenuContent Align="Align" Class="@ComputedClass">
+    @ChildContent
+</DropdownMenuContent>
+
+@code {
+    private static readonly string BaseClasses =
+        "min-w-[12rem]";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public DropdownMenuAlign Align { get; set; } = DropdownMenuAlign.Start;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(BaseClasses)
+        .Add(Class)
+        .Build();
+}

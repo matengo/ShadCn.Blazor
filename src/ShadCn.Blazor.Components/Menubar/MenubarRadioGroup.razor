@@ -1,0 +1,16 @@
+@namespace ShadCn.Blazor.Components.Menubar
+
+<DropdownMenuRadioGroup @bind-Value="Value">
+    @ChildContent
+</DropdownMenuRadioGroup>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+}

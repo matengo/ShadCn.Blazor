@@ -1,0 +1,10 @@
+@namespace ShadCn.Blazor.Components.Menubar
+
+<DropdownMenuSub>
+    @ChildContent
+</DropdownMenuSub>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

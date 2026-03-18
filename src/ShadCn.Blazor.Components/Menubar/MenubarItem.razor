@@ -1,0 +1,37 @@
+@namespace ShadCn.Blazor.Components.Menubar
+@using ShadCn.Blazor.Primitives.Utilities
+
+<DropdownMenuItem OnClick="OnClick" Disabled="Disabled" Variant="Variant" Class="@ComputedClass">
+    @ChildContent
+</DropdownMenuItem>
+
+@code {
+    private static readonly string BaseClasses =
+        "gap-2";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public DropdownMenuItemVariant Variant { get; set; } = DropdownMenuItemVariant.Default;
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [Parameter]
+    public bool Inset { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(BaseClasses)
+        .Add(Inset ? "pl-8" : null)
+        .Add(Class)
+        .Build();
+}

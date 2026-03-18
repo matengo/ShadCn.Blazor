@@ -1,0 +1,29 @@
+@namespace ShadCn.Blazor.Components.Menubar
+@using ShadCn.Blazor.Primitives.Utilities
+
+<DropdownMenuTrigger>
+    <span data-slot="menubar-trigger"
+          class="@ComputedClass"
+          @attributes="AdditionalAttributes">
+        @ChildContent
+    </span>
+</DropdownMenuTrigger>
+
+@code {
+    private static readonly string BaseClasses =
+        "flex items-center rounded-sm px-2 py-1 text-sm font-medium outline-none select-none " +
+        "cursor-pointer hover:bg-muted";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(BaseClasses)
+        .Add(Class)
+        .Build();
+}

@@ -1,0 +1,16 @@
+@namespace ShadCn.Blazor.Components.Menubar
+
+<DropdownMenu @bind-Open="Open">
+    @ChildContent
+</DropdownMenu>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+}

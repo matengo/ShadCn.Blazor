@@ -1,0 +1,27 @@
+@namespace ShadCn.Blazor.Components.Menubar
+@using ShadCn.Blazor.Primitives.Utilities
+
+<DropdownMenuSubTrigger Class="@ComputedClass">
+    @ChildContent
+</DropdownMenuSubTrigger>
+
+@code {
+    private static readonly string BaseClasses = "";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Inset { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComputedClass => new ClassBuilder(BaseClasses)
+        .Add(Inset ? "pl-8" : null)
+        .Add(Class)
+        .Build();
+}
