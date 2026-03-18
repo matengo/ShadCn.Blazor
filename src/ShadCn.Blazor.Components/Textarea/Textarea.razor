@@ -25,9 +25,10 @@
     }
 
     private string ComputedClass => new ClassBuilder(
-        "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm " +
+        "flex min-h-[80px] w-full rounded-md bg-background px-3 py-2 text-sm " +
+        "outline-1 -outline-offset-1 outline-input " +
         "placeholder:text-muted-foreground " +
-        "outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/20 " +
+        "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring " +
         "disabled:cursor-not-allowed disabled:opacity-50")
         .Add(Class)
         .Build();
